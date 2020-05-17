@@ -1,40 +1,29 @@
 import React from 'react';
 import globalStyles from '../../global/styles';
+import global from '../../global/constant';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import TopicButton from '../../global/commonComponent/topic-button';
 
 const UserTopics = props => {
     return (
-        <View style={[globalStyles.listHideButton, {marginTop:10, marginBottom:10}]}>
-            <Text style={[globalStyles.txtDefault, {fontStyle: 'italic'}]}>Interest:</Text>
-            <View style={styles.containerInterest}>
+        <View style={globalStyles.containerTextButton}>
+            <Text style={[globalStyles.txtItalicDefault, styles.containerTxt]}>Interest:</Text>
+            <View style={styles.containerInterestIcon}>
                 {
-                    props.item.topics.map(topic =>
-                        <TouchableOpacity style={styles.iconInterest}>
-                            <Text style={styles.txtInterest}>{topic}</Text>
-                        </TouchableOpacity>)
+                    props.item.map(topic => <TopicButton name={topic} color={global.color.LIGHT_BLUE}/>)
                 }
             </View>
         </View>
     );
 };
 const styles = StyleSheet.create({
-    containerInterest:{
+    containerInterestIcon:{
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
-    iconInterest: {
-        margin: 5,
-        borderWidth: 2,
-        borderRadius: 60,
-        height: 40,
-        borderColor: 'rgba(55,190,245,0.7)',
-        justifyContent: 'center',
-        alignItems:'center',
-        padding: 10
-    },
-    txtInterest:{
-        fontSize: 15,
-        color: 'rgba(55,190,245,0.7)',
+    containerTxt:{
+        marginTop: 10
     }
+
 });
 export default UserTopics;

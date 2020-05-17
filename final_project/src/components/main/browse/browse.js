@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Tile} from 'react-native-elements';
+import globalStyles from '../../global/styles';
 import PopularSkills from './popular-skills';
 import PathSection from '../../global/mainComponents/pathSection/path-section';
 import TopAuthor from './top-author';
@@ -89,7 +90,7 @@ const Browse = () => {
         return temp;
     }
     return (
-        <ScrollView style={{padding: 10}} showsVerticalScrollIndicator={false}>
+        <ScrollView style={globalStyles.container} showsVerticalScrollIndicator={false}>
             <Tile featured={true}
                   height={100}
                   title={`NEW\nRELEASE`}

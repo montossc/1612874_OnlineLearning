@@ -2,46 +2,53 @@ import {Dimensions, StyleSheet} from 'react-native';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 export default StyleSheet.create({
-    userInput: {
-        width: WINDOW_WIDTH - 50,
-        height: 50,
-        marginLeft: 25,
-        borderColor: 'black',
+    container:{
+        padding: 10
+    },
+    containerTxtInput:{
+        width: WINDOW_WIDTH - 100,
+        alignSelf:'center',
+        flexDirection: 'row',
         borderWidth: 1,
         borderRadius: 25,
-        paddingLeft: 50,
-    },
-    btnSummit: {
-        alignSelf: 'center',
-        width: 100,
-        height: 50,
         alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 25,
-        borderWidth: 2,
-        borderColor: 'black',
+        justifyContent: 'space-between',
+        paddingLeft: 20
     },
-    btnImage:{
-        borderWidth: 1,
-        borderColor: 'black',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    imgButtonImage:{
-        height: '100%',
-        width: '100%',
-        resizeMode: 'contain',
-    },
-    listHideButton:{
+    containerTextButton:{
         borderBottomWidth: 1,
-        paddingBottom: 10,
+        paddingVertical: 10,
         alignItems: 'stretch'
+    },
+    txtTitle:{
+        fontSize: 25,
+        fontWeight: 'bold'
+    },
+    txtSmallTitle: {
+        fontSize: 20
     },
     txtDefault:{
         fontSize: 17,
     },
+    txtItalicDefault: {
+        fontSize: 17,
+        fontStyle: 'italic'
+    },
     txtItalicSmall:{
         fontSize: 12,
         fontStyle: 'italic'
+    },
+    containerSection: {
+        marginVertical: 20
+    },
+    btnOuterSection: {
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    containerHeaderSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10
     }
-})
+});

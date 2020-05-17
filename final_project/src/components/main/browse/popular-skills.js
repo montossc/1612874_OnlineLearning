@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import globalStyle from '../../global/styles';
+import global from '../../global/constant';
+import TopicButton from '../../global/commonComponent/topic-button';
 
 
 const PopularSkills = () => {
@@ -16,29 +12,11 @@ const PopularSkills = () => {
             <Text style={globalStyle.txtDefault}>Popular Skills</Text>
             <ScrollView style={{marginVertical: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
-                    skills.map(skill =>
-                        <TouchableOpacity style={styles.iconInterest}>
-                            <Text style={styles.txtInterest}>{skill}</Text>
-                        </TouchableOpacity>)
+                    skills.map(skill => <TopicButton name={skill} color={global.color.LIGHT_BLUE}/>)
                 }
             </ScrollView>
         </View>
     );
 };
-const styles = StyleSheet.create({
-    iconInterest: {
-        margin: 5,
-        borderWidth: 2,
-        borderRadius: 60,
-        height: 30,
-        borderColor: 'rgba(55,190,245,0.7)',
-        justifyContent: 'center',
-        alignItems:'center',
-        padding: 10
-    },
-    txtInterest:{
-        fontSize: 12,
-        color: 'rgba(55,190,245,0.7)',
-    }
-});
+
 export default PopularSkills;

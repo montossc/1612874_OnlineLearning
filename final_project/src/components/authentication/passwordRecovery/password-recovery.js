@@ -6,25 +6,27 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableOpacity, View
+    TouchableOpacity, View,
 } from 'react-native';
 import globalStyles from '../../global/styles';
+import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 
 const PasswordRecovery = () => {
     return (
         <ImageBackground style={styles.container} source={require('../../../../assets/image/background.jpg')}>
-            <Text style={styles.txtResTittle}>Forgor password</Text>
+            <Text style={[globalStyles.txtTitle, styles.txtResTitle]}>Forgor password</Text>
             <View style={styles.mainView}>
-                <Text style={styles.txtDescription}>Enter your username, email address and we'll send you a link to reset your password</Text>
-                <KeyboardAvoidingView behavior={'height'}>
-                    <TextInput style={[globalStyles.userInput, {marginLeft: 0, marginTop: 20 ,width: globalStyles.userInput.width - 50}]}
+                <KeyboardAvoidingView behavior={'height'} style={styles.containerTxt}>
+                    <Text style={globalStyles.txtDefault}>Enter your username, email address and we'll send you a link
+                        to reset your password</Text>
+                    <TextInput style={[globalStyles.containerTxtInput, styles.containerForm]}
                                placeholder="Username"/>
-                    <TextInput style={[globalStyles.userInput, {marginLeft: 0, marginTop: 20 ,width: globalStyles.userInput.width - 50}]}
+                    <TextInput style={[globalStyles.containerTxtInput, styles.containerForm]}
                                placeholder="Email"/>
                 </KeyboardAvoidingView>
-                <TouchableOpacity style={[globalStyles.btnSummit, {marginBottom: 100, marginTop: 50}]}>
-                    <Text style={{color: 'black', fontSize: 15, fontWeight: 'bold'}}>Send email</Text>
-                </TouchableOpacity>
+            </View>
+            <View style={styles.containerBtn}>
+                <SubmitButtonCenter name={'Send email'} color={'black'}/>
             </View>
         </ImageBackground>
     );
@@ -32,23 +34,25 @@ const PasswordRecovery = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
     },
-    mainView:{
+    mainView: {
         flex: 3,
-        justifyContent: 'center',
-        paddingLeft: 50,
-        paddingRight: 50
+        justifyContent: 'space-around',
     },
-    txtResTittle: {
+    txtResTitle: {
         alignSelf: 'center',
-        fontSize: 30,
-        fontWeight: 'bold',
         flex: 1,
         marginTop: 50,
     },
-    txtDescription:{
-        fontSize: 15
+    containerBtn: {
+        marginTop: 50,
+        marginBottom: 100,
+    },
+    containerForm: {
+        marginVertical: 20,
+    },
+    containerTxt:{
+        paddingHorizontal: 50
     }
 });
 

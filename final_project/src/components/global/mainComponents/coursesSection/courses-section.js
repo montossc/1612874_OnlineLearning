@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  StyleSheet,
   Text,
   TouchableOpacity,
   ScrollView,
@@ -9,12 +8,13 @@ import {
 import CoursesSectionItem from './courses-section-item';
 import globalStyles from '../../styles';
 
+//props: title, item: course list
 const CoursesSection = props => {
     return (
-        <View style={styles.container}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={globalStyles.containerSection}>
+            <View style={globalStyles.containerHeaderSection}>
                 <Text style={[globalStyles.txtDefault,{alignSelf:'center'}]}>{props.title}</Text>
-                <TouchableOpacity style={styles.btnSeeAll}>
+                <TouchableOpacity style={globalStyles.btnOuterSection}>
                     <Text style={[globalStyles.txtItalicSmall, {textDecorationLine:'underline'}]}>See all ></Text>
                 </TouchableOpacity>
             </View>
@@ -26,15 +26,5 @@ const CoursesSection = props => {
         </View>
     );
 };
-const styles = StyleSheet.create({
-    container: {
-        marginTop: 20,
-        marginBottom: 20,
-    },
-    btnSeeAll: {
-        alignSelf: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+
 export default CoursesSection;

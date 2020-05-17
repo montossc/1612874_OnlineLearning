@@ -63,7 +63,7 @@ const Home = () => {
             courses: courseList
         }];
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <ScrollView style={globalStyles.container} showsVerticalScrollIndicator={false}>
             <Text style={globalStyles.txtItalicSmall}>Welcome to Karueein!</Text>
             <Text style={[globalStyles.txtDefault,{marginTop: 10}]}>{welcomeText}</Text>
             {
@@ -72,9 +72,4 @@ const Home = () => {
         </ScrollView>
     );
 };
-const styles = StyleSheet.create({
-    container:{
-        padding: 10
-    }
-});
 export default Home;

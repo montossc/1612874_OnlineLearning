@@ -3,10 +3,10 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import globalStyles from '../../styles';
 
 //props: item: path
-const PathSectionItem = props => {
+const PathListItem = props => {
     return (
         <TouchableOpacity style={styles.container}>
-            <Image style={{flex: 1}} source={props.item.thumbnail}/>
+            <Image style={styles.imgThumbnail} source={props.item.thumbnail}/>
             <View style={styles.containerPathInfo}>
                 <Text style={globalStyles.txtDefault}>{props.item.name}</Text>
                 <Text style={globalStyles.txtItalicSmall}>{props.item.courseNum} courses</Text>
@@ -16,16 +16,21 @@ const PathSectionItem = props => {
 };
 const styles = StyleSheet.create({
     container:{
-        margin: 10,
-        marginLeft: 0,
+        borderBottomWidth: 1,
+        marginVertical: 5,
+        flexDirection: 'row',
         flex: 1,
-        height: 200,
-        width: 200,
-        backgroundColor: '#b5b9b7'
+        paddingBottom: 10
     },
     containerPathInfo:{
+        marginLeft: 10,
+        flex: 3,
+        alignSelf: 'center'
+    },
+    imgThumbnail:{
         flex: 1,
-        margin: 10
+        resizeMode:'contain'
     }
 });
-export default PathSectionItem;
+
+export default PathListItem;

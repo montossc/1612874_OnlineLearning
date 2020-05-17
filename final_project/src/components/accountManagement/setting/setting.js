@@ -1,7 +1,8 @@
 import React from 'react';
+import {View} from 'react-native';
 
 const Setting = () => {
-    return (
+    return (<View></View>
 
     );
 };

@@ -1,18 +1,22 @@
 import React from 'react';
 import globalStyles from '../../global/styles';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 
 const AccountChangingSection = () => {
     return (
-        <View style={globalStyles.listHideButton}>
-            <TouchableOpacity>
-                <Text style={[globalStyles.txtDefault,{marginTop: 10}]}>Change password</Text>
+        <View style={globalStyles.containerTextButton}>
+            <TouchableOpacity style={styles.containerTxtBtn}>
+                <Text style={globalStyles.txtDefault}>Change password</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <Text style={[globalStyles.txtDefault,{marginTop: 10}]}>Change username</Text>
+            <TouchableOpacity style={styles.containerTxtBtn}>
+                <Text style={globalStyles.txtDefault}>Change username</Text>
             </TouchableOpacity>
         </View>
     );
 };
-
+const styles = StyleSheet.create({
+    containerTxtBtn:{
+        marginVertical: 10
+    }
+});
 export default AccountChangingSection;

@@ -11,6 +11,7 @@ import {
 import globalStyles from '../../global/styles';
 import iconEyeShow from '../../../../assets/icon/eye_show.png';
 import iconEyeHide from '../../../../assets/icon/eye_hide.png';
+import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -29,19 +30,19 @@ const LoginForm = () => {
     }
     return (
         <KeyboardAvoidingView behavior='height' style={styles.container}>
-            <View>
+            <View style={globalStyles.containerTxtInput}>
                 <Image source={require('../../../../assets/icon/user.png')} style={styles.symbol}/>
                 <TextInput
-                    style={globalStyles.userInput}
+                    style={styles.txtInput}
                     placeholder="Username"
                     onChangeText={username => setUsername(username)}
                     value={username}
                 />
             </View>
-            <View style={styles.userInputArea}>
+            <View style={globalStyles.containerTxtInput}>
                 <Image source={require('../../../../assets/icon/password.png')} style={styles.symbol}/>
                 <TextInput
-                    style={globalStyles.userInput}
+                    style={styles.txtInput}
                     placeholder="Password"
                     onChangeText={password => setPassword(password)}
                     value={password}
@@ -54,9 +55,7 @@ const LoginForm = () => {
                     />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={globalStyles.btnSummit}>
-                <Text style={{color: 'black', fontSize: 15, fontWeight: 'bold'}}>Login</Text>
-            </TouchableOpacity>
+            <SubmitButtonCenter name={'Login'} color={'black'}/>
         </KeyboardAvoidingView>
     );
 };
@@ -66,26 +65,25 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-around'
     },
+    txtInput:{
+        padding: 50
+    },
     symbol:{
         position: 'absolute',
         height: 20,
+        width: 40,
         resizeMode: 'contain',
-        top: 13,
-        right: 100
+        marginLeft: 5
+    },
+    btnEye: {
+        height: 30,
+        width: 30,
+        marginRight: 10
     },
     iconEye: {
-        flex: 1,
         resizeMode: 'contain',
         width: '100%',
         height: '100%'
-    },
-    btnEye: {
-        position: 'absolute',
-        height: 30,
-        width: 30,
-        alignSelf:'flex-end',
-        top: 10,
-        right: 50
     }
 });
 export default LoginForm;

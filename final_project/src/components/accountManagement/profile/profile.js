@@ -2,14 +2,16 @@ import React, {useState} from 'react';
 import {
     View,
     StyleSheet,
-    Image,
     TouchableOpacity,
-    TextInput, Text,
+    TextInput, Text, ScrollView,
 } from 'react-native';
 import globalStyles from '../../global/styles';
 import AccountChangingSection from './account-changing-section';
 import UserTopics from './user-topics';
 import SubscriptionInfo from './subscription-info';
+import {Avatar, Icon} from 'react-native-elements';
+import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
+import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 
 const Profile = () => {
     const userInfo = {
@@ -18,8 +20,17 @@ const Profile = () => {
         subscription: 'Yearly, expire at 15/05/2021',
         topics: ['React Native', 'Java', 'C#', 'Unity', 'Game Design'],
         username: 'montossc',
-        password: '290398'
+        password: '290398',
     };
+    const followingAuthors = [
+        {
+            name: 'Deborah Kurata',
+            avatar: {uri: 'https://avatars2.githubusercontent.com/u/7987365?s=460&v=4'}
+        },
+        {
+            name: 'Scott Allen',
+            avatar: {uri: 'https://pluralsight.imgix.net/author/lg/44cb43b3-83e4-4458-9b39-a7ded3411616.jpg'}
+        }];
     const [userFullname, setUserFullname] = useState(userInfo.fullname);
     const [avatar, setAvatar] = useState(userInfo.avatar);
     const [canEdit, setCanEdit] = useState(false);
@@ -27,30 +38,28 @@ const Profile = () => {
         setCanEdit(!canEdit);
     };
     return (
-        <View style={{padding: 10}}>
+        <ScrollView style={globalStyles.container}>
             <View style={styles.infoArea}>
-                <TouchableOpacity style={[globalStyles.btnImage, styles.btnAvatar]}>
-                    <Image style={[globalStyles.imgButtonImage, {borderRadius: 150}]} source={avatar}/>
-                </TouchableOpacity>
+                <Avatar source={userInfo.avatar} size={'large'} rounded={true}/>
                 <TextInput style={styles.txtFullname}
                            editable={canEdit}
                            maxLenght={25}
                            onChageText={text => setUserFullname(text)}
                            onEndEditing={setEditableFullname}
                            defaultValue={userFullname}
-                    />
-                <TouchableOpacity style={[globalStyles.btnImage, styles.btnEditFullname]} onPress={setEditableFullname}>
-                    <Image style={globalStyles.imgButtonImage} source={require('../../../../assets/icon/edit.png')}/>
-                </TouchableOpacity>
+                />
+                <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname}/>
             </View>
             <AccountChangingSection/>
-            <SubscriptionInfo item={userInfo}/>
-            <UserTopics item={userInfo}/>
-            <Text>Các khoá học (chưa làm)</Text>
-            <TouchableOpacity style={[globalStyles.btnSummit, {marginTop:100}]}>
-                <Text style={{fontWeight: 'bold'}}>Logout</Text>
-            </TouchableOpacity>
-        </View>
+            <SubscriptionInfo item={userInfo.subscription}/>
+            <UserTopics item={userInfo.topics}/>
+            <View style={globalStyles.containerTextButton}>
+                <AuthorsSection title={'Following'} item={followingAuthors}/>
+            </View>
+            <View style={styles.containerBtnLogout}>
+            <SubmitButtonCenter name={'Logout'} color={'black'}/>
+            </View>
+        </ScrollView>
     );
 };
 const styles = StyleSheet.create({
@@ -58,6 +67,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderBottomWidth: 1,
         paddingBottom: 10,
+        alignItems: 'center'
     },
     btnAvatar: {
         borderRadius: 90,
@@ -75,6 +85,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         borderWidth: 0,
     },
-
+    containerBtnLogout: {
+        marginVertical: 100
+    }
 });
 export default Profile;

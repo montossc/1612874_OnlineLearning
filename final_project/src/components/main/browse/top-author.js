@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import globalStyle from '../../global/styles';
 import {Avatar} from 'react-native-elements';
+import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 
 const TopAuthor = () => {
     const authors = [
@@ -39,18 +40,7 @@ const TopAuthor = () => {
         }
     ];
     return (
-        <View style={{marginBottom: 10}}>
-            <Text style={globalStyle.txtDefault}>Top authors</Text>
-            <ScrollView style={{margin:10, marginLeft:0}} horizontal={true} showsHorizontalScrollIndicator={false}>
-                {
-                    authors.map(author =>
-                        <TouchableOpacity style={{alignItems:'center',width:85}}>
-                            <Avatar rounded={true} source={author.avatar} size={'large'}/>
-                            <Text style={[globalStyle.txtDefault,{textAlign:'center'}]}>{author.name}</Text>
-                        </TouchableOpacity>)
-                }
-            </ScrollView>
-        </View>
+        <AuthorsSection title={'Top author'} item={authors}/>
     );
 };
 

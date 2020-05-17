@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import Browse from './src/components/main/browse/browse';
+import Browse from './src/components/main/download/download';
 
 const App: () => React$Node = () => {
   return <Browse />;
