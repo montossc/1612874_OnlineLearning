@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Rating} from 'react-native-elements';
 import globalStyles from '../../styles';
-import global from '../../constant';
+import {color} from '../../constant';
 
 //props: item: course
 const CoursesSectionItem = props => {
@@ -14,7 +14,7 @@ const CoursesSectionItem = props => {
                 <Text style={[globalStyles.txtItalicSmall,{flex:1}]}>{props.item.author}</Text>
                 <Text style={[globalStyles.txtItalicSmall,{flex:1}]}>{`${props.item.levelRequirement} . ${props.item.releaseDate} . ${props.item.duration}`}</Text>
                 <View style={{flex:1, flexDirection:'row', alignItems:'center'}}>
-                    <Rating readonly={true} tintColor={global.color.LIGHT_GRAY} imageSize={12} startingValue={props.item.star}/>
+                    <Rating readonly={true} tintColor={color.LIGHT_GRAY} imageSize={12} startingValue={props.item.star}/>
                     <Text style={[globalStyles.txtItalicSmall, {marginLeft: 5}]}>({props.item.totalVote})</Text>
                 </View>
             </View>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 200,
         width: 200,
-        backgroundColor: global.color.LIGHT_GRAY
+        backgroundColor: color.LIGHT_GRAY
     },
     containerCourseInfo:{
         flex: 1,

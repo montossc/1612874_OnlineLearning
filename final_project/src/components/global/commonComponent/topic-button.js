@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
-import global from '../constant';
 
 //props: name, color
 const TopicButton = props => {

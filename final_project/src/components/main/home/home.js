@@ -62,12 +62,14 @@ const Home = () => {
             title: 'Security professional',
             courses: courseList
         }];
+
     return (
         <ScrollView style={globalStyles.container} showsVerticalScrollIndicator={false}>
             <Text style={globalStyles.txtItalicSmall}>Welcome to Karueein!</Text>
             <Text style={[globalStyles.txtDefault,{marginTop: 10}]}>{welcomeText}</Text>
             {
                 recommendFields.map(field => <CoursesSection title={field.title} item={field.courses}/>)
+
             }
         </ScrollView>
     );

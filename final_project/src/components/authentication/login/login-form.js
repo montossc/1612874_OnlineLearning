@@ -12,8 +12,9 @@ import globalStyles from '../../global/styles';
 import iconEyeShow from '../../../../assets/icon/eye_show.png';
 import iconEyeHide from '../../../../assets/icon/eye_hide.png';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
+import {screenName} from '../../global/constant';
 
-const LoginForm = () => {
+const LoginForm = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [hidePassword, setHidePass] = useState(true);
@@ -55,7 +56,7 @@ const LoginForm = () => {
                     />
                 </TouchableOpacity>
             </View>
-            <SubmitButtonCenter name={'Login'} color={'black'}/>
+            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => props.navigator.navigate(screenName.HomeScreen)}/>
         </KeyboardAvoidingView>
     );
 };
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     txtInput:{
-        padding: 50
+        paddingLeft: 50
     },
     symbol:{
         position: 'absolute',

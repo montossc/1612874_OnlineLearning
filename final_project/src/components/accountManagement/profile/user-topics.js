@@ -1,6 +1,6 @@
 import React from 'react';
 import globalStyles from '../../global/styles';
-import global from '../../global/constant';
+import {color} from '../../global/constant';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import TopicButton from '../../global/commonComponent/topic-button';
 
@@ -10,7 +10,7 @@ const UserTopics = props => {
             <Text style={[globalStyles.txtItalicDefault, styles.containerTxt]}>Interest:</Text>
             <View style={styles.containerInterestIcon}>
                 {
-                    props.item.map(topic => <TopicButton name={topic} color={global.color.LIGHT_BLUE}/>)
+                    props.item.map(topic => <TopicButton name={topic} color={color.LIGHT_BLUE}/>)
                 }
             </View>
         </View>
