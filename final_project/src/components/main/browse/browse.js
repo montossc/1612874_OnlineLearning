@@ -14,31 +14,31 @@ const Browse = props => {
             background: {uri: 'https://images.pexels.com/photos/2305084/pexels-photo-2305084.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name: `IT\nOPS`,
+            name: `IT OPS`,
             background: {uri:'https://images.pexels.com/photos/169573/pexels-photo-169573.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name: `SOFTWARE\nDEVELOPMENT`,
+            name: `SOFTWARE DEVELOPMENT`,
             background: {uri:'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name: `INFORMATION\nAND\nCYBER SECURITY`,
+            name: `INFORMATION AND CYBER SECURITY`,
             background: {uri:'https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name: `DATA\nPROFESSIONAL`,
+            name: `DATA PROFESSIONAL`,
             background: {uri:'https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name:`BUSINESS\nPROFESSIONAL`,
+            name:`BUSINESS PROFESSIONAL`,
             background: {uri:'https://images.pexels.com/photos/3815729/pexels-photo-3815729.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name: `CREATIVE\nPROFESSIONAL`,
+            name: `CREATIVE PROFESSIONAL`,
             background: {uri:'https://images.pexels.com/photos/3435266/pexels-photo-3435266.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         },
         {
-            name: `MANUFACTURING\nAND\nDESIGN`,
+            name: `MANUFACTURING AND DESIGN`,
             background:{uri:'https://images.pexels.com/photos/940019/pexels-photo-940019.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
         }]
     const temp = [];
@@ -131,6 +131,7 @@ const Browse = props => {
                       imageSrc={belowTopic.background}
                       containerStyle={{margin: 5}}
                       captionStyle={styles.tileCaption}
+                      onPress={() => props.navigation.push(screenName.SubjectDetailScreen, {item: belowTopic})}
                 />
             </View>);
         }
@@ -159,8 +160,8 @@ const Browse = props => {
             }
             </ScrollView>
             <PopularSkills/>
-            <PathSection title={'Paths'} item={recommendPaths}/>
-            <TopAuthor/>
+            <PathSection title={'Paths'} item={recommendPaths} navigator={props.navigation}/>
+            <TopAuthor navigator={props.navigation}/>
         </ScrollView>
     );
 };

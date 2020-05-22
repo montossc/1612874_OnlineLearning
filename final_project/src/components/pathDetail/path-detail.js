@@ -73,7 +73,7 @@ const PathDetail = props => {
                 <Text style={globalStyles.txtDefault}>Your Progress: {pathInfo.progress}%</Text>
                 {/*<ProgressBar progress={pathInfo.progress/100} width={200} color={'rgba(55,190,245,0.7)'}/>*/}
             </View>
-            <CoursesList title={'Demo'} item={coursesInList}/>
+            <CoursesList title={'Demo'} item={coursesInList} navigator={props.navigation}/>
         </View>
     );
 };

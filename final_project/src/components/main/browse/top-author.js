@@ -4,7 +4,7 @@ import globalStyle from '../../global/styles';
 import {Avatar} from 'react-native-elements';
 import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 
-const TopAuthor = () => {
+const TopAuthor = props => {
     const authors = [
         {
             name: 'Deborah Kurata',
@@ -40,7 +40,7 @@ const TopAuthor = () => {
         }
     ];
     return (
-        <AuthorsSection title={'Top author'} item={authors}/>
+        <AuthorsSection title={'Top author'} item={authors} navigator={props.navigator}/>
     );
 };
 

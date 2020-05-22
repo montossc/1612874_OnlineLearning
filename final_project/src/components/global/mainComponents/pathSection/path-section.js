@@ -21,7 +21,7 @@ const PathSection = props => {
             </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
-                    props.item.map(path => <PathSectionItem item={path}></PathSectionItem>)
+                    props.item.map(path => <PathSectionItem item={path} navigator={props.navigator}></PathSectionItem>)
                 }
             </ScrollView>
         </View>

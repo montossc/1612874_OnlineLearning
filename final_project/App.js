@@ -56,7 +56,7 @@ const browseStack = () => {
             <screenStack.Screen name={screenName.RelatedPathsAndCoursesScreen} component={RelatedPathsAndCourses}/>
             <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
-            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}/>
+            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
         </screenStack.Navigator>
     );
 }
