@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Avatar, Rating} from 'react-native-elements';
 import globalStyles from '../global/styles';
+import {screenName} from '../global/constant';
 
 const CourseInfo = props => {
     return (
@@ -9,8 +10,8 @@ const CourseInfo = props => {
             <Text style={styles.txtCourseName}>{props.item.name}</Text>
             <View style={styles.containerAuthorList}>
                 {
-                    props.item.author.map(item =>
-                        <TouchableOpacity style={styles.containerAuthor}>
+                    props.item.authors.map(item =>
+                        <TouchableOpacity style={styles.containerAuthor} key={item.ID} onPress={() => props.navigator.push(screenName.AuthorDetailScreen, {item: item, navigator})}>
                             <Avatar rounded={true} size={'small'} source={item.avatar}/>
                             <Text style={[globalStyles.txtDefault, {marginLeft: 5}]}>{item.name}</Text>
                         </TouchableOpacity>

@@ -1,7 +1,9 @@
 import React from 'react';
 import CoursesList from '../../global/mainComponents/coursesList/courses-list';
+import {screenName} from '../../global/constant';
+import {View} from 'react-native';
 
-const Download = () => {
+const Download = props => {
     const downloadedCourses = [
         {
             thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
@@ -83,8 +85,10 @@ const Download = () => {
             star: 5,
             totalVote: 352
         }];
+
     return (
-        <CoursesList title={''} outerBtn={''} item={downloadedCourses}/>
+        <CoursesList title={''} outerBtn={''} item={downloadedCourses} navigator={props.navigation}/>
+
     );
 };
 

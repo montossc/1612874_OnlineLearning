@@ -1,11 +1,12 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import globalStyles from '../../styles';
+import {screenName} from '../../constant';
 
 //props: item: path
 const PathListItem = props => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.navigator.push(screenName.PathDetailScreen, {item: props.item})}>
             <Image style={styles.imgThumbnail} source={props.item.thumbnail}/>
             <View style={styles.containerPathInfo}>
                 <Text style={globalStyles.txtDefault}>{props.item.name}</Text>

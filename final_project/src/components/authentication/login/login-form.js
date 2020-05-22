@@ -56,7 +56,7 @@ const LoginForm = props => {
                     />
                 </TouchableOpacity>
             </View>
-            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => props.navigator.navigate(screenName.HomeScreen)}/>
+            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => props.navigator.navigate(screenName.Tab)}/>
         </KeyboardAvoidingView>
     );
 };

@@ -1,16 +1,17 @@
 import React from 'react';
-import globalStyles from '../global/styles'
+import globalStyles from '../global/styles';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
-import ProgressBar from 'react-native-progress/Bar';
+//import ProgressBar from 'react-native-progress/Bar';
 import CoursesList from '../global/mainComponents/coursesList/courses-list';
 
-const PathDetail = () => {
+const PathDetail = props => {
+    let path = props.route.params.item;
     const pathInfo = {
-        name: 'Node.js Developer on Microsoft Azure',
-        thumbnail: {uri:'https://www.logitech.com/content/dam/logitech/vc/en/rightsense/logos/microsoft.png.imgo.png'},
-        courseNum: 3,
+        name: path.name,
+        thumbnail: path.thumbnail,
+        courseNum: path.courseNum,
         totalTime: 7,
         description: 'This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. This is demo text. ',
         progress: 20,
@@ -70,7 +71,7 @@ const PathDetail = () => {
             </ViewMoreText>
             <View style={{paddingVertical:10}}>
                 <Text style={globalStyles.txtDefault}>Your Progress: {pathInfo.progress}%</Text>
-                <ProgressBar progress={pathInfo.progress/100} width={200} color={'rgba(55,190,245,0.7)'}/>
+                {/*<ProgressBar progress={pathInfo.progress/100} width={200} color={'rgba(55,190,245,0.7)'}/>*/}
             </View>
             <CoursesList title={'Demo'} item={coursesInList}/>
         </View>

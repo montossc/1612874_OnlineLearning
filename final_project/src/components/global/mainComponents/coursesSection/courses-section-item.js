@@ -2,12 +2,12 @@ import React from 'react';
 import {Image, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Rating} from 'react-native-elements';
 import globalStyles from '../../styles';
-import {color} from '../../constant';
+import {color, screenName} from '../../constant';
 
 //props: item: course
 const CoursesSectionItem = props => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.navigator.push(screenName.CourseDetailScreen, {item: props.item})}>
             <Image style={{flex: 1}} source={props.item.thumbnail}/>
             <View style={styles.containerCourseInfo}>
                 <Text style={[globalStyles.txtDefault,{flex:1}]}>{props.item.name}</Text>

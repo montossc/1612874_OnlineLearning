@@ -8,5 +8,16 @@ export const color = {
      HomeScreen: 'Home',
      LoginScreen: 'Login',
      RegisterScreen: 'Register',
-     PasswordRecoveryScreen: 'PasswordRecovery'
+     PasswordRecoveryScreen: 'PasswordRecovery',
+     DownloadScreen: 'Download',
+     BrowseScreen: 'Browse',
+     SearchScreen: 'Search',
+     Tab: 'Tab',
+     CourseDetailScreen: 'CourseDetail',
+     CourseListScreen: 'CourseList',
+     AuthorDetailScreen: 'AuthorDetail',
+     RelatedPathsAndCoursesScreen: 'Related Paths & Courses',
+     SubjectDetailScreen: 'SubjectDetail',
+     PathListScreen: 'PathList',
+     PathDetailScreen: 'PathDetail',
  }

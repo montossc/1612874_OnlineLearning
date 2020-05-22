@@ -5,17 +5,18 @@ import PathListItem from './path-list-item';
 
 //props: title, outerBtn: button near the title, item: path list
 const PathList = props => {
+    props.navigation.setOptions({headerShown: false});
     return (
         <View style={[globalStyles.containerSection, {marginHorizontal: 10}]}>
             <View style={globalStyles.containerHeaderSection}>
-                <Text style={[globalStyles.txtDefault, {alignSelf: 'center'}]}>{props.title}</Text>
+                <Text style={[globalStyles.txtDefault, {alignSelf: 'center'}]}>{props.route.params.title}</Text>
                 <TouchableOpacity style={globalStyles.btnOuterSection}>
                     <Text
-                        style={[globalStyles.txtItalicSmall, {textDecorationLine: 'underline'}]}>{props.outerBtn}</Text>
+                        style={[globalStyles.txtItalicSmall, {textDecorationLine: 'underline'}]}>{props.route.params.outerBtn}</Text>
                 </TouchableOpacity>
             </View>
-            <FlatList data={props.item}
-                      renderItem={({item}) => (<PathListItem item={item}/>)}
+            <FlatList data={props.route.params.item}
+                      renderItem={({item}) => (<PathListItem item={item} navigator={props.navigation}/>)}
             />
         </View>
     );

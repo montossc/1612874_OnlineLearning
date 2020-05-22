@@ -1,10 +1,33 @@
 import React from 'react';
-import {StyleSheet, Text, ScrollView} from 'react-native';
-import globalStyles from '../../global/styles';
-import CoursesSection from '../../global/mainComponents/coursesSection/courses-section'
-const Home = props => {
-    const welcomeText='Karueein is name of the firsr university in the world! With Karueein, you can build and apply skills in top technologies. Hope you enjoy this app!';
-    const courseList = [
+import PathList from '../global/mainComponents/pathList/path-list';
+import CoursesList from '../global/mainComponents/coursesList/courses-list';
+import {ScrollView} from 'react-native';
+import globalStyles from '../global/styles';
+
+const RelatedPathsAndCourses = props => {
+    const relaPaths = [
+        {
+            name: 'Node.js Developer on Microsoft Azure',
+            thumbnail: {uri:'https://www.logitech.com/content/dam/logitech/vc/en/rightsense/logos/microsoft.png.imgo.png'},
+            courseNum: 3
+        },
+        {
+            name: 'Salesforce Certified Administrator',
+            thumbnail: {uri:'https://cdn.magenest.com/wp-content/uploads/2019/08/CRM-Salesforce-Logo-1200x840.png'},
+            courseNum: 10
+        },
+        {
+            name: 'Design Patterns in C#',
+            thumbnail: {uri:'https://st.quantrimang.com/photos/image/2019/03/11/ly-do-hoc-csharp-1.jpg'},
+            courseNum: 15
+        },
+        {
+            name: 'Building Web Application with Blazor',
+            thumbnail: {uri:'https://danpatrascu.com/wp-content/uploads/2019/05/blazorms-675x360.jpg'},
+            courseNum: 6
+        }
+    ];
+    const relaCourses = [
         {
             ID: 1,
             thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
@@ -49,36 +72,13 @@ const Home = props => {
             star: 5,
             totalVote: 352
         }];
-    const recommendFields = [
-        {
-            ID: 1,
-            title: 'Software development',
-            courses: courseList
-        },
-        {
-            ID: 2,
-            title: 'IT opearation',
-            courses: courseList
-        },
-        {
-            ID: 3,
-            title: 'Data professinal',
-            courses: courseList
-        },
-        {
-            ID: 4,
-            title: 'Security professional',
-            courses: courseList
-        }];
-    return (
-        <ScrollView style={globalStyles.container} showsVerticalScrollIndicator={false}>
-            <Text style={globalStyles.txtItalicSmall}>Welcome to Karueein!</Text>
-            <Text style={[globalStyles.txtDefault,{marginTop: 10}]}>{welcomeText}</Text>
-            {
-                recommendFields.map(field => <CoursesSection key={field.ID} title={field.title} item={field.courses} navigator={props.navigation}/>)
 
-            }
+    return (
+        <ScrollView showsVerticalScrollIndicator={false} style={globalStyles.container}>
+        <PathList title={'Paths'} outerBtn={''} item={relaPaths}/>
+        <CoursesList title={'Courses'} outerBtn={''} item={relaCourses} navigator={props.navigation}/>
         </ScrollView>
     );
 };
-export default Home;
+
+export default RelatedPathsAndCourses;
