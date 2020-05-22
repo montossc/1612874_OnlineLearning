@@ -1,12 +1,13 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {screenName} from '../constant';
 
 //props: name, color
 const TopicButton = props => {
     const mainColor = props.color;
     return (
-        <TouchableOpacity style={[styles.icon, {borderColor: mainColor}]}>
-            <Text style={[styles.txt, {color: mainColor}]}>{props.name}</Text>
+        <TouchableOpacity style={[styles.icon, {borderColor: mainColor}]} onPress={() => props.navigator.push(screenName.SubjectDetailScreen, {item: props.item})}>
+            <Text style={[styles.txt, {color: mainColor}]}>{props.item.name}</Text>
         </TouchableOpacity>
     );
 };

@@ -159,7 +159,7 @@ const Browse = props => {
                 renderTopicView()
             }
             </ScrollView>
-            <PopularSkills/>
+            <PopularSkills navigator={props.navigation}/>
             <PathSection title={'Paths'} item={recommendPaths} navigator={props.navigation}/>
             <TopAuthor navigator={props.navigation}/>
         </ScrollView>

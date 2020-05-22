@@ -20,4 +20,5 @@ export const color = {
      SubjectDetailScreen: 'SubjectDetail',
      PathListScreen: 'PathList',
      PathDetailScreen: 'PathDetail',
+     SearchHistoryScreen: 'SearchHistory'
  }

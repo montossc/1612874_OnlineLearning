@@ -60,6 +60,11 @@ const browseStack = () => {
         </screenStack.Navigator>
     );
 }
+const searchStack = () => {
+    <screenStack.Navigator initialRouteName={screenName.SearchHistoryScreen} screenOptions={}>
+
+    </screenStack.Navigator>
+}
 const tabNavigator = () => {
     return(
         <mainTab.Navigator initialRouteName={screenName.HomeScreen}
@@ -89,7 +94,7 @@ const tabNavigator = () => {
             <mainTab.Screen name={screenName.HomeScreen} component={homeStack}/>
             <mainTab.Screen name={screenName.DownloadScreen} component={downloadStack}/>
             <mainTab.Screen name={screenName.BrowseScreen} component={browseStack}/>
-            <mainTab.Screen name={screenName.SearchScreen} component={SearchHistory}/>
+            <mainTab.Screen name={screenName.SearchScreen} component={searchStack}/>
         </mainTab.Navigator>
     );
 };
