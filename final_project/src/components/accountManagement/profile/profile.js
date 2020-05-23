@@ -13,12 +13,12 @@ import {Avatar, Icon} from 'react-native-elements';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 
-const Profile = () => {
+const Profile = props => {
     const userInfo = {
         avatar: {uri: 'https://ephoto360.com/uploads/worigin/2020/03/23/tao-avatar-mac-dinh-facebook-thay-nen-cuc-hot5e7838ae39057_96eb8aef68a3aa00523448390b49fbcb.jpg'},
         fullname: 'Phan Thanh Nam',
         subscription: 'Yearly, expire at 15/05/2021',
-        topics: ['React Native', 'Java', 'C#', 'Unity', 'Game Design'],
+        topics: [{name: 'React Native'}, {name:'Java'}, {name:'C#'}, {name:'Unity'}, {name:'Game Design'}],
         username: 'montossc',
         password: '290398',
     };
@@ -52,9 +52,9 @@ const Profile = () => {
             </View>
             <AccountChangingSection/>
             <SubscriptionInfo item={userInfo.subscription}/>
-            <UserTopics item={userInfo.topics}/>
+            <UserTopics item={userInfo.topics} navigator={props.navigation}/>
             <View style={globalStyles.containerTextButton}>
-                <AuthorsSection title={'Following'} item={followingAuthors}/>
+                <AuthorsSection title={'Following'} item={followingAuthors} navigator={props.navigation}/>
             </View>
             <View style={styles.containerBtnLogout}>
             <SubmitButtonCenter name={'Logout'} color={'black'}/>

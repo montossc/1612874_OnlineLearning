@@ -11,7 +11,6 @@ export const color = {
      PasswordRecoveryScreen: 'PasswordRecovery',
      DownloadScreen: 'Download',
      BrowseScreen: 'Browse',
-     SearchScreen: 'Search',
      Tab: 'Tab',
      CourseDetailScreen: 'CourseDetail',
      CourseListScreen: 'CourseList',
@@ -20,5 +19,7 @@ export const color = {
      SubjectDetailScreen: 'SubjectDetail',
      PathListScreen: 'PathList',
      PathDetailScreen: 'PathDetail',
-     SearchHistoryScreen: 'SearchHistory'
+     SearchHistoryScreen: 'SearchHistory',
+     SearchResultScreen: 'SearchResult',
+     ProfileScreen: 'Profile',
  }

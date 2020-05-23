@@ -10,7 +10,7 @@ const UserTopics = props => {
             <Text style={[globalStyles.txtItalicDefault, styles.containerTxt]}>Interest:</Text>
             <View style={styles.containerInterestIcon}>
                 {
-                    props.item.map(topic => <TopicButton name={topic} color={color.LIGHT_BLUE}/>)
+                    props.item.map(topic => <TopicButton item={topic} color={color.LIGHT_BLUE} navigator={props.navigator}/>)
                 }
             </View>
         </View>

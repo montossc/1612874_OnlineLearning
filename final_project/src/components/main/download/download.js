@@ -2,8 +2,17 @@ import React from 'react';
 import CoursesList from '../../global/mainComponents/coursesList/courses-list';
 import {screenName} from '../../global/constant';
 import {View} from 'react-native';
+import {Avatar} from 'react-native-elements';
 
 const Download = props => {
+    const userInfo = {
+        avatar: {uri: 'https://ephoto360.com/uploads/worigin/2020/03/23/tao-avatar-mac-dinh-facebook-thay-nen-cuc-hot5e7838ae39057_96eb8aef68a3aa00523448390b49fbcb.jpg'},
+        fullname: 'Phan Thanh Nam',
+        subscription: 'Yearly, expire at 15/05/2021',
+        topics: ['React Native', 'Java', 'C#', 'Unity', 'Game Design'],
+        username: 'montossc',
+        password: '290398',
+    };
     const downloadedCourses = [
         {
             thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
@@ -85,7 +94,12 @@ const Download = props => {
             star: 5,
             totalVote: 352
         }];
-
+    props.navigation.setOptions({
+        headerRight: () => (<View style={{flexDirection: 'row'}}>
+            <Avatar rounded={true} source={userInfo.avatar} size={'small'}
+                    onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
+        </View>)
+    })
     return (
         <CoursesList title={''} outerBtn={''} item={downloadedCourses} navigator={props.navigation}/>
 
