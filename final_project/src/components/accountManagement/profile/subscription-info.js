@@ -1,13 +1,14 @@
 import React from 'react';
 import globalStyles from '../../global/styles';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {screenName} from '../../global/constant';
 
 const SubscriptionInfo = props => {
     return (
         <View style={globalStyles.containerTextButton}>
             <Text style={globalStyles.txtItalicDefault}>Subscription:</Text>
             <Text style={[globalStyles.txtItalicSmall, styles.txtContent]}>{props.item}</Text>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={() => props.navigator.navigate(screenName.PricingScreen)}>
                 <Text style={globalStyles.txtDefault}>Change plan</Text>
             </TouchableOpacity>
         </View>

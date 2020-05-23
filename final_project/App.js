@@ -22,6 +22,9 @@ import PathDetail from './src/components/pathDetail/path-detail';
 import SearchResult from './src/components/main/search/search-result';
 import {View} from 'react-native';
 import Profile from './src/components/accountManagement/profile/profile';
+import UsernameChanging from './src/components/accountManagement/profile/accountChanging/username-changing';
+import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
+import Pricing from './src/components/accountManagement/profile/pricing/pricing';
 
 const loginStack = createStackNavigator();
 const mainTab = createBottomTabNavigator();
@@ -40,6 +43,9 @@ const homeStack = () => {
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
             <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
+            <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
+            <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
+            <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
         </screenStack.Navigator>
     );
 };
@@ -55,6 +61,9 @@ const downloadStack = () => {
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
             <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
+            <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
+            <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
+            <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
         </screenStack.Navigator>
     );
 }
@@ -70,6 +79,9 @@ const browseStack = () => {
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
             <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
+            <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
+            <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
+            <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
         </screenStack.Navigator>
     );
 }
@@ -89,7 +101,6 @@ const searchStack = () => {
         <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
         <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
         <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
-        <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
     </screenStack.Navigator>
     );
 }

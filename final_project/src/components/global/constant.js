@@ -22,4 +22,7 @@ export const color = {
      SearchHistoryScreen: 'SearchHistory',
      SearchResultScreen: 'SearchResult',
      ProfileScreen: 'Profile',
+     ChangeUsernameScreen: 'ChangeUsername',
+     ChangePasswordScreen: 'ChangePassword',
+     PricingScreen: 'Pricing'
  }

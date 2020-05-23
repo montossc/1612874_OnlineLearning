@@ -12,6 +12,7 @@ import SubscriptionInfo from './subscription-info';
 import {Avatar, Icon} from 'react-native-elements';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
+import {screenName} from '../../global/constant';
 
 const Profile = props => {
     const userInfo = {
@@ -50,14 +51,14 @@ const Profile = props => {
                 />
                 <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname}/>
             </View>
-            <AccountChangingSection/>
-            <SubscriptionInfo item={userInfo.subscription}/>
+            <AccountChangingSection navigator={props.navigation}/>
+            <SubscriptionInfo item={userInfo.subscription} navigator={props.navigation}/>
             <UserTopics item={userInfo.topics} navigator={props.navigation}/>
             <View style={globalStyles.containerTextButton}>
                 <AuthorsSection title={'Following'} item={followingAuthors} navigator={props.navigation}/>
             </View>
             <View style={styles.containerBtnLogout}>
-            <SubmitButtonCenter name={'Logout'} color={'black'}/>
+            <SubmitButtonCenter name={'Logout'} color={'black'} onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>
             </View>
         </ScrollView>
     );
