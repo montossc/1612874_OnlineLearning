@@ -25,6 +25,7 @@ import Profile from './src/components/accountManagement/profile/profile';
 import UsernameChanging from './src/components/accountManagement/profile/accountChanging/username-changing';
 import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
 import Pricing from './src/components/accountManagement/profile/pricing/pricing';
+import SplashScreen from './src/components/splash-screen/splash-screen';
 
 const loginStack = createStackNavigator();
 const mainTab = createBottomTabNavigator();
@@ -32,16 +33,19 @@ const screenStack = createStackNavigator();
 
 
 const homeStack = () => {
-    return(
+    return (
         <screenStack.Navigator mode={'modal'} initialRouteName={screenName.HomeScreen}>
             <screenStack.Screen name={screenName.HomeScreen} component={Home}/>
-            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail} options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail}
+                                options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.CourseListScreen} component={CoursesList}/>
-            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail} options={{title: 'Author'}}/>
+            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail}
+                                options={{title: 'Author'}}/>
             <screenStack.Screen name={screenName.RelatedPathsAndCoursesScreen} component={RelatedPathsAndCourses}/>
             <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
-            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}
+                                options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
             <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
@@ -50,84 +54,94 @@ const homeStack = () => {
     );
 };
 const downloadStack = () => {
-    return(
+    return (
         <screenStack.Navigator initialRouteName={screenName.DownloadScreen}>
             <screenStack.Screen name={screenName.DownloadScreen} component={Download}/>
-            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail} options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail}
+                                options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.CourseListScreen} component={CoursesList}/>
-            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail} options={{title: 'Author'}}/>
+            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail}
+                                options={{title: 'Author'}}/>
             <screenStack.Screen name={screenName.RelatedPathsAndCoursesScreen} component={RelatedPathsAndCourses}/>
             <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
-            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}
+                                options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
             <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
         </screenStack.Navigator>
     );
-}
+};
 const browseStack = () => {
-    return(
+    return (
         <screenStack.Navigator initialRouteName={screenName.DownloadScreen} mode={'modal'}>
             <screenStack.Screen name={screenName.BrowseScreen} component={Browse}/>
-            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail} options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail}
+                                options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.CourseListScreen} component={CoursesList}/>
-            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail} options={{title: 'Author'}}/>
+            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail}
+                                options={{title: 'Author'}}/>
             <screenStack.Screen name={screenName.RelatedPathsAndCoursesScreen} component={RelatedPathsAndCourses}/>
             <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
             <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
-            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}
+                                options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
             <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
         </screenStack.Navigator>
     );
-}
+};
 const searchStack = () => {
     let [value, setValue] = useState('');
-    return(
-    <screenStack.Navigator initialRouteName={screenName.SearchHistoryScreen}
-                            screenOptions={{headerTitle: () => (<SearchBar placeholder={'Search...'}
-                                                                           onChangeText={(text) => setValue(text)}
-                                                                           value={value}/>)}}>
-        <screenStack.Screen name={screenName.SearchHistoryScreen} component={SearchHistory} />
-        <screenStack.Screen name={screenName.SearchResultScreen} component={SearchResult}/>
-        <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail} options={{headerShown: false}}/>
-        <screenStack.Screen name={screenName.CourseListScreen} component={CoursesList}/>
-        <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail} options={{title: 'Author'}}/>
-        <screenStack.Screen name={screenName.RelatedPathsAndCoursesScreen} component={RelatedPathsAndCourses}/>
-        <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
-        <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
-        <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail} options={{headerShown: false}}/>
-    </screenStack.Navigator>
+    return (
+        <screenStack.Navigator initialRouteName={screenName.SearchHistoryScreen}
+                               screenOptions={{
+                                   headerTitle: () => (<SearchBar placeholder={'Search...'}
+                                                                  onChangeText={(text) => setValue(text)}
+                                                                  value={value}/>),
+                               }}>
+            <screenStack.Screen name={screenName.SearchHistoryScreen} component={SearchHistory}/>
+            <screenStack.Screen name={screenName.SearchResultScreen} component={SearchResult}/>
+            <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail}
+                                options={{headerShown: false}}/>
+            <screenStack.Screen name={screenName.CourseListScreen} component={CoursesList}/>
+            <screenStack.Screen name={screenName.AuthorDetailScreen} component={AuthorDetail}
+                                options={{title: 'Author'}}/>
+            <screenStack.Screen name={screenName.RelatedPathsAndCoursesScreen} component={RelatedPathsAndCourses}/>
+            <screenStack.Screen name={screenName.SubjectDetailScreen} component={SubjectDetail}/>
+            <screenStack.Screen name={screenName.PathListScreen} component={PathList}/>
+            <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}
+                                options={{headerShown: false}}/>
+        </screenStack.Navigator>
     );
-}
+};
 const tabNavigator = () => {
-    return(
+    return (
         <mainTab.Navigator initialRouteName={screenName.HomeScreen}
-            screenOptions={({route}) => ({
-                tabBarIcon: ({color, size}) => {
-                    let iconName;
+                           screenOptions={({route}) => ({
+                               tabBarIcon: ({color, size}) => {
+                                   let iconName;
 
-                    if (route.name === screenName.HomeScreen) {
-                        iconName ='home';
-                    } else if (route.name === screenName.DownloadScreen) {
-                        iconName = 'get-app';
-                    } else if (route.name === screenName.BrowseScreen){
-                        iconName = 'explore';
-                    }
-                    else if (route.name === screenName.SearchScreen){
-                        iconName = 'search';
-                    }
-                    return <Icon name={iconName} type={'material-icons'} size={size} color={color}/>;
-                },
-            })}
-            tabBarOptions={{
-                activeTintColor: color.LIGHT_BLUE,
-                inactiveTintColor: color.LIGHT_GRAY
-            }}
+                                   if (route.name === screenName.HomeScreen) {
+                                       iconName = 'home';
+                                   } else if (route.name === screenName.DownloadScreen) {
+                                       iconName = 'get-app';
+                                   } else if (route.name === screenName.BrowseScreen) {
+                                       iconName = 'explore';
+                                   } else if (route.name === screenName.SearchScreen) {
+                                       iconName = 'search';
+                                   }
+                                   return <Icon name={iconName} type={'material-icons'} size={size} color={color}/>;
+                               },
+                           })}
+                           tabBarOptions={{
+                               activeTintColor: color.LIGHT_BLUE,
+                               inactiveTintColor: color.LIGHT_GRAY,
+                           }}
 
         >
             <mainTab.Screen name={screenName.HomeScreen} component={homeStack}/>
@@ -141,12 +155,13 @@ const tabNavigator = () => {
 export default function App() {
     return (
         <NavigationContainer>
-            <loginStack.Navigator initialRouteName={screenName.LoginScreen} screenOptions={{headerShown: false}}>
-          <loginStack.Screen name={screenName.LoginScreen} component={Login}/>
-          <loginStack.Screen name={screenName.RegisterScreen} component={Register}/>
-          <loginStack.Screen name={screenName.PasswordRecoveryScreen} component={PasswordRecovery}/>
-          <loginStack.Screen name={screenName.Tab} component={tabNavigator}/>
-        </loginStack.Navigator>
+            <loginStack.Navigator initialRouteName={screenName.SplashScreen} screenOptions={{headerShown: false}}>
+                <loginStack.Screen name={screenName.SplashScreen} component={SplashScreen}/>
+                <loginStack.Screen name={screenName.LoginScreen} component={Login}/>
+                <loginStack.Screen name={screenName.RegisterScreen} component={Register}/>
+                <loginStack.Screen name={screenName.PasswordRecoveryScreen} component={PasswordRecovery}/>
+                <loginStack.Screen name={screenName.Tab} component={tabNavigator}/>
+            </loginStack.Navigator>
 
         </NavigationContainer>
     );

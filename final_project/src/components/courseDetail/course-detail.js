@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import CourseInfo from './course-info';
-import VideoPlayer from 'react-native-video-controls';
+/*import VideoPlayer from 'react-native-video-controls';*/
 import {Icon} from 'react-native-elements';
 import globalStyles from '../global/styles';
 import ViewMoreText from 'react-native-view-more-text';
@@ -129,9 +129,9 @@ const CourseDetail = props => {
     ];
     return (
         <ScrollView style={{flex: 1}}>
-            <VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+           {/* <VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
                          navigator={props.navigation}
-                         onBack={() => props.navigation.goBack()}/>
+                         onBack={() => props.navigation.goBack()}/>*/}
             <View style={{flex: 3}}>
                 <CourseInfo item={courseInfo} navigator={props.navigation}/>
                 <CourseOptionIcon/>

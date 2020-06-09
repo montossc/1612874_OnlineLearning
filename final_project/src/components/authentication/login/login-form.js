@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     txtInput:{
+        padding: 20,
         paddingLeft: 50
     },
     symbol:{

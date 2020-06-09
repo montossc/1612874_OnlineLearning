@@ -24,5 +24,6 @@ export const color = {
      ProfileScreen: 'Profile',
      ChangeUsernameScreen: 'ChangeUsername',
      ChangePasswordScreen: 'ChangePassword',
-     PricingScreen: 'Pricing'
+     PricingScreen: 'Pricing',
+     SplashScreen: 'SplashScreen'
  }
