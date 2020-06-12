@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     KeyboardAvoidingView,
     TextInput,
@@ -12,13 +12,17 @@ import globalStyles from '../../global/styles';
 import iconEyeShow from '../../../../assets/icon/eye_show.png';
 import iconEyeHide from '../../../../assets/icon/eye_hide.png';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
-import {screenName} from '../../global/constant';
+import {screenName, color} from '../../global/constant';
+import {getUserInfo, login} from "../../../core/services/authentication-service";
+import {UserProfileContext} from "../../../../App";
 
 const LoginForm = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [status, setStatus] = useState(null);
     const [hidePassword, setHidePass] = useState(true);
     const [icon, setIcon] = useState(iconEyeHide);
+    const userProfileContext = useContext(UserProfileContext);
     const showHidePassword = () => {
         if (hidePassword){
             setHidePass(false);
@@ -29,8 +33,23 @@ const LoginForm = props => {
             setIcon(iconEyeHide);
         }
     }
+    const renderLoginStatus = (status) => {
+        if (!status){
+            return <View/>
+        }
+        else if (status.status === 404) {
+            return <Text style={styles.txtLoginStatus}>{status.errorString}</Text>
+        }
+    }
+    useEffect(() => {
+        if (status && status.status === 200){
+            userProfileContext.setUserProfile(getUserInfo(username).userInfo);
+            props.navigator.navigate(screenName.Tab);
+        }
+    }, [status])
     return (
-        <KeyboardAvoidingView behavior='height' style={styles.container}>
+        <View style={styles.container}>
+            {renderLoginStatus(status)}
             <View style={globalStyles.containerTxtInput}>
                 <Image source={require('../../../../assets/icon/user.png')} style={styles.symbol}/>
                 <TextInput
@@ -56,8 +75,8 @@ const LoginForm = props => {
                     />
                 </TouchableOpacity>
             </View>
-            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => props.navigator.navigate(screenName.Tab)}/>
-        </KeyboardAvoidingView>
+            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => setStatus(login(username, password))}/>
+        </View>
     );
 };
 const styles = StyleSheet.create({
@@ -67,7 +86,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     txtInput:{
-        padding: 20,
+        padding: 10,
         paddingLeft: 50
     },
     symbol:{
@@ -86,6 +105,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: '100%',
         height: '100%'
+    },
+    txtLoginStatus: {
+        color: color.LIGHT_RED,
+        marginLeft: 50
     }
 });
 export default LoginForm;

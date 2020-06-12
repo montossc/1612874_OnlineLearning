@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {color, screenName} from './src/components/global/constant';
@@ -20,7 +20,6 @@ import SubjectDetail from './src/components/subjectDetail/subject-detail';
 import PathList from './src/components/global/mainComponents/pathList/path-list';
 import PathDetail from './src/components/pathDetail/path-detail';
 import SearchResult from './src/components/main/search/search-result';
-import {View} from 'react-native';
 import Profile from './src/components/accountManagement/profile/profile';
 import UsernameChanging from './src/components/accountManagement/profile/accountChanging/username-changing';
 import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
@@ -132,7 +131,7 @@ const tabNavigator = () => {
                                        iconName = 'get-app';
                                    } else if (route.name === screenName.BrowseScreen) {
                                        iconName = 'explore';
-                                   } else if (route.name === screenName.SearchScreen) {
+                                   } else if (route.name === screenName.SearchHistoryScreen) {
                                        iconName = 'search';
                                    }
                                    return <Icon name={iconName} type={'material-icons'} size={size} color={color}/>;
@@ -147,22 +146,25 @@ const tabNavigator = () => {
             <mainTab.Screen name={screenName.HomeScreen} component={homeStack}/>
             <mainTab.Screen name={screenName.DownloadScreen} component={downloadStack}/>
             <mainTab.Screen name={screenName.BrowseScreen} component={browseStack}/>
-            <mainTab.Screen name={screenName.SearchHistoryScreen} component={searchStack}/>
+            <mainTab.Screen name={screenName.SearchHistoryScreen} component={searchStack} options={{title: 'Search'}}/>
         </mainTab.Navigator>
     );
 };
 
+export const UserProfileContext = createContext();
 export default function App() {
+    const [userProfile, setUserProfile] = useState(null);
     return (
-        <NavigationContainer>
-            <loginStack.Navigator initialRouteName={screenName.SplashScreen} screenOptions={{headerShown: false}}>
-                <loginStack.Screen name={screenName.SplashScreen} component={SplashScreen}/>
-                <loginStack.Screen name={screenName.LoginScreen} component={Login}/>
-                <loginStack.Screen name={screenName.RegisterScreen} component={Register}/>
-                <loginStack.Screen name={screenName.PasswordRecoveryScreen} component={PasswordRecovery}/>
-                <loginStack.Screen name={screenName.Tab} component={tabNavigator}/>
-            </loginStack.Navigator>
-
-        </NavigationContainer>
+        <UserProfileContext.Provider value={{userProfile, setUserProfile}}>
+            <NavigationContainer>
+                <loginStack.Navigator initialRouteName={screenName.SplashScreen} screenOptions={{headerShown: false}}>
+                    <loginStack.Screen name={screenName.SplashScreen} component={SplashScreen}/>
+                    <loginStack.Screen name={screenName.LoginScreen} component={Login}/>
+                    <loginStack.Screen name={screenName.RegisterScreen} component={Register}/>
+                    <loginStack.Screen name={screenName.PasswordRecoveryScreen} component={PasswordRecovery}/>
+                    <loginStack.Screen name={screenName.Tab} component={tabNavigator}/>
+                </loginStack.Navigator>
+            </NavigationContainer>
+        </UserProfileContext.Provider>
     );
 }

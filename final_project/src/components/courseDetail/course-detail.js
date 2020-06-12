@@ -14,6 +14,7 @@ import ViewMoreText from 'react-native-view-more-text';
 import CourseOptionIcon from './course-option-icon';
 import LessonList from './lesson-list';
 import {screenName} from '../global/constant';
+import VideoPlayer from "react-native-video-controls";
 
 //params: item: course
 const CourseDetail = props => {

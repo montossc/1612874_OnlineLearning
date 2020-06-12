@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, Image, StyleSheet, ImageBackground, KeyboardAvoidingView} from 'react-native';
 import LoginForm from './login-form';
 import AccountSection from './account-section';
 

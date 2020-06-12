@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     View,
     StyleSheet,
@@ -13,16 +13,10 @@ import {Avatar, Icon} from 'react-native-elements';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 import {screenName} from '../../global/constant';
+import {UserProfileContext} from "../../../../App";
 
 const Profile = props => {
-    const userInfo = {
-        avatar: {uri: 'https://ephoto360.com/uploads/worigin/2020/03/23/tao-avatar-mac-dinh-facebook-thay-nen-cuc-hot5e7838ae39057_96eb8aef68a3aa00523448390b49fbcb.jpg'},
-        fullname: 'Phan Thanh Nam',
-        subscription: 'Yearly, expire at 15/05/2021',
-        topics: [{name: 'React Native'}, {name:'Java'}, {name:'C#'}, {name:'Unity'}, {name:'Game Design'}],
-        username: 'montossc',
-        password: '290398',
-    };
+    const userProfileContext = useContext(UserProfileContext);
     const followingAuthors = [
         {
             name: 'Deborah Kurata',
@@ -32,28 +26,36 @@ const Profile = props => {
             name: 'Scott Allen',
             avatar: {uri: 'https://pluralsight.imgix.net/author/lg/44cb43b3-83e4-4458-9b39-a7ded3411616.jpg'}
         }];
-    const [userFullname, setUserFullname] = useState(userInfo.fullname);
-    const [avatar, setAvatar] = useState(userInfo.avatar);
+    const [userFullname, setUserFullname] = useState(userProfileContext.userProfile.fullname);
+    const [avatar, setAvatar] = useState(userProfileContext.userProfile.avatar);
     const [canEdit, setCanEdit] = useState(false);
     const setEditableFullname = () => {
         setCanEdit(!canEdit);
     };
+
+    useEffect(() => {
+        const userProfileTemp = userProfileContext.userProfile;
+        userProfileTemp.avatar = avatar;
+        userProfileTemp.fullname = userFullname;
+        userProfileContext.setUserProfile(userProfileTemp);
+    }, [userFullname, avatar])
     return (
         <ScrollView style={globalStyles.container}>
             <View style={styles.infoArea}>
-                <Avatar source={userInfo.avatar} size={'large'} rounded={true}/>
+                <Avatar source={avatar} size={'large'} rounded={true}/>
                 <TextInput style={styles.txtFullname}
                            editable={canEdit}
                            maxLenght={25}
+                           value={userFullname}
                            onChageText={text => setUserFullname(text)}
                            onEndEditing={setEditableFullname}
-                           defaultValue={userFullname}
+
                 />
                 <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname}/>
             </View>
             <AccountChangingSection navigator={props.navigation}/>
-            <SubscriptionInfo item={userInfo.subscription} navigator={props.navigation}/>
-            <UserTopics item={userInfo.topics} navigator={props.navigation}/>
+            <SubscriptionInfo item={userProfileContext.userProfile.subscription} navigator={props.navigation}/>
+            <UserTopics item={userProfileContext.userProfile.topics} navigator={props.navigation}/>
             <View style={globalStyles.containerTextButton}>
                 <AuthorsSection title={'Following'} item={followingAuthors} navigator={props.navigation}/>
             </View>

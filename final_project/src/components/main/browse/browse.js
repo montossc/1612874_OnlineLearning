@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Avatar, Tile} from 'react-native-elements';
 import globalStyles from '../../global/styles';
@@ -6,16 +6,10 @@ import PopularSkills from './popular-skills';
 import PathSection from '../../global/mainComponents/pathSection/path-section';
 import TopAuthor from './top-author';
 import {screenName} from '../../global/constant';
+import {UserProfileContext} from "../../../../App";
 
 const Browse = props => {
-    const userInfo = {
-        avatar: {uri: 'https://ephoto360.com/uploads/worigin/2020/03/23/tao-avatar-mac-dinh-facebook-thay-nen-cuc-hot5e7838ae39057_96eb8aef68a3aa00523448390b49fbcb.jpg'},
-        fullname: 'Phan Thanh Nam',
-        subscription: 'Yearly, expire at 15/05/2021',
-        topics: ['React Native', 'Java', 'C#', 'Unity', 'Game Design'],
-        username: 'montossc',
-        password: '290398',
-    };
+    const userProfileContext = useContext(UserProfileContext);
     const recommendTopics= [
         {
             name: 'CONFERENCES',
@@ -147,7 +141,7 @@ const Browse = props => {
     }
     props.navigation.setOptions({
         headerRight: () => (<View style={{flexDirection: 'row'}}>
-            <Avatar rounded={true} source={userInfo.avatar} size={'small'}
+            <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
                     onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
         </View>)
     })

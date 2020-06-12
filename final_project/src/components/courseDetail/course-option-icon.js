@@ -11,11 +11,11 @@ const CourseOptionIcon = () => {
                       containerStyle={styles.containerIcon}/>
                 <Text style={globalStyles.txtDefault}>Bookmark</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{alignItems:'center'}}>
+            {/*<TouchableOpacity style={{alignItems:'center'}}>
                 <Icon name={'playlist-add'} type={'material-icons'} size={30}
                       containerStyle={styles.containerIcon}/>
                 <Text style={globalStyles.txtDefault}>Add to Channel</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             <TouchableOpacity style={{alignItems:'center'}}>
                 <Icon name={'cloud-download'} type={'material-icons'} size={30}
                       containerStyle={styles.containerIcon}/>

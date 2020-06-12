@@ -7,6 +7,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -39,10 +46,22 @@
       <option name="presentableId" value="Default" />
       <updated>1591678174960</updated>
       <workItem from="1591678176184" duration="5981000" />
+      <workItem from="1591762379789" duration="7507000" />
+      <workItem from="1591923685305" duration="11792000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="667" y="224" width="585" height="592" key="find.popup" timestamp="1591770696945">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="667" y="224" width="585" height="592" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591770696945" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1591934471521">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591934471521" />
   </component>
 </project>
