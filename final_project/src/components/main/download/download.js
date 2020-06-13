@@ -1,11 +1,13 @@
 import React, {useContext} from 'react';
 import CoursesList from '../../global/mainComponents/coursesList/courses-list';
-import {screenName} from '../../global/constant';
+import {color, screenName} from '../../global/constant';
 import {View} from 'react-native';
-import {Avatar} from 'react-native-elements';
-import {UserProfileContext} from "../../../../App";
+import {Avatar, Icon} from 'react-native-elements';
+import {ThemeContext, UserProfileContext} from "../../../../App";
 
 const Download = props => {
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     const userProfileContext = useContext(UserProfileContext);
     const downloadedCourses = [
         {
@@ -89,10 +91,14 @@ const Download = props => {
             totalVote: 352
         }];
     props.navigation.setOptions({
-        headerRight: () => (<View style={{flexDirection: 'row'}}>
-            <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
-                    onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
-        </View>)
+        headerStyle: {backgroundColor: theme.background},
+        headerTitleStyle: {color: theme.foreground},
+        headerRight: () => (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
+                        onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
+                <Icon containerStyle={{marginLeft: 150, marginRight: 10}} name={'settings'} type={'material-icons'} color={color.LIGHT_GRAY} onPress={() => props.navigation.navigate(screenName.SettingScreen)}/>
+            </View>)
     })
     return (
         <CoursesList title={''} outerBtn={''} item={downloadedCourses} navigator={props.navigation}/>

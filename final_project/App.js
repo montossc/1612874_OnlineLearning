@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
-import React, {createContext, useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-import {color, screenName} from './src/components/global/constant';
+import {color, screenName, themes} from './src/components/global/constant';
 import Login from './src/components/authentication/login/login';
 import Register from './src/components/authentication/register/register';
 import PasswordRecovery from './src/components/authentication/passwordRecovery/password-recovery';
@@ -25,6 +25,9 @@ import UsernameChanging from './src/components/accountManagement/profile/account
 import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
 import Pricing from './src/components/accountManagement/profile/pricing/pricing';
 import SplashScreen from './src/components/splash-screen/splash-screen';
+import {getAllCourses, getBookmarkedCourses} from "./src/core/services/courses-service";
+import {getTheme} from "./src/core/services/setting-service";
+import Setting from "./src/components/accountManagement/setting/setting";
 
 const loginStack = createStackNavigator();
 const mainTab = createBottomTabNavigator();
@@ -49,6 +52,7 @@ const homeStack = () => {
             <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
+            <screenStack.Screen name={screenName.SettingScreen} component={Setting}/>
         </screenStack.Navigator>
     );
 };
@@ -70,6 +74,7 @@ const downloadStack = () => {
             <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
+            <screenStack.Screen name={screenName.SettingScreen} component={Setting}/>
         </screenStack.Navigator>
     );
 };
@@ -91,6 +96,7 @@ const browseStack = () => {
             <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
+            <screenStack.Screen name={screenName.SettingScreen} component={Setting}/>
         </screenStack.Navigator>
     );
 };
@@ -119,6 +125,8 @@ const searchStack = () => {
     );
 };
 const tabNavigator = () => {
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     return (
         <mainTab.Navigator initialRouteName={screenName.HomeScreen}
                            screenOptions={({route}) => ({
@@ -140,7 +148,9 @@ const tabNavigator = () => {
                            tabBarOptions={{
                                activeTintColor: color.LIGHT_BLUE,
                                inactiveTintColor: color.LIGHT_GRAY,
+                               style: {backgroundColor: theme.background}
                            }}
+
 
         >
             <mainTab.Screen name={screenName.HomeScreen} component={homeStack}/>
@@ -152,19 +162,30 @@ const tabNavigator = () => {
 };
 
 export const UserProfileContext = createContext();
+export const CoursesContext = createContext();
+export const ThemeContext = createContext();
 export default function App() {
     const [userProfile, setUserProfile] = useState(null);
+    const [allCourses] = useState(getAllCourses);
+    const [bookmarkedCourses, setBookmarkedCourses] = useState(getBookmarkedCourses);
+    const [theme, setTheme] = useState(getTheme() === 'light' ? themes.light : themes.dark);
     return (
+        <ThemeContext.Provider value={{theme, setTheme}}>
         <UserProfileContext.Provider value={{userProfile, setUserProfile}}>
-            <NavigationContainer>
-                <loginStack.Navigator initialRouteName={screenName.SplashScreen} screenOptions={{headerShown: false}}>
-                    <loginStack.Screen name={screenName.SplashScreen} component={SplashScreen}/>
-                    <loginStack.Screen name={screenName.LoginScreen} component={Login}/>
-                    <loginStack.Screen name={screenName.RegisterScreen} component={Register}/>
-                    <loginStack.Screen name={screenName.PasswordRecoveryScreen} component={PasswordRecovery}/>
-                    <loginStack.Screen name={screenName.Tab} component={tabNavigator}/>
-                </loginStack.Navigator>
-            </NavigationContainer>
+            <CoursesContext.Provider
+                value={{allCourses, bookmarkedCourses, setBookmarkedCourses/*, downloadedCourses, setDownloadedCourses*/}}>
+                <NavigationContainer>
+                    <loginStack.Navigator initialRouteName={screenName.SplashScreen}
+                                          screenOptions={{headerShown: false}}>
+                        <loginStack.Screen name={screenName.SplashScreen} component={SplashScreen}/>
+                        <loginStack.Screen name={screenName.LoginScreen} component={Login}/>
+                        <loginStack.Screen name={screenName.RegisterScreen} component={Register}/>
+                        <loginStack.Screen name={screenName.PasswordRecoveryScreen} component={PasswordRecovery}/>
+                        <loginStack.Screen name={screenName.Tab} component={tabNavigator}/>
+                    </loginStack.Navigator>
+                </NavigationContainer>
+            </CoursesContext.Provider>
         </UserProfileContext.Provider>
+        </ThemeContext.Provider>
     );
 }

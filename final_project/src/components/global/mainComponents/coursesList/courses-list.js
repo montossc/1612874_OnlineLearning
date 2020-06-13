@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import globalStyles from '../../styles';
 import {FlatList, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import CoursesListItem from './courses-list-item';
+import {ThemeContext} from "../../../../../App";
 
 //params or props: title, outerBtn: button near the title, item: list of courses
 const CoursesList = props => {
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     let data;
     let currentNavigator;
     if (props.navigation){
@@ -17,12 +20,12 @@ const CoursesList = props => {
         currentNavigator = props.navigator;
     }
     return (
-        <View style={[globalStyles.containerSection, {marginHorizontal: 10}]}>
+        <View style={[globalStyles.containerSection, {paddingHorizontal: 10, backgroundColor: theme.background}]}>
             <View style={globalStyles.containerHeaderSection}>
-                <Text style={[globalStyles.txtDefault, {alignSelf: 'center'}]}>{data.title}</Text>
+                <Text style={[globalStyles.txtDefault, {alignSelf: 'center', color: theme.foreground}]}>{data.title}</Text>
                 <TouchableOpacity style={globalStyles.btnOuterSection}>
                     <Text
-                        style={[globalStyles.txtItalicSmall, {textDecorationLine: 'underline'}]}>{data.outerBtn}</Text>
+                        style={[globalStyles.txtItalicSmall, {textDecorationLine: 'underline', color: theme.foreground}]}>{data.outerBtn}</Text>
                 </TouchableOpacity>
             </View>
             <FlatList data={data.item}

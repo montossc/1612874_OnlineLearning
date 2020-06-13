@@ -3,7 +3,8 @@ import {Dimensions, StyleSheet} from 'react-native';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 export default StyleSheet.create({
     container:{
-        padding: 10
+        padding: 10,
+        flex: 1
     },
     containerTxtInput:{
         width: WINDOW_WIDTH - 100,
@@ -39,7 +40,7 @@ export default StyleSheet.create({
         fontStyle: 'italic'
     },
     containerSection: {
-        marginVertical: 20
+        paddingVertical: 20
     },
     btnOuterSection: {
         alignSelf: 'center',

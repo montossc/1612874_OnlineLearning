@@ -1,63 +1,24 @@
-import React, {useContext} from 'react';
+import React, {cloneElement, useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, ScrollView, View} from 'react-native';
 import globalStyles from '../../global/styles';
 import CoursesSection from '../../global/mainComponents/coursesSection/courses-section'
-import {Avatar} from 'react-native-elements';
-import {screenName} from '../../global/constant';
-import {UserProfileContext} from "../../../../App";
+import {Avatar, Icon} from 'react-native-elements';
+import {color, screenName} from '../../global/constant';
+import {CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
+
 const Home = props => {
     const userProfileContext = useContext(UserProfileContext);
-    const welcomeText='Karueein is name of the firsr university in the world! With Karueein, you can build and apply skills in top technologies. Hope you enjoy this app!';
-    const courseList = [
-        {
-            ID: 1,
-            thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
-            name: 'Angular Fundamentals',
-            author: 'Joe Eames',
-            levelRequirement: 'Intermediate',
-            releaseDate: 'Feb 2019',
-            duration: '9h 35m',
-            star: 4.5,
-            totalVote: 819,
-        },
-        {
-            ID: 2,
-            thumbnail: {uri:'https://c8.alamy.com/comp/KHRM9N/back-view-of-highly-professional-coder-looking-at-wristwatch-while-KHRM9N.jpg'},
-            name: 'C# Fundamentals',
-            author: 'Scott Allen',
-            levelRequirement: 'Beginner',
-            releaseDate: 'Apr 2019',
-            duration: '6h 5m',
-            star: 4.5,
-            totalVote: 446,
-        },
-        {
-            ID: 3,
-            thumbnail:{uri: 'https://inteng-storage.s3.amazonaws.com/img/iea/nZwX0xjxwv/sizes/coder_resize_md.jpg'},
-            name: 'Managing AWS Operation',
-            author: 'Andru Estes',
-            levelRequirement: 'Intermediate',
-            releaseDate: 'May 2019',
-            duration: '3h 3m',
-            star: 4,
-            totalVote: 13,
-        },
-        {
-            ID: 4,
-            thumbnail:{uri: 'https://img.etimg.com/thumb/width-640,height-480,imgsize-130726,resizemode-1,msid-72918780/code-decode-newer-challenges-for-professional-coders.jpg'},
-            name: 'Spring: The Big Picture',
-            author: 'Dustin Schultz',
-            levelRequirement: 'Beginner',
-            releaseDate: 'May 2018',
-            duration: '1h 15m',
-            star: 5,
-            totalVote: 352
-        }];
+    const coursesContext = useContext(CoursesContext);
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
+    const welcomeText = 'Karueein is name of the firsr university in the world! With Karueein, you can build and apply skills in top technologies. Hope you enjoy this app!';
+    const courseList = coursesContext.allCourses;
+    const bookmarkedCoursesList = coursesContext.bookmarkedCourses;
     const recommendFields = [
         {
             ID: 1,
-            title: 'Software development',
-            courses: courseList
+            title: 'Your bookmark',
+            courses: bookmarkedCoursesList
         },
         {
             ID: 2,
@@ -75,17 +36,23 @@ const Home = props => {
             courses: courseList
         }];
     props.navigation.setOptions({
-        headerRight: () => (<View style={{flexDirection: 'row'}}>
-            <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
-                    onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
-        </View>)
+        headerStyle: {backgroundColor: theme.background},
+        headerTitleStyle: {color: theme.foreground},
+        headerRight: () => (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
+                        onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
+                <Icon containerStyle={{marginLeft: 150, marginRight: 10}} name={'settings'} type={'material-icons'} color={color.LIGHT_GRAY} onPress={() => props.navigation.navigate(screenName.SettingScreen)}/>
+            </View>)
     })
     return (
-        <ScrollView style={globalStyles.container} showsVerticalScrollIndicator={false}>
-            <Text style={globalStyles.txtItalicSmall}>Welcome to Karueein!</Text>
-            <Text style={[globalStyles.txtDefault,{marginTop: 10}]}>{welcomeText}</Text>
+        <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]}
+                    showsVerticalScrollIndicator={false}>
+            <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>Welcome to Karueein!</Text>
+            <Text style={[globalStyles.txtDefault, {marginTop: 10, color: theme.foreground}]}>{welcomeText}</Text>
             {
-                recommendFields.map(field => <CoursesSection key={field.ID} title={field.title} item={field.courses} navigator={props.navigation}/>)
+                recommendFields.map(field => <CoursesSection key={field.ID} title={field.title} item={field.courses}
+                                                             navigator={props.navigation}/>)
 
             }
         </ScrollView>

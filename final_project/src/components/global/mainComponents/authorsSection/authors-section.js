@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   ScrollView,
   Text,
@@ -9,18 +9,21 @@ import {
 import globalStyle from '../../styles';
 import {Avatar} from 'react-native-elements';
 import {screenName} from '../../constant';
+import {ThemeContext} from "../../../../../App";
 
 //props: title, item: authors list
 const AuthorsSection = props => {
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     return (
         <View>
-            <Text style={globalStyle.txtDefault}>{props.title}</Text>
+            <Text style={[globalStyle.txtDefault, {color: theme.foreground}]}>{props.title}</Text>
             <ScrollView style={styles.containerAuthorList} horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
                     props.item.map(author =>
                         <TouchableOpacity style={styles.containerAuthor} onPress={() => props.navigator.push(screenName.AuthorDetailScreen, {item: author})}>
                             <Avatar rounded={true} source={author.avatar} size={'large'}/>
-                            <Text style={[globalStyle.txtDefault,{textAlign:'center'}]}>{author.name}</Text>
+                            <Text style={[globalStyle.txtDefault,{textAlign:'center', color: theme.foreground}]}>{author.name}</Text>
                         </TouchableOpacity>)
                 }
             </ScrollView>

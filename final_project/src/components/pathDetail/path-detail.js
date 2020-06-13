@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import globalStyles from '../global/styles';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
 //import ProgressBar from 'react-native-progress/Bar';
 import CoursesList from '../global/mainComponents/coursesList/courses-list';
+import {ThemeContext} from "../../../App";
 
 const PathDetail = props => {
     let path = props.route.params.item;
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     const pathInfo = {
         name: path.name,
         thumbnail: path.thumbnail,
@@ -58,19 +61,19 @@ const PathDetail = props => {
             totalVote: 352
         }];
     return (
-        <View style={globalStyles.container}>
+        <View style={[globalStyles.container, {backgroundColor: theme.background}]}>
             <View style={styles.containerPathInfo}>
                 <Avatar size={'large'} source={pathInfo.thumbnail}/>
                 <View style={styles.containerPathName}>
-                    <Text style={globalStyles.txtTitle}>{pathInfo.name}</Text>
-                    <Text style={globalStyles.txtDefault}>{pathInfo.courseNum} courses  .  {pathInfo.totalTime} hours</Text>
+                    <Text style={[globalStyles.txtTitle, {color: theme.foreground}]}>{pathInfo.name}</Text>
+                    <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{pathInfo.courseNum} courses  .  {pathInfo.totalTime} hours</Text>
                 </View>
             </View>
-            <ViewMoreText numberOfLines={3} textStyle={globalStyles.txtItalicSmall} style={{paddingVertical: 10}}>
+            <ViewMoreText numberOfLines={3} textStyle={[globalStyles.txtItalicSmall, {color: theme.foreground}]} style={{paddingVertical: 10}}>
                 <Text>{pathInfo.description}</Text>
             </ViewMoreText>
             <View style={{paddingVertical:10}}>
-                <Text style={globalStyles.txtDefault}>Your Progress: {pathInfo.progress}%</Text>
+                <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Your Progress: {pathInfo.progress}%</Text>
                 {/*<ProgressBar progress={pathInfo.progress/100} width={200} color={'rgba(55,190,245,0.7)'}/>*/}
             </View>
             <CoursesList title={'Demo'} item={coursesInList} navigator={props.navigation}/>

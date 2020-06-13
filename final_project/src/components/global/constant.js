@@ -2,8 +2,19 @@ export const color = {
         LIGHT_BLUE: '#62DDBD',
         LIGHT_GREEN:'#A2D471',
         LIGHT_RED:'#F76D82',
-        LIGHT_GRAY: '#CBD0D8'
+        LIGHT_GRAY: '#4d4f52',
+        GREEN: '#35bb9b'
 };
+export const themes = {
+    light: {
+        foreground: '#000000',
+        background: '#eeeeee'
+    },
+    dark: {
+        foreground: '#ffffff',
+        background: '#222222'
+    }
+}
  export const screenName = {
      HomeScreen: 'Home',
      LoginScreen: 'Login',
@@ -25,5 +36,6 @@ export const color = {
      ChangeUsernameScreen: 'ChangeUsername',
      ChangePasswordScreen: 'ChangePassword',
      PricingScreen: 'Pricing',
-     SplashScreen: 'SplashScreen'
+     SplashScreen: 'Splash',
+     SettingScreen: 'Setting'
  }

@@ -1,26 +1,29 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {FlatList, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import globalStyles from '../global/styles';
 import {ButtonGroup} from 'react-native-elements';
+import {ThemeContext} from "../../../App";
 
 const LessonList = props => {
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     return (
-        <View style={styles.containerLessionList}>
+        <View style={styles.containerLessonList}>
             <ButtonGroup  buttons={['CONTENTS', 'TRANSCRIPT']}/>
             <FlatList
                       data={props.item}
                       renderItem={({item}) =>
-                          <View style={styles.containerLesson}>
-                              <View style={styles.containerLessonInfo}>
-                                  <Text style={globalStyles.txtDefault}>{item.name}</Text>
-                                  <Text style={globalStyles.txtItalicSmall}>{item.totalTime}</Text>
+                          <View style={[styles.containerLesson, {borderColor: theme.foreground}]}>
+                              <View style={[styles.containerLessonInfo]}>
+                                  <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{item.name}</Text>
+                                  <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{item.totalTime}</Text>
                               </View>
                               <View style={styles.containerContentList}>
                                   {
                                       item.contentList.map((content) =>
                                           <TouchableOpacity style={styles.containerContent}>
-                                              <Text style={globalStyles.txtItalicSmall}>{content.name}</Text>
-                                              <Text style={globalStyles.txtItalicSmall}>{content.time}</Text>
+                                              <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{content.name}</Text>
+                                              <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{content.time}</Text>
                                           </TouchableOpacity>)
                                   }
                               </View>

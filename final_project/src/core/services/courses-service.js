@@ -1,33 +1,5 @@
-import React from 'react';
-import PathList from '../global/mainComponents/pathList/path-list';
-import CoursesList from '../global/mainComponents/coursesList/courses-list';
-import {ScrollView} from 'react-native';
-import globalStyles from '../global/styles';
-
-const RelatedPathsAndCourses = props => {
-    const relaPaths = [
-        {
-            name: 'Node.js Developer on Microsoft Azure',
-            thumbnail: {uri:'https://www.logitech.com/content/dam/logitech/vc/en/rightsense/logos/microsoft.png.imgo.png'},
-            courseNum: 3
-        },
-        {
-            name: 'Salesforce Certified Administrator',
-            thumbnail: {uri:'https://cdn.magenest.com/wp-content/uploads/2019/08/CRM-Salesforce-Logo-1200x840.png'},
-            courseNum: 10
-        },
-        {
-            name: 'Design Patterns in C#',
-            thumbnail: {uri:'https://st.quantrimang.com/photos/image/2019/03/11/ly-do-hoc-csharp-1.jpg'},
-            courseNum: 15
-        },
-        {
-            name: 'Building Web Application with Blazor',
-            thumbnail: {uri:'https://danpatrascu.com/wp-content/uploads/2019/05/blazorms-675x360.jpg'},
-            courseNum: 6
-        }
-    ];
-    const relaCourses = [
+export const getAllCourses = () => {
+    const courseList = [
         {
             ID: 1,
             thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
@@ -38,6 +10,7 @@ const RelatedPathsAndCourses = props => {
             duration: '9h 35m',
             star: 4.5,
             totalVote: 819,
+            bookmarked: true,
         },
         {
             ID: 2,
@@ -49,6 +22,7 @@ const RelatedPathsAndCourses = props => {
             duration: '6h 5m',
             star: 4.5,
             totalVote: 446,
+            bookmarked: false,
         },
         {
             ID: 3,
@@ -60,6 +34,7 @@ const RelatedPathsAndCourses = props => {
             duration: '3h 3m',
             star: 4,
             totalVote: 13,
+            bookmarked: true,
         },
         {
             ID: 4,
@@ -70,15 +45,38 @@ const RelatedPathsAndCourses = props => {
             releaseDate: 'May 2018',
             duration: '1h 15m',
             star: 5,
-            totalVote: 352
+            totalVote: 352,
+            bookmarked: false,
         }];
+    return courseList;
+}
 
-    return (
-        <ScrollView showsVerticalScrollIndicator={false} style={globalStyles.container}>
-        <PathList title={'Paths'} outerBtn={''} item={relaPaths} navigation={props.navigation}/>
-        <CoursesList title={'Courses'} outerBtn={''} item={relaCourses} navigator={props.navigation}/>
-        </ScrollView>
-    );
-};
-
-export default RelatedPathsAndCourses;
+export const getBookmarkedCourses = (username) => {
+    const bmrkCoursesList = [
+        {
+            ID: 1,
+            thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
+            name: 'Angular Fundamentals',
+            author: 'Joe Eames',
+            levelRequirement: 'Intermediate',
+            releaseDate: 'Feb 2019',
+            duration: '9h 35m',
+            star: 4.5,
+            totalVote: 819,
+            bookmarked: true,
+        },
+        {
+            ID: 3,
+            thumbnail:{uri: 'https://inteng-storage.s3.amazonaws.com/img/iea/nZwX0xjxwv/sizes/coder_resize_md.jpg'},
+            name: 'Managing AWS Operation',
+            author: 'Andru Estes',
+            levelRequirement: 'Intermediate',
+            releaseDate: 'May 2019',
+            duration: '3h 3m',
+            star: 4,
+            totalVote: 13,
+            bookmarked: true,
+        },
+       ];
+    return bmrkCoursesList;
+}

@@ -12,7 +12,7 @@ class SplashScreen extends Component {
         this.timer = setInterval(() =>{
             const newLoadingValue = this.state.loading + 1;
             this.setState({loading: newLoadingValue})
-        }, 100);
+        }, 50);
     }
 
     componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {

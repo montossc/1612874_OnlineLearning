@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -7,17 +7,18 @@ import {
   ScrollView,
 } from 'react-native';
 import CourseInfo from './course-info';
-/*import VideoPlayer from 'react-native-video-controls';*/
 import {Icon} from 'react-native-elements';
 import globalStyles from '../global/styles';
 import ViewMoreText from 'react-native-view-more-text';
-import CourseOptionIcon from './course-option-icon';
+
 import LessonList from './lesson-list';
 import {screenName} from '../global/constant';
-import VideoPlayer from "react-native-video-controls";
+import {CoursesContext, ThemeContext} from "../../../App";
 
 //params: item: course
 const CourseDetail = props => {
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     const course = props.route.params.item;
     const courseInfo = {
         name: course.name,
@@ -29,6 +30,10 @@ const CourseDetail = props => {
         star: course.star,
         totalVote: course.totalVote,
     };
+    const coursesContext = useContext(CoursesContext);
+    const [iconBookmarkName, setIconBookmarkName] = useState(course.bookmarked === true ? 'book' : 'bookmark');
+    const [bookmarkText, setBookmarkText] = useState(course.bookmarked === true ? 'Remove bookmark' : 'Bookmark');
+
     const lessons = [
         {
             name: 'Course Overview',
@@ -128,27 +133,58 @@ const CourseDetail = props => {
             }, {name: 'Practise Exercises', time: '3:25'}],
         },
     ];
+    const changeBookmarkStatus = () => {
+        if (course.bookmarked ===true){
+            course.bookmarked = false;
+            setIconBookmarkName('bookmark');
+            setBookmarkText('Bookmark');
+
+        }else {
+            course.bookmarked = true;
+            coursesContext.bookmarkedCourses.push(course);
+
+            setIconBookmarkName('book');
+            setBookmarkText('Remove bookmark');
+        }
+    }
+
+    /*useEffect(() => {
+        for (let i = 0; i < coursesContext.bookmarkedCourses.length; i++)
+        {
+            const index = coursesContext.allCourses.findIndex(element => element.ID === coursesContext.bookmarkedCourses[i]);
+            if (index) {
+                coursesContext.allCourses[index].bookmarked = coursesContext.bookmarkedCourses[i].bookmarked;
+            }
+        }
+    }, [coursesContext.bookmarkedCourses])*/
     return (
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1, backgroundColor: theme.background}}>
            {/* <VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
                          navigator={props.navigation}
                          onBack={() => props.navigation.goBack()}/>*/}
             <View style={{flex: 3}}>
                 <CourseInfo item={courseInfo} navigator={props.navigation}/>
-                <CourseOptionIcon/>
+                <View style={styles.containerOptionIcon}>
+                    <TouchableOpacity style={{alignItems:'center'}} onPress={changeBookmarkStatus}>
+                        <Icon name={iconBookmarkName} type={'material-icons'} size={30}
+                              containerStyle={styles.containerIcon}/>
+                        <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{bookmarkText}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{alignItems:'center'}}>
+                        <Icon name={'cloud-download'} type={'material-icons'} size={30}
+                              containerStyle={styles.containerIcon}/>
+                        <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Download</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={{margin: 10}}>
                     <ViewMoreText numberOfLines={3} textStyle={globalStyles.txtItalicSmall}>
-                        <Text>This is demo text. This is demo text. This is demo text. This is demo text. This is demo
+                        <Text style={{color: theme.foreground}}>This is demo text. This is demo text. This is demo text. This is demo text. This is demo
                             text. This is demo text. This is demo text. This is demo text. This is demo text. This is
                             demo text. This is demo text. This is demo text. This is demo text. This is demo text. This
                             is demo text. This is demo text. This is demo text. </Text>
                     </ViewMoreText>
                 </View>
                 <View style={{margin: 10}}>
-                    <TouchableOpacity style={styles.btnStretch}>
-                        <Icon name={'assignment-turned-in'} type={'material-icons'}/>
-                        <Text style={[globalStyles.txtDefault, {marginLeft: 10}]}>Take a learning check</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.btnStretch} onPress={() => props.navigation.push(screenName.RelatedPathsAndCoursesScreen)}>
                         <Icon name={'flip-to-front'} type={'material-icons'}/>
                         <Text style={[globalStyles.txtDefault, {marginLeft: 10}]}>View related paths and courses</Text>
@@ -167,6 +203,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgray',
         padding: 5,
         marginBottom: 10
-    }
+    },
+    containerOptionIcon: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        margin: 10,
+    },
+    containerIcon: {
+        backgroundColor: 'lightgray',
+        borderRadius: 90,
+        padding: 5
+    },
 });
 export default CourseDetail;
