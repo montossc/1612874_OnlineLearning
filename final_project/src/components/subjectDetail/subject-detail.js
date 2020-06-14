@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ScrollView} from 'react-native';
 import globalStyles from '../global/styles';
 import PathSection from '../global/mainComponents/pathSection/path-section';
 import CoursesList from '../global/mainComponents/coursesList/courses-list';
 import CoursesSection from '../global/mainComponents/coursesSection/courses-section';
 import AuthorsSection from '../global/mainComponents/authorsSection/authors-section';
+import {ThemeContext} from "../../../App";
 //params: item: subject,
 const SubjectDetail = props => {
     const subPaths = [
@@ -110,8 +111,10 @@ const SubjectDetail = props => {
     ];
     let subName = props.route.params.item.name;
     props.navigation.setOptions({title: subName});
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     return (
-        <ScrollView style={globalStyles.container}>
+        <ScrollView style={[globalStyles.container, {backgroundColor: theme.background, flex: 1}]}>
             <PathSection title={`Paths in ${subName}`} item={subPaths} navigator={props.navigation}/>
             <CoursesSection title={`New in ${subName}`} item={subCourses} navigator={props.navigation}/>
             <CoursesSection title={`Trending in ${subName}`} item={subCourses} navigator={props.navigation}/>

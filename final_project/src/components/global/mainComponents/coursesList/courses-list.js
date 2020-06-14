@@ -20,7 +20,7 @@ const CoursesList = props => {
         currentNavigator = props.navigator;
     }
     return (
-        <View style={[globalStyles.containerSection, {paddingHorizontal: 10, backgroundColor: theme.background}]}>
+        <View style={[globalStyles.containerSection, {paddingHorizontal: 10, backgroundColor: theme.background, flex: 1}]}>
             <View style={globalStyles.containerHeaderSection}>
                 <Text style={[globalStyles.txtDefault, {alignSelf: 'center', color: theme.foreground}]}>{data.title}</Text>
                 <TouchableOpacity style={globalStyles.btnOuterSection}>

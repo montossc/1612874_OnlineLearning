@@ -8,23 +8,25 @@ import {
 } from 'react-native';
 import globalStyles from '../../../global/styles';
 import SubmitButtonCenter from '../../../global/commonComponent/submit-button-center';
-import {UserProfileContext} from "../../../../../App";
+import {ThemeContext, UserProfileContext} from "../../../../../App";
 
 const UsernameChanging = () => {
     const userProfileContext = useContext(UserProfileContext);
     const [username, setUsername] = useState(userProfileContext.userProfile.username);
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     return (
-        <KeyboardAvoidingView behavior={'height'} style={styles.container}>
+        <KeyboardAvoidingView behavior={'height'} style={[styles.container, {backgroundColor: theme.background, flex: 1}]}>
 
             <View style={styles.block}>
-                <Text style={styles.txt}>Current username</Text>
-                <TextInput style={globalStyles.containerTxtInput}
+                <Text style={[styles.txt, {color: theme.foreground}]}>Current username</Text>
+                <TextInput style={[globalStyles.containerTxtInput, {color: theme.foreground}]}
                            placeholder={userProfileContext.userProfile.username}
                            editable={false}></TextInput>
             </View>
             <View style={styles.block}>
-                <Text style={styles.txt}>New username</Text>
-                <TextInput style={globalStyles.containerTxtInput}
+                <Text style={[styles.txt, {color: theme.foreground}]}>New username</Text>
+                <TextInput style={[globalStyles.containerTxtInput, {color: theme.foreground}]}
                            placeholder="New username"
                            onChangeText={text => setUsername(text)}
                            defaultValue={username}>
@@ -32,7 +34,7 @@ const UsernameChanging = () => {
             </View>
 
             <View style={styles.containerBtn}>
-                <SubmitButtonCenter name={'Update'} color={'black'} onPress={() => {
+                <SubmitButtonCenter name={'Update'} color={theme.foreground} onPress={() => {
                     const temp = userProfileContext.userProfile;
                     temp.username = username;
                     userProfileContext.setUserProfile(temp);

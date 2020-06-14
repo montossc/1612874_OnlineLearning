@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import globalStyles from '../../../global/styles';
 import SubmitButtonCenter from '../../../global/commonComponent/submit-button-center';
-import {UserProfileContext} from "../../../../../App";
+import {ThemeContext, UserProfileContext} from "../../../../../App";
 import {color} from "../../../global/constant";
 
 const PasswordChanging = () => {
@@ -47,28 +47,30 @@ const PasswordChanging = () => {
             userProfileContext.setUserProfile(temp);
             Alert.alert('Password update', 'Updated!');
         }
-    }, [status])
+    }, [status]);
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     return (
-        <KeyboardAvoidingView behavior={'height'} style={styles.container}>
+        <KeyboardAvoidingView behavior={'height'} style={[styles.container, {backgroundColor: theme.background, flex: 1}]}>
             <View style={styles.block}>
-                <Text style={styles.txt}>Current password</Text>
-                <TextInput style={globalStyles.containerTxtInput}
+                <Text style={[styles.txt, {color: theme.foreground}]}>Current password</Text>
+                <TextInput style={[globalStyles.containerTxtInput, {color: theme.foreground}]}
                            placeholder="Current password"
                            secureTextEntry={true}
                             defaultValue={curPass}
                             onChangeText={text => setCurPass(text)}></TextInput>
             </View>
             <View style={styles.block}>
-                <Text style={styles.txt}>New password</Text>
-                <TextInput style={globalStyles.containerTxtInput}
+                <Text style={[styles.txt, {color: theme.foreground}]}>New password</Text>
+                <TextInput style={[globalStyles.containerTxtInput, {color: theme.foreground}]}
                            placeholder="New password"
                            secureTextEntry={true}
                             defaultValue={newPass}
                             onChangeText={text => setNewPass(text)}></TextInput>
             </View>
             <View style={styles.block}>
-                <Text style={styles.txt}>Confirm password</Text>
-                <TextInput style={globalStyles.containerTxtInput}
+                <Text style={[styles.txt, {color: theme.foreground}]}>Confirm password</Text>
+                <TextInput style={[globalStyles.containerTxtInput, {color: theme.foreground}]}
                            placeholder="Confirm password"
                            secureTextEntry={true}
                             defaultValue={conPass}
@@ -76,7 +78,7 @@ const PasswordChanging = () => {
             </View>
             {renderErrorWarning(status)}
             <View style={styles.containerBtn}>
-                <SubmitButtonCenter name={'Update'} color={'black'} onPress={changePasswordButton}/>
+                <SubmitButtonCenter name={'Update'} color={theme.foreground} onPress={changePasswordButton}/>
             </View>
         </KeyboardAvoidingView>
     );

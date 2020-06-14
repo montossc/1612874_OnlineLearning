@@ -14,6 +14,7 @@ import ViewMoreText from 'react-native-view-more-text';
 import LessonList from './lesson-list';
 import {screenName} from '../global/constant';
 import {CoursesContext, ThemeContext} from "../../../App";
+import VideoPlayer from "react-native-video-controls";
 
 //params: item: course
 const CourseDetail = props => {
@@ -33,6 +34,8 @@ const CourseDetail = props => {
     const coursesContext = useContext(CoursesContext);
     const [iconBookmarkName, setIconBookmarkName] = useState(course.bookmarked === true ? 'book' : 'bookmark');
     const [bookmarkText, setBookmarkText] = useState(course.bookmarked === true ? 'Remove bookmark' : 'Bookmark');
+    const [iconDownloadName, setIconDownloadName] = useState(course.downloaded === true ? 'remove-from-queue' : 'cloud-download');
+    const [downloadText, setDownloadText] = useState(course.downloaded === true ? 'Remove from device' : 'Download');
 
     const lessons = [
         {
@@ -148,6 +151,20 @@ const CourseDetail = props => {
         }
     }
 
+    const changeDownloadStatus = () => {
+        if (course.downloaded === true){
+            course.downloaded = false;
+            setIconDownloadName('cloud-download');
+            setDownloadText('Download');
+        } else {
+            course.bookmarked = true;
+            coursesContext.downloadedCourses.push(course);
+
+            setIconDownloadName('remove-from-queue');
+            setDownloadText('Remove from device');
+        }
+    }
+
     /*useEffect(() => {
         for (let i = 0; i < coursesContext.bookmarkedCourses.length; i++)
         {
@@ -159,7 +176,7 @@ const CourseDetail = props => {
     }, [coursesContext.bookmarkedCourses])*/
     return (
         <ScrollView style={{flex: 1, backgroundColor: theme.background}}>
-           {/* <VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+            {/*<VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
                          navigator={props.navigation}
                          onBack={() => props.navigation.goBack()}/>*/}
             <View style={{flex: 3}}>
@@ -170,10 +187,10 @@ const CourseDetail = props => {
                               containerStyle={styles.containerIcon}/>
                         <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{bookmarkText}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{alignItems:'center'}}>
-                        <Icon name={'cloud-download'} type={'material-icons'} size={30}
+                    <TouchableOpacity style={{alignItems:'center'}} onPress={changeDownloadStatus}>
+                        <Icon name={iconDownloadName} type={'material-icons'} size={30}
                               containerStyle={styles.containerIcon}/>
-                        <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Download</Text>
+                        <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{downloadText}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{margin: 10}}>

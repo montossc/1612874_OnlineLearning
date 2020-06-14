@@ -13,10 +13,12 @@ import {Avatar, Icon} from 'react-native-elements';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 import {screenName} from '../../global/constant';
-import {UserProfileContext} from "../../../../App";
+import {ThemeContext, UserProfileContext} from "../../../../App";
 
 const Profile = props => {
     const userProfileContext = useContext(UserProfileContext);
+    const themeContext = useContext(ThemeContext);
+    const theme = themeContext.theme;
     const followingAuthors = [
         {
             name: 'Deborah Kurata',
@@ -40,10 +42,10 @@ const Profile = props => {
         userProfileContext.setUserProfile(userProfileTemp);
     }, [userFullname, avatar])
     return (
-        <ScrollView style={globalStyles.container}>
-            <View style={styles.infoArea}>
+        <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]}>
+            <View style={[styles.infoArea, {borderColor: theme.foreground}]}>
                 <Avatar source={avatar} size={'large'} rounded={true}/>
-                <TextInput style={styles.txtFullname}
+                <TextInput style={[styles.txtFullname, {color: theme.foreground}]}
                            editable={canEdit}
                            maxLenght={25}
                            value={userFullname}
@@ -51,16 +53,16 @@ const Profile = props => {
                            onEndEditing={setEditableFullname}
 
                 />
-                <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname}/>
+                <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname} color={theme.foreground}/>
             </View>
             <AccountChangingSection navigator={props.navigation}/>
             <SubscriptionInfo item={userProfileContext.userProfile.subscription} navigator={props.navigation}/>
             <UserTopics item={userProfileContext.userProfile.topics} navigator={props.navigation}/>
-            <View style={globalStyles.containerTextButton}>
+            <View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
                 <AuthorsSection title={'Following'} item={followingAuthors} navigator={props.navigation}/>
             </View>
             <View style={styles.containerBtnLogout}>
-            <SubmitButtonCenter name={'Logout'} color={'black'} onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>
+            <SubmitButtonCenter name={'Logout'} color={theme.foreground} onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>
             </View>
         </ScrollView>
     );

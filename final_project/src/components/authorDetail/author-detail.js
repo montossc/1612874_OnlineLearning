@@ -29,7 +29,7 @@ const AuthorDetail = props => {
                 </ViewMoreText>
             </View>
             <View style={styles.containerIconList}>
-                <SocialIcon type={'twitter'} light={true} iconSize={24} style={{backgroundColor: theme.foreground, }}/>
+                <SocialIcon type={'twitter'} light={true} iconSize={24}/>
                 <SocialIcon type={'facebook'} light={true} iconSize={24}/>
                 <SocialIcon type={'linkedin'} light={true} iconSize={24}/>
             </View>

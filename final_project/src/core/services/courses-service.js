@@ -1,4 +1,4 @@
-export const getAllCourses = () => {
+export const getAllCourses = (username) => {
     const courseList = [
         {
             ID: 1,
@@ -11,6 +11,7 @@ export const getAllCourses = () => {
             star: 4.5,
             totalVote: 819,
             bookmarked: true,
+            downloaded: true,
         },
         {
             ID: 2,
@@ -23,6 +24,7 @@ export const getAllCourses = () => {
             star: 4.5,
             totalVote: 446,
             bookmarked: false,
+            downloaded: true,
         },
         {
             ID: 3,
@@ -35,6 +37,7 @@ export const getAllCourses = () => {
             star: 4,
             totalVote: 13,
             bookmarked: true,
+            downloaded: false,
         },
         {
             ID: 4,
@@ -47,11 +50,12 @@ export const getAllCourses = () => {
             star: 5,
             totalVote: 352,
             bookmarked: false,
+            downloaded: false,
         }];
     return courseList;
 }
 
-export const getBookmarkedCourses = (username) => {
+export const getBookmarkedCourses = () => {
     const bmrkCoursesList = [
         {
             ID: 1,
@@ -64,6 +68,7 @@ export const getBookmarkedCourses = (username) => {
             star: 4.5,
             totalVote: 819,
             bookmarked: true,
+            downloaded: true,
         },
         {
             ID: 3,
@@ -76,7 +81,40 @@ export const getBookmarkedCourses = (username) => {
             star: 4,
             totalVote: 13,
             bookmarked: true,
+            downloaded: false,
         },
        ];
     return bmrkCoursesList;
+}
+
+export const getDownloadedCourses = () => {
+    const downloadedCoursesList = [
+        {
+            ID: 1,
+            thumbnail:{uri: 'https://www.mcreelearningcenter.com/blog/wp-content/uploads/2016/07/cpc_certified_professional_medical_coder.jpg'},
+            name: 'Angular Fundamentals',
+            author: 'Joe Eames',
+            levelRequirement: 'Intermediate',
+            releaseDate: 'Feb 2019',
+            duration: '9h 35m',
+            star: 4.5,
+            totalVote: 819,
+            bookmarked: true,
+            downloaded: true,
+        },
+        {
+            ID: 2,
+            thumbnail: {uri:'https://c8.alamy.com/comp/KHRM9N/back-view-of-highly-professional-coder-looking-at-wristwatch-while-KHRM9N.jpg'},
+            name: 'C# Fundamentals',
+            author: 'Scott Allen',
+            levelRequirement: 'Beginner',
+            releaseDate: 'Apr 2019',
+            duration: '6h 5m',
+            star: 4.5,
+            totalVote: 446,
+            bookmarked: false,
+            downloaded: true,
+        },
+    ];
+    return downloadedCoursesList;
 }

@@ -25,7 +25,7 @@ import UsernameChanging from './src/components/accountManagement/profile/account
 import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
 import Pricing from './src/components/accountManagement/profile/pricing/pricing';
 import SplashScreen from './src/components/splash-screen/splash-screen';
-import {getAllCourses, getBookmarkedCourses} from "./src/core/services/courses-service";
+import {getAllCourses, getBookmarkedCourses, getDownloadedCourses} from "./src/core/services/courses-service";
 import {getTheme} from "./src/core/services/setting-service";
 import Setting from "./src/components/accountManagement/setting/setting";
 
@@ -101,14 +101,10 @@ const browseStack = () => {
     );
 };
 const searchStack = () => {
-    let [value, setValue] = useState('');
+
     return (
         <screenStack.Navigator initialRouteName={screenName.SearchHistoryScreen}
-                               screenOptions={{
-                                   headerTitle: () => (<SearchBar placeholder={'Search...'}
-                                                                  onChangeText={(text) => setValue(text)}
-                                                                  value={value}/>),
-                               }}>
+                               screenOptions={{headerShown: false}}>
             <screenStack.Screen name={screenName.SearchHistoryScreen} component={SearchHistory}/>
             <screenStack.Screen name={screenName.SearchResultScreen} component={SearchResult}/>
             <screenStack.Screen name={screenName.CourseDetailScreen} component={CourseDetail}
@@ -166,14 +162,15 @@ export const CoursesContext = createContext();
 export const ThemeContext = createContext();
 export default function App() {
     const [userProfile, setUserProfile] = useState(null);
-    const [allCourses] = useState(getAllCourses);
+    const [allCourses, setAllCourses] = useState(getAllCourses('temp'));
     const [bookmarkedCourses, setBookmarkedCourses] = useState(getBookmarkedCourses);
+    const [downloadedCourses, setDownloadedCourses] = useState(getDownloadedCourses);
     const [theme, setTheme] = useState(getTheme() === 'light' ? themes.light : themes.dark);
     return (
         <ThemeContext.Provider value={{theme, setTheme}}>
         <UserProfileContext.Provider value={{userProfile, setUserProfile}}>
             <CoursesContext.Provider
-                value={{allCourses, bookmarkedCourses, setBookmarkedCourses/*, downloadedCourses, setDownloadedCourses*/}}>
+                value={{allCourses, bookmarkedCourses, setBookmarkedCourses, downloadedCourses, setDownloadedCourses}}>
                 <NavigationContainer>
                     <loginStack.Navigator initialRouteName={screenName.SplashScreen}
                                           screenOptions={{headerShown: false}}>
