@@ -13,8 +13,8 @@ const SubmitButtonCenter = props => {
 const styles = StyleSheet.create({
     btnCenterSubmit: {
         alignSelf: 'center',
-        width: 100,
-        height: 50,
+        width: 120,
+        height: 60,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 25,

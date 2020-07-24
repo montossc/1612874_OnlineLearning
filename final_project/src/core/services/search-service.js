@@ -1,3 +1,4 @@
+/*
 import {getAllCourses} from "./courses-service";
 
 export const getSearchHistory = () => {
@@ -13,3 +14,4 @@ export const getSearchCourses = (searchString) => {
     });
     return result;
 }
+*/

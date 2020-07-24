@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useContext, useEffect, useReducer, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {color, screenName, themes} from './src/components/global/constant';
@@ -25,9 +25,10 @@ import UsernameChanging from './src/components/accountManagement/profile/account
 import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
 import Pricing from './src/components/accountManagement/profile/pricing/pricing';
 import SplashScreen from './src/components/splash-screen/splash-screen';
-import {getAllCourses, getBookmarkedCourses, getDownloadedCourses} from "./src/core/services/courses-service";
 import {getTheme} from "./src/core/services/setting-service";
 import Setting from "./src/components/accountManagement/setting/setting";
+import {authenReducer} from "./src/reducers/authentication-reducer";
+import {login} from "./src/core/services/authentication-service";
 
 const loginStack = createStackNavigator();
 const mainTab = createBottomTabNavigator();
@@ -157,20 +158,30 @@ const tabNavigator = () => {
     );
 };
 
+export const AuthenticationContext = createContext();
 export const UserProfileContext = createContext();
 export const CoursesContext = createContext();
 export const ThemeContext = createContext();
+
+const initAuthenState = {
+    isAuthenticated: false,
+    userInfo: null,
+    token: null,
+    message: ''
+}
 export default function App() {
+    const [authenState, dispatch] = useReducer(authenReducer, initAuthenState);
     const [userProfile, setUserProfile] = useState(null);
-    const [allCourses, setAllCourses] = useState(getAllCourses('temp'));
-    const [bookmarkedCourses, setBookmarkedCourses] = useState(getBookmarkedCourses);
-    const [downloadedCourses, setDownloadedCourses] = useState(getDownloadedCourses);
+    const [bookmarkedCourses, setBookmarkedCourses] = useState([]);
+    const [ownedCourses, setOwnedCourses] = useState(null);
+
     const [theme, setTheme] = useState(getTheme() === 'light' ? themes.light : themes.dark);
     return (
+        <AuthenticationContext.Provider value={{authenState, login: login(dispatch)}}>
         <ThemeContext.Provider value={{theme, setTheme}}>
         <UserProfileContext.Provider value={{userProfile, setUserProfile}}>
             <CoursesContext.Provider
-                value={{allCourses, bookmarkedCourses, setBookmarkedCourses, downloadedCourses, setDownloadedCourses}}>
+                value={{bookmarkedCourses, setBookmarkedCourses, ownedCourses, setOwnedCourses}}>
                 <NavigationContainer>
                     <loginStack.Navigator initialRouteName={screenName.SplashScreen}
                                           screenOptions={{headerShown: false}}>
@@ -184,5 +195,6 @@ export default function App() {
             </CoursesContext.Provider>
         </UserProfileContext.Provider>
         </ThemeContext.Provider>
+        </AuthenticationContext.Provider>
     );
 }

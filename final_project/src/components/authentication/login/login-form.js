@@ -14,15 +14,15 @@ import iconEyeHide from '../../../../assets/icon/eye_hide.png';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import {screenName, color} from '../../global/constant';
 import {getUserInfo, login} from "../../../core/services/authentication-service";
-import {UserProfileContext} from "../../../../App";
+import {AuthenticationContext, UserProfileContext} from "../../../../App";
 
 const LoginForm = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [status, setStatus] = useState(null);
     const [hidePassword, setHidePass] = useState(true);
     const [icon, setIcon] = useState(iconEyeHide);
     const userProfileContext = useContext(UserProfileContext);
+    const authenContext = useContext(AuthenticationContext);
     const showHidePassword = () => {
         if (hidePassword){
             setHidePass(false);
@@ -33,23 +33,23 @@ const LoginForm = props => {
             setIcon(iconEyeHide);
         }
     }
-    const renderLoginStatus = (status) => {
-        if (!status){
+    const renderLoginStatus = (message) => {
+        if ((message === '') || (!message)){
             return <View/>
         }
-        else if (status.status === 404) {
-            return <Text style={styles.txtLoginStatus}>{status.errorString}</Text>
+        else {
+            return <Text style={styles.txtLoginStatus}>{message}</Text>
         }
     }
     useEffect(() => {
-        if (status && status.status === 200){
-            userProfileContext.setUserProfile(getUserInfo(username).userInfo);
+        if (authenContext.authenState.isAuthenticated){
+            userProfileContext.setUserProfile(authenContext.authenState.userInfo);
             props.navigator.navigate(screenName.Tab);
         }
-    }, [status])
+    }, [authenContext.authenState])
     return (
         <View style={styles.container}>
-            {renderLoginStatus(status)}
+            {renderLoginStatus(authenContext.authenState.message)}
             <View style={globalStyles.containerTxtInput}>
                 <Image source={require('../../../../assets/icon/user.png')} style={styles.symbol}/>
                 <TextInput
@@ -75,7 +75,7 @@ const LoginForm = props => {
                     />
                 </TouchableOpacity>
             </View>
-            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => setStatus(login(username, password))}/>
+            <SubmitButtonCenter name={'Login'} color={'black'} onPress={() => authenContext.login(username, password)}/>
         </View>
     );
 };

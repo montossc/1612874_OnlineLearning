@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
+    Text,
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    ScrollView, ActivityIndicator,
 } from 'react-native';
 import CourseInfo from './course-info';
 import {Icon} from 'react-native-elements';
@@ -13,204 +13,131 @@ import ViewMoreText from 'react-native-view-more-text';
 
 import LessonList from './lesson-list';
 import {screenName} from '../global/constant';
-import {CoursesContext, ThemeContext} from "../../../App";
+import {AuthenticationContext, CoursesContext, ThemeContext} from "../../../App";
 import VideoPlayer from "react-native-video-controls";
+import iteduAPI from "../../API/iteduAPI";
 
 //params: item: course
 const CourseDetail = props => {
     const themeContext = useContext(ThemeContext);
+    const authenContext = useContext(AuthenticationContext);
     const theme = themeContext.theme;
-    const course = props.route.params.item;
-    const courseInfo = {
-        name: course.name,
-        authors: [{ID:1, name: 'Joe Eames', avatar: {uri: 'https://pluralsight.imgix.net/author/lg/joe-eames-v1.jpg?w=200'}},
-            {ID: 2, name: 'Jim Cooper', avatar: {uri: 'https://pluralsight.imgix.net/author/lg/jim-cooper-v1.jpg?w=200'}}],
-        levelRequirement: course.levelRequirement,
-        releaseDate: course.releaseDate,
-        duration: course.duration,
-        star: course.star,
-        totalVote: course.totalVote,
-    };
-    const coursesContext = useContext(CoursesContext);
-    const [iconBookmarkName, setIconBookmarkName] = useState(course.bookmarked === true ? 'book' : 'bookmark');
-    const [bookmarkText, setBookmarkText] = useState(course.bookmarked === true ? 'Remove bookmark' : 'Bookmark');
-    const [iconDownloadName, setIconDownloadName] = useState(course.downloaded === true ? 'remove-from-queue' : 'cloud-download');
-    const [downloadText, setDownloadText] = useState(course.downloaded === true ? 'Remove from device' : 'Download');
+    const courseID = props.route.params.item;
 
-    const lessons = [
-        {
-            name: 'Course Overview',
-            totalTime: '2:04',
-            contentList: [{name: 'Course Overview', time: '2:04'}],
-        },
-        {
-            name: 'Getting Started with Angular',
-            totalTime: '38:45',
-            contentList: [{name: 'Introduction', time: '2:55'}, {
-                name: 'Practise Exercises',
-                time: '3:25',
-            }, {name: 'Introduction', time: '2:55'}, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}],
-        },
-        {
-            name: 'Creating and Communcating Between Angular Components',
-            totalTime: '38:45',
-            contentList: [{name: 'Introduction', time: '2:55'}, {
-                name: 'Practise Exercises',
-                time: '3:25',
-            }, {name: 'Introduction', time: '2:55'}, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}],
-        },
-        {
-            name: 'Angular Template Syntax',
-            totalTime: '38:45',
-            contentList: [{name: 'Introduction', time: '2:55'}, {
-                name: 'Practise Exercises',
-                time: '3:25',
-            }, {name: 'Introduction', time: '2:55'}, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}],
-        },
-        {
-            name: 'Creating Reusable Angular Services',
-            totalTime: '38:45',
-            contentList: [{name: 'Introduction', time: '2:55'}, {
-                name: 'Practise Exercises',
-                time: '3:25',
-            }, {name: 'Introduction', time: '2:55'}, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}, {
-                name: 'Introduction',
-                time: '2:55',
-            }, {name: 'Practise Exercises', time: '3:25'}],
-        },
-    ];
+    const [courseDetail, setCourseDetail] = useState([]);
+    const [bookmarkedStatus, setBookmarkedStatus] = useState('');
+    const [iconBookmarkName, setIconBookmarkName] = useState('');
+    const [bookmarkText, setBookmarkText] = useState('');
+    const [isLoading, setLoading] = useState(true);
+    const [isOwned, setOwn] = useState();
+    useEffect(() => {
+        iteduAPI.get(`/user/check-own-course/${courseID}`, {}, authenContext.authenState.token)
+            .then((response) => {
+                if (response.isSuccess) {
+                    if (response.data.payload.isUserOwnCourse) {
+                        setOwn(true)
+                    }
+                    else {
+                        setOwn(false)
+                    }
+                }
+            })
+        if (isOwned === true) {
+            iteduAPI.get(`/course/detail-with-lesson/${courseID}`, {}, authenContext.authenState.token)
+                .then((response) => {
+                    if (response.isSuccess) {
+                        setCourseDetail(response.data.payload);
+                    }
+                    setLoading(false);
+                });
+        }
+        else {
+            iteduAPI.get(`/course/get-course-info?id=${courseID}`, {}, authenContext.authenState.token)
+                .then((response) => {
+                    if (response.isSuccess) {
+                        setCourseDetail(response.data.payload);
+                    }
+                    setLoading(false);
+                });
+        }
+        iteduAPI.get(`/user/get-course-like-status/${courseID}`,{}, authenContext.authenState.token)
+            .then((response) => {
+                if (response.isSuccess){
+                    setBookmarkedStatus(response.data.likeStatus);
+                    if (bookmarkedStatus){
+                        setIconBookmarkName('book');
+                        setBookmarkText('Remove bookmark');
+                    }
+                    else {
+                        setIconBookmarkName('bookmark');
+                        setBookmarkText('Bookmark');
+                    }
+                }
+            });
+    }, [])
+
     const changeBookmarkStatus = () => {
-        if (course.bookmarked ===true){
-            course.bookmarked = false;
+        if (bookmarkedStatus){
+            setBookmarkedStatus(false);
+            iteduAPI.post('/user/like-course', {courseId: `${courseID}`}, authenContext.authenState.token)
+                .then()
             setIconBookmarkName('bookmark');
             setBookmarkText('Bookmark');
 
         }else {
-            course.bookmarked = true;
-            coursesContext.bookmarkedCourses.push(course);
-
+            setBookmarkedStatus(true);
+            iteduAPI.post('/user/like-course', {courseId: `${courseID}`}, authenContext.authenState.token)
+                .then()
             setIconBookmarkName('book');
             setBookmarkText('Remove bookmark');
         }
     }
 
-    const changeDownloadStatus = () => {
-        if (course.downloaded === true){
-            course.downloaded = false;
-            setIconDownloadName('cloud-download');
-            setDownloadText('Download');
-        } else {
-            course.bookmarked = true;
-            coursesContext.downloadedCourses.push(course);
-
-            setIconDownloadName('remove-from-queue');
-            setDownloadText('Remove from device');
-        }
+    if (isLoading) {
+        return <View style={{flex: 1}}>
+            <ActivityIndicator size={'large'} style={{flex: 1, alignContent: 'center'}}/>
+        </View>
     }
-
-    /*useEffect(() => {
-        for (let i = 0; i < coursesContext.bookmarkedCourses.length; i++)
-        {
-            const index = coursesContext.allCourses.findIndex(element => element.ID === coursesContext.bookmarkedCourses[i]);
-            if (index) {
-                coursesContext.allCourses[index].bookmarked = coursesContext.bookmarkedCourses[i].bookmarked;
-            }
-        }
-    }, [coursesContext.bookmarkedCourses])*/
+    else {
     return (
         <ScrollView style={{flex: 1, backgroundColor: theme.background}}>
             {/*<VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
                          navigator={props.navigation}
                          onBack={() => props.navigation.goBack()}/>*/}
             <View style={{flex: 3}}>
-                <CourseInfo item={courseInfo} navigator={props.navigation}/>
+                {console.log('course detail: ', courseDetail)}
+                <CourseInfo item={courseDetail} navigator={props.navigation}/>
                 <View style={styles.containerOptionIcon}>
                     <TouchableOpacity style={{alignItems:'center'}} onPress={changeBookmarkStatus}>
                         <Icon name={iconBookmarkName} type={'material-icons'} size={30}
                               containerStyle={styles.containerIcon}/>
                         <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{bookmarkText}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{alignItems:'center'}} onPress={changeDownloadStatus}>
-                        <Icon name={iconDownloadName} type={'material-icons'} size={30}
-                              containerStyle={styles.containerIcon}/>
-                        <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{downloadText}</Text>
-                    </TouchableOpacity>
                 </View>
                 <View style={{margin: 10}}>
                     <ViewMoreText numberOfLines={3} textStyle={globalStyles.txtItalicSmall}>
-                        <Text style={{color: theme.foreground}}>This is demo text. This is demo text. This is demo text. This is demo text. This is demo
-                            text. This is demo text. This is demo text. This is demo text. This is demo text. This is
-                            demo text. This is demo text. This is demo text. This is demo text. This is demo text. This
-                            is demo text. This is demo text. This is demo text. </Text>
+                        <Text style={{color: theme.foreground, fontWeight: 'bold'}}>Description: </Text>
+                        <Text style={{color: theme.foreground}}>{courseDetail.description} {'\n'}</Text>
+                        <Text style={{color: theme.foreground, fontWeight: 'bold'}}>Content: {'\n'}</Text>
+                        {
+                            courseDetail.learnWhat.map(content => <Text style={{color: theme.foreground}}>{content} {'\n'}</Text>)
+                        }
+                        <Text style={{color: theme.foreground, fontWeight: 'bold'}}>Requirement: {'\n'}</Text>
+                        {
+                            courseDetail.requirement.map(req => <Text style={{color: theme.foreground}}>{req} {'\n'}</Text>)
+                        }
                     </ViewMoreText>
                 </View>
-                <View style={{margin: 10}}>
+                {/*<View style={{margin: 10}}>
                     <TouchableOpacity style={styles.btnStretch} onPress={() => props.navigation.push(screenName.RelatedPathsAndCoursesScreen)}>
                         <Icon name={'flip-to-front'} type={'material-icons'}/>
                         <Text style={[globalStyles.txtDefault, {marginLeft: 10}]}>View related paths and courses</Text>
                     </TouchableOpacity>
-                </View>
-                <LessonList item={lessons}/>
+                </View>*/}
+                <LessonList item={courseDetail}/>
             </View>
         </ScrollView>
-    );
+    );}
 };
 const styles = StyleSheet.create({
     btnStretch:{

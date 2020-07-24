@@ -10,21 +10,21 @@ const CourseInfo = props => {
     const theme = themeContext.theme;
     return (
         <View style={{margin: 10}}>
-            <Text style={[styles.txtCourseName, {color: theme.foreground}]}>{props.item.name}</Text>
-            <View style={styles.containerAuthorList}>
+            <Text style={[styles.txtCourseName, {color: theme.foreground}]}>{props.item.title}</Text>
+            {/*<View style={styles.containerAuthorList}>
                 {
-                    props.item.authors.map(item =>
+                    props.item..map(item =>
                         <TouchableOpacity style={styles.containerAuthor} key={item.ID} onPress={() => props.navigator.push(screenName.AuthorDetailScreen, {item: item, navigator})}>
                             <Avatar rounded={true} size={'small'} source={item.avatar}/>
                             <Text style={[globalStyles.txtDefault, {marginLeft: 5, color: theme.foreground}]}>{item.name}</Text>
                         </TouchableOpacity>
                     )
                 }
-            </View>
+            </View>*/}
             <View style={styles.containerAuthorList}>
-                <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{props.item.levelRequirement}  .  {props.item.releaseDate}  .  {props.item.duration}</Text>
-                <Rating style={{marginLeft: 20}} readonly={true} tintColor={theme.background} imageSize={12} startingValue={props.item.star}/>
-                <Text style={[globalStyles.txtItalicSmall, {marginLeft: 5, color: theme.foreground}]}>({props.item.totalVote})</Text>
+                <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{props.item.createdAt.substr(0, 10)}    .    {props.item.totalHours} hour(s)</Text>
+                <Rating style={{marginLeft: 20}} readonly={true} tintColor={theme.background} imageSize={12} startingValue={props.item.contentPoint}/>
+                <Text style={[globalStyles.txtItalicSmall, {marginLeft: 5, color: theme.foreground}]}>({props.item.soldNumber})</Text>
             </View>
 
         </View>
