@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Avatar, Icon, Tile} from 'react-native-elements';
 import globalStyles from '../../global/styles';
@@ -6,11 +6,13 @@ import PopularSkills from './popular-skills';
 import PathSection from '../../global/mainComponents/pathSection/path-section';
 import TopAuthor from './top-author';
 import {color, screenName} from '../../global/constant';
-import {CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
+import {AuthenticationContext, CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
+import iteduAPI from "../../../API/iteduAPI";
 
 const Browse = props => {
     const userProfileContext = useContext(UserProfileContext);
-    const recommendTopics= [
+    const authenContext = useContext(AuthenticationContext);
+    /*const recommendTopics= [
         {
             name: 'CONFERENCES',
             background: {uri: 'https://images.pexels.com/photos/2305084/pexels-photo-2305084.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
@@ -42,35 +44,11 @@ const Browse = props => {
         {
             name: `MANUFACTURING AND DESIGN`,
             background:{uri:'https://images.pexels.com/photos/940019/pexels-photo-940019.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
-        }]
+        }]*/
     const temp = [];
-    const recommendPaths =[
-        {
-            name: 'Node.js Developer on Microsoft Azure',
-            thumbnail: {uri:'https://www.logitech.com/content/dam/logitech/vc/en/rightsense/logos/microsoft.png.imgo.png'},
-            courseNum: 3
-        },
-        {
-            name: 'Salesforce Certified Administrator',
-            thumbnail: {uri:'https://cdn.magenest.com/wp-content/uploads/2019/08/CRM-Salesforce-Logo-1200x840.png'},
-            courseNum: 10
-        },
-        {
-            name: 'Design Patterns in C#',
-            thumbnail: {uri:'https://st.quantrimang.com/photos/image/2019/03/11/ly-do-hoc-csharp-1.jpg'},
-            courseNum: 15
-        },
-        {
-            name: 'Building Web Application with Blazor',
-            thumbnail: {uri:'https://danpatrascu.com/wp-content/uploads/2019/05/blazorms-675x360.jpg'},
-            courseNum: 6
-        }
-    ];
-    const coursesContext = useContext(CoursesContext);
-    const courseList = coursesContext.allCourses;
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
-    const renderTopicView = () => {
+    /*const renderTopicView = () => {
         for (let i = 0; i < recommendTopics.length; i= i + 2) {
             let aboveTopic = recommendTopics[i];
             let belowTopic = recommendTopics[i+1];
@@ -97,7 +75,7 @@ const Browse = props => {
             </View>);
         }
         return temp;
-    }
+    }*/
     props.navigation.setOptions({
         headerStyle: {backgroundColor: theme.background},
         headerTitleStyle: {color: theme.foreground},
@@ -108,6 +86,25 @@ const Browse = props => {
                 <Icon containerStyle={{marginLeft: 150, marginRight: 10}} name={'settings'} type={'material-icons'} color={color.LIGHT_GRAY} onPress={() => props.navigation.navigate(screenName.SettingScreen)}/>
             </View>)
     })
+
+    const [recommendList, setRecommend] = useState([]);
+    const [newReleaseList, setNewRelease] = useState([]);
+
+    useEffect(() => {
+        iteduAPI.get(`/user/recommend-course/${authenContext.authenState.userInfo.id}/20/0`,{})
+            .then((response) => {
+                if(response.isSuccess){
+                    setRecommend(response.data.payload);
+                }
+            });
+        iteduAPI.post('/course/top-new', {limit: 20, page: 1})
+            .then((response) => {
+                if(response.isSuccess) {
+                    setNewRelease(response.data.payload);
+                }
+            })
+    }, [])
+
     return (
         <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]} showsVerticalScrollIndicator={false}>
             <Tile featured={true}
@@ -115,7 +112,7 @@ const Browse = props => {
                   title={`NEW\nRELEASE`}
                   imageSrc={require('../../../../assets/image/new_release_background.jpg')}
                   containerStyle={styles.tileContainer}
-                  onPress={() => props.navigation.push(screenName.CourseListScreen, {title: 'New Realease', outerBtn:'', item: courseList})}
+                  onPress={() => props.navigation.push(screenName.CourseListScreen, {title: 'New Release', outerBtn:'', item: newReleaseList})}
 
             />
             <Tile featured={true}
@@ -123,15 +120,15 @@ const Browse = props => {
                   title={`RECOMMENDED\nFOR YOU`}
                   imageSrc={require('../../../../assets/image/recommend_background.jpg')}
                   containerStyle={styles.tileContainer}
-                  onPress={() => props.navigation.push(screenName.CourseListScreen, {title: 'Recommend for you', outerBtn:'', item: courseList})}
+                  onPress={() => props.navigation.push(screenName.CourseListScreen, {title: 'Recommend for you', outerBtn:'', item: recommendList})}
             />
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginBottom: 10}}>
+            {/*<ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginBottom: 10}}>
             {
                 renderTopicView()
             }
-            </ScrollView>
+            </ScrollView>*/}
             <PopularSkills navigator={props.navigation}/>
-            <PathSection title={'Paths'} item={recommendPaths} navigator={props.navigation}/>
+            {/*<PathSection title={'Paths'} item={recommendPaths} navigator={props.navigation}/>*/}
             <TopAuthor navigator={props.navigation}/>
         </ScrollView>
     );

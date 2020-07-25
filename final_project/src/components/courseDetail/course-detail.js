@@ -42,24 +42,7 @@ const CourseDetail = props => {
                     }
                 }
             })
-        if (isOwned === true) {
-            iteduAPI.get(`/course/detail-with-lesson/${courseID}`, {}, authenContext.authenState.token)
-                .then((response) => {
-                    if (response.isSuccess) {
-                        setCourseDetail(response.data.payload);
-                    }
-                    setLoading(false);
-                });
-        }
-        else {
-            iteduAPI.get(`/course/get-course-info?id=${courseID}`, {}, authenContext.authenState.token)
-                .then((response) => {
-                    if (response.isSuccess) {
-                        setCourseDetail(response.data.payload);
-                    }
-                    setLoading(false);
-                });
-        }
+
         iteduAPI.get(`/user/get-course-like-status/${courseID}`,{}, authenContext.authenState.token)
             .then((response) => {
                 if (response.isSuccess){
@@ -75,6 +58,26 @@ const CourseDetail = props => {
                 }
             });
     }, [])
+    useEffect(() => {
+        if (isOwned === true) {
+            iteduAPI.get(`/course/detail-with-lesson/${courseID}`, {}, authenContext.authenState.token)
+                .then((response) => {
+                    if (response.isSuccess) {
+                        setCourseDetail(response.data.payload);
+                    }
+                    setLoading(false);
+                });
+        }
+        else if (isOwned === false) {
+            iteduAPI.get(`/course/get-course-info?id=${courseID}`, {}, authenContext.authenState.token)
+                .then((response) => {
+                    if (response.isSuccess) {
+                        setCourseDetail(response.data.payload);
+                    }
+                    setLoading(false);
+                });
+        }
+    }, [isOwned])
 
     const changeBookmarkStatus = () => {
         if (bookmarkedStatus){
@@ -105,7 +108,6 @@ const CourseDetail = props => {
                          navigator={props.navigation}
                          onBack={() => props.navigation.goBack()}/>*/}
             <View style={{flex: 3}}>
-                {console.log('course detail: ', courseDetail)}
                 <CourseInfo item={courseDetail} navigator={props.navigation}/>
                 <View style={styles.containerOptionIcon}>
                     <TouchableOpacity style={{alignItems:'center'}} onPress={changeBookmarkStatus}>

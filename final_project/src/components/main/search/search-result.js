@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {FlatList, ScrollView, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import CoursesList from '../../global/mainComponents/coursesList/courses-list';
@@ -122,3 +123,4 @@ const styles = StyleSheet.create({
     },
 });
 export default SearchResult;
+*/

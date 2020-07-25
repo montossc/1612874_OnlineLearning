@@ -21,9 +21,9 @@ const AuthorsSection = props => {
             <ScrollView style={styles.containerAuthorList} horizontal={true} showsHorizontalScrollIndicator={false}>
                 {
                     props.item.map(author =>
-                        <TouchableOpacity style={styles.containerAuthor} onPress={() => props.navigator.push(screenName.AuthorDetailScreen, {item: author})}>
-                            <Avatar rounded={true} source={author.avatar} size={'large'}/>
-                            <Text style={[globalStyle.txtDefault,{textAlign:'center', color: theme.foreground}]}>{author.name}</Text>
+                        <TouchableOpacity style={styles.containerAuthor} onPress={() => props.navigator.push(screenName.AuthorDetailScreen, {item: author.id})}>
+                            <Avatar rounded={true} source={{uri: `${author['user.avatar']}`}} size={'large'}/>
+                            <Text style={[globalStyle.txtDefault,{textAlign:'center', color: theme.foreground}]}>{author['user.name']}</Text>
                         </TouchableOpacity>)
                 }
             </ScrollView>

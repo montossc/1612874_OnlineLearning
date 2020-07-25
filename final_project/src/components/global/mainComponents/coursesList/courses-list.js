@@ -21,8 +21,8 @@ const CoursesList = props => {
     }
     return (
         <View style={[globalStyles.containerSection, {paddingHorizontal: 10, backgroundColor: theme.background, flex: 1}]}>
-            <View style={globalStyles.containerHeaderSection}>
-                <Text style={[globalStyles.txtDefault, {alignSelf: 'center', color: theme.foreground}]}>{data.title}</Text>
+            <View style={[globalStyles.containerHeaderSection, {paddingTop: 50}]}>
+                <Text style={[globalStyles.txtDefault, {alignSelf: 'center', color: theme.foreground, fontWeight: 'bold'}]}>{data.title}</Text>
                 <TouchableOpacity style={globalStyles.btnOuterSection}>
                     <Text
                         style={[globalStyles.txtItalicSmall, {textDecorationLine: 'underline', color: theme.foreground}]}>{data.outerBtn}</Text>

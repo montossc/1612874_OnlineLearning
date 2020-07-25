@@ -1,3 +1,4 @@
+/*
 import React, {useContext} from 'react';
 import CoursesList from '../../global/mainComponents/coursesList/courses-list';
 import {color, screenName} from '../../global/constant';
@@ -5,11 +6,10 @@ import {View} from 'react-native';
 import {Avatar, Icon} from 'react-native-elements';
 import {CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
 
-const Download = props => {
+const OwnedCourses = props => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
     const userProfileContext = useContext(UserProfileContext);
-    const downloadedCourses = useContext(CoursesContext).downloadedCourses;
     props.navigation.setOptions({
         headerStyle: {backgroundColor: theme.background},
         headerTitleStyle: {color: theme.foreground},
@@ -26,4 +26,5 @@ const Download = props => {
     );
 };
 
-export default Download;
+export default OwnedCourses;
+*/
