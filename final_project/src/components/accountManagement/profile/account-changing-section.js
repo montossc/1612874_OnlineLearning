@@ -12,9 +12,9 @@ const AccountChangingSection = props => {
             <TouchableOpacity style={styles.containerTxtBtn} onPress={() => props.navigator.navigate(screenName.ChangePasswordScreen)}>
                 <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Change password</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.containerTxtBtn} onPress={() => props.navigator.navigate(screenName.ChangeUsernameScreen)}>
+            {/*<TouchableOpacity style={styles.containerTxtBtn} onPress={() => props.navigator.navigate(screenName.ChangeUsernameScreen)}>
                 <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Change username</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
         </View>
     );
 };

@@ -17,9 +17,7 @@ import AuthorDetail from './src/components/authorDetail/author-detail';
 import RelatedPathsAndCourses from './src/components/courseDetail/related-paths-and-courses';
 import PathList from './src/components/global/mainComponents/pathList/path-list';
 import PathDetail from './src/components/pathDetail/path-detail';
-import SearchResult from './src/components/main/search/search-result';
 import Profile from './src/components/accountManagement/profile/profile';
-import UsernameChanging from './src/components/accountManagement/profile/accountChanging/username-changing';
 import PasswordChanging from './src/components/accountManagement/profile/accountChanging/passwordChanging';
 import Pricing from './src/components/accountManagement/profile/pricing/pricing';
 import SplashScreen from './src/components/splash-screen/splash-screen';
@@ -47,7 +45,6 @@ const homeStack = () => {
             <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}
                                 options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
-            <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
             <screenStack.Screen name={screenName.SettingScreen} component={Setting}/>
@@ -90,7 +87,6 @@ const browseStack = () => {
             <screenStack.Screen name={screenName.PathDetailScreen} component={PathDetail}
                                 options={{headerShown: false}}/>
             <screenStack.Screen name={screenName.ProfileScreen} component={Profile}/>
-            <screenStack.Screen name={screenName.ChangeUsernameScreen} component={UsernameChanging}/>
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
             <screenStack.Screen name={screenName.SettingScreen} component={Setting}/>
@@ -153,7 +149,7 @@ const tabNavigator = () => {
 };
 
 export const AuthenticationContext = createContext();
-export const UserProfileContext = createContext();
+export const UserAvatarContext = createContext();
 export const CoursesContext = createContext();
 export const ThemeContext = createContext();
 
@@ -165,15 +161,20 @@ const initAuthenState = {
 }
 export default function App() {
     const [authenState, dispatch] = useReducer(authenReducer, initAuthenState);
-    const [userProfile, setUserProfile] = useState(null);
+    const [userAvatar, setUserAvatar] = useState('');
     const [bookmarkedCourses, setBookmarkedCourses] = useState([]);
     const [ownedCourses, setOwnedCourses] = useState(null);
 
     const [theme, setTheme] = useState(getTheme() === 'light' ? themes.light : themes.dark);
+    useEffect(() => {
+        if (authenState.userInfo) {
+            setUserAvatar(authenState.userInfo.avatar)
+        }
+    }, [authenState.userInfo])
     return (
         <AuthenticationContext.Provider value={{authenState, login: login(dispatch)}}>
         <ThemeContext.Provider value={{theme, setTheme}}>
-        <UserProfileContext.Provider value={{userProfile, setUserProfile}}>
+        <UserAvatarContext.Provider value={{userAvatar, setUserAvatar}}>
             <CoursesContext.Provider
                 value={{bookmarkedCourses, setBookmarkedCourses, ownedCourses, setOwnedCourses}}>
                 <NavigationContainer>
@@ -187,7 +188,7 @@ export default function App() {
                     </loginStack.Navigator>
                 </NavigationContainer>
             </CoursesContext.Provider>
-        </UserProfileContext.Provider>
+        </UserAvatarContext.Provider>
         </ThemeContext.Provider>
         </AuthenticationContext.Provider>
     );

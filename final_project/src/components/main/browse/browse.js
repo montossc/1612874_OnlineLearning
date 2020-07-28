@@ -6,11 +6,16 @@ import PopularSkills from './popular-skills';
 import PathSection from '../../global/mainComponents/pathSection/path-section';
 import TopAuthor from './top-author';
 import {color, screenName} from '../../global/constant';
-import {AuthenticationContext, CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
+import {
+    AuthenticationContext,
+    CoursesContext,
+    ThemeContext,
+    UserAvatarContext,
+} from "../../../../App";
 import iteduAPI from "../../../API/iteduAPI";
 
 const Browse = props => {
-    const userProfileContext = useContext(UserProfileContext);
+    const userAvatarContext = useContext(UserAvatarContext);
     const authenContext = useContext(AuthenticationContext);
     /*const recommendTopics= [
         {
@@ -81,7 +86,7 @@ const Browse = props => {
         headerTitleStyle: {color: theme.foreground},
         headerRight: () => (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
+                <Avatar rounded={true} source={{uri: userAvatarContext.userAvatar}} size={'small'}
                         onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
                 <Icon containerStyle={{marginLeft: 150, marginRight: 10}} name={'settings'} type={'material-icons'} color={color.LIGHT_GRAY} onPress={() => props.navigation.navigate(screenName.SettingScreen)}/>
             </View>)

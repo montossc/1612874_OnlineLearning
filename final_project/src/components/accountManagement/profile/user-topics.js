@@ -1,3 +1,4 @@
+/*
 import React, {useContext} from 'react';
 import globalStyles from '../../global/styles';
 import {color} from '../../global/constant';
@@ -30,3 +31,4 @@ const styles = StyleSheet.create({
 
 });
 export default UserTopics;
+*/

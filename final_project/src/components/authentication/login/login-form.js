@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
-    KeyboardAvoidingView,
     TextInput,
     StyleSheet,
     Text,
@@ -13,15 +12,13 @@ import iconEyeShow from '../../../../assets/icon/eye_show.png';
 import iconEyeHide from '../../../../assets/icon/eye_hide.png';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import {screenName, color} from '../../global/constant';
-import {getUserInfo, login} from "../../../core/services/authentication-service";
-import {AuthenticationContext, UserProfileContext} from "../../../../App";
+import {AuthenticationContext} from "../../../../App";
 
 const LoginForm = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [hidePassword, setHidePass] = useState(true);
     const [icon, setIcon] = useState(iconEyeHide);
-    const userProfileContext = useContext(UserProfileContext);
     const authenContext = useContext(AuthenticationContext);
     const showHidePassword = () => {
         if (hidePassword){
@@ -43,7 +40,6 @@ const LoginForm = props => {
     }
     useEffect(() => {
         if (authenContext.authenState.isAuthenticated){
-            userProfileContext.setUserProfile(authenContext.authenState.userInfo);
             props.navigator.navigate(screenName.Tab);
         }
     }, [authenContext.authenState])
@@ -81,7 +77,7 @@ const LoginForm = props => {
 };
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-around'
     },

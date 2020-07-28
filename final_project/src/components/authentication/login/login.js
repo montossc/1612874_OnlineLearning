@@ -5,19 +5,21 @@ import AccountSection from './account-section';
 
 const Login = props => {
     return (
-        <ImageBackground style={styles.container} source={require('../../../../assets/image/background.jpg')}>
-            <Image style={styles.logo} source={require('../../../../assets/logo/background_logo.png')}/>
-            <LoginForm navigator={props.navigation}/>
-            <AccountSection navigator={props.navigation}/>
-        </ImageBackground>
+        <KeyboardAvoidingView style={styles.container} behavior={'height'}>
+            <ImageBackground style={styles.container} source={require('../../../../assets/image/background.jpg')}>
+                <Image style={styles.logo} source={require('../../../../assets/logo/background_logo.png')}/>
+                <LoginForm navigator={props.navigation}/>
+                <AccountSection navigator={props.navigation}/>
+            </ImageBackground>
+        </KeyboardAvoidingView>
     );
 };
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
     },
-    logo:{
-        flex: 1,
+    logo: {
+        // flex: 1,
         alignSelf: 'center'
     }
 })

@@ -4,54 +4,50 @@ import {
     KeyboardAvoidingView,
     Text,
     StyleSheet,
-    View, TouchableOpacity, Alert,
+    View, TouchableOpacity, Alert, ScrollView,
 } from 'react-native';
 import globalStyles from '../../../global/styles';
 import SubmitButtonCenter from '../../../global/commonComponent/submit-button-center';
-import {ThemeContext, UserProfileContext} from "../../../../../App";
+import {AuthenticationContext, ThemeContext, UserProfileContext} from "../../../../../App";
 import {color} from "../../../global/constant";
+import iteduAPI from "../../../../API/iteduAPI";
 
 const PasswordChanging = () => {
-    const userProfileContext = useContext(UserProfileContext);
     const [curPass, setCurPass] = useState('');
     const [newPass, setNewPass] = useState('');
     const [conPass, setConPass] = useState('');
-    const  [status, setStatus] = useState(null);
-    const changePasswordButton = () => {
-        if (curPass === '' || newPass === '' || conPass === ''){
-            setStatus({status: 404, errorString: 'Please input at 3 box below!'})
-        }
-        else if (curPass !== userProfileContext.userProfile.password){
-            setStatus({status: 404, errorString: 'Current password is wrong!'})
-        } else if (newPass !== conPass){
-            setStatus({status: 404, errorString: 'New passsword and confirm are not match!'})
-        }
-        else{
-            setStatus({status: 200})
-        }
-    }
-    const renderErrorWarning = (status) => {
-        console.log({status});
-            if (!status){
-                return <View/>
-            }
-            else if (status.status === 404) {
-                return <Text style={styles.txtWarningStatus}>{status.errorString}</Text>
-            }
+    const [mess, setMess] = useState('')
+    const authenContext = useContext(AuthenticationContext)
 
-    }
-    useEffect(() => {
-        if (status && status.status == 200){
-            const temp = userProfileContext.userProfile;
-            temp.password = newPass;
-            userProfileContext.setUserProfile(temp);
-            Alert.alert('Password update', 'Updated!');
+    const changePasswordButton = () => {
+        const validPassword = (/^.{8,20}$/).test(newPass); //pass phai co 8-20 ki tu
+        if (validPassword === false) {
+            setMess('New password must have 8 - 20 characters')
         }
-    }, [status]);
+        else if (newPass !== conPass) {
+            setMess('New password and confirm password do not match')
+        }
+        else {
+            iteduAPI.post('/user/change-password', {
+                id: authenContext.authenState.userInfo.id,
+                oldPass: curPass,
+                newPass: newPass
+            }, authenContext.authenState.token)
+                .then((response) => {
+                    //console.log('change pass res: ', response)
+                    if (response.isSuccess) {
+                        setMess('Change password successfully!')
+                    } else {
+                        setMess('Current password is not correct! Please try again...')
+                    }
+                })
+        }
+    }
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
     return (
-        <KeyboardAvoidingView behavior={'height'} style={[styles.container, {backgroundColor: theme.background, flex: 1}]}>
+        <KeyboardAvoidingView behavior={'height'} style={[styles.container, {backgroundColor: theme.background}]}>
+            <ScrollView style={{marginTop: 20}}>
             <View style={styles.block}>
                 <Text style={[styles.txt, {color: theme.foreground}]}>Current password</Text>
                 <TextInput style={[globalStyles.containerTxtInput, {color: theme.foreground}]}
@@ -76,16 +72,16 @@ const PasswordChanging = () => {
                             defaultValue={conPass}
                             onChangeText={text => setConPass(text)}></TextInput>
             </View>
-            {renderErrorWarning(status)}
+            <Text style={styles.txtWarningStatus}>{mess}</Text>
             <View style={styles.containerBtn}>
                 <SubmitButtonCenter name={'Update'} color={theme.foreground} onPress={changePasswordButton}/>
             </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 };
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center'
     },
     txt: {

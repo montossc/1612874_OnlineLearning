@@ -41,6 +41,11 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupnpm">
+      <scroll-view-position x="0" y="0" />
+    </layout>
+  </component>
   <component name="ProjectId" id="1d4IwE6yXlM79C7vEy1q8oGu6AC" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -52,6 +57,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/accountManagement" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -79,7 +85,11 @@
       <workItem from="1595392697181" duration="25365000" />
       <workItem from="1595563164636" duration="34155000" />
       <workItem from="1595651180871" duration="8075000" />
-      <workItem from="1595670926721" duration="7560000" />
+      <workItem from="1595670926721" duration="16429000" />
+      <workItem from="1595689777432" duration="710000" />
+      <workItem from="1595737122865" duration="14731000" />
+      <workItem from="1595823204130" duration="14479000" />
+      <workItem from="1595908703133" duration="19161000" />
     </task>
     <servers />
   </component>
@@ -99,10 +109,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595576031378">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595828578708">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595576031378" />
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595828578708" />
     <state x="740" y="261" key="FileChooserDialogImpl" timestamp="1592040907639">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -111,9 +121,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="667" y="224" width="585" height="592" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591770696945" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1591934471521">
+    <state x="826" y="386" width="250" height="278" key="jetbrains.javascript.buildTools.run-task-popup" timestamp="1595922656609">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591934471521" />
+    <state x="826" y="386" width="250" height="278" key="jetbrains.javascript.buildTools.run-task-popup/0.0.1920.1040@0.0.1920.1040" timestamp="1595922656609" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1595747590137">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1595747590137" />
   </component>
 </project>

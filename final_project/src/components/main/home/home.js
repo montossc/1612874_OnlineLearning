@@ -4,11 +4,16 @@ import globalStyles from '../../global/styles';
 import CoursesSection from '../../global/mainComponents/coursesSection/courses-section'
 import {Avatar, Icon} from 'react-native-elements';
 import {color, screenName} from '../../global/constant';
-import {AuthenticationContext, CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
+import {
+    AuthenticationContext,
+    CoursesContext,
+    ThemeContext,
+    UserAvatarContext,
+} from "../../../../App";
 import iteduAPI from "../../../API/iteduAPI";
 
 const Home = props => {
-    const userProfileContext = useContext(UserProfileContext);
+    const userAvatarContext = useContext(UserAvatarContext);
     const coursesContext = useContext(CoursesContext);
     const themeContext = useContext(ThemeContext);
     const authenContext = useContext(AuthenticationContext);
@@ -25,7 +30,6 @@ const Home = props => {
         iteduAPI.get('/user/get-favorite-courses', {}, authenContext.authenState.token)
             .then((response) => {
                 if (response.isSuccess) {
-
                     coursesContext.setBookmarkedCourses(response.data.payload);
                 }
             });
@@ -49,10 +53,11 @@ const Home = props => {
                     setProcessingCourses(response.data.payload);
                 }
             })
-        if ((coursesContext.bookmarkedCourses != []) && (topSellCourses != []) && (topRatedCourses != []) && (processingCourses != [])){
-            setLoading(false);
-        }
     }, [])
+    useEffect(() => {
+        if ((topSellCourses !== []) && (topRatedCourses !== [])){
+        setLoading(false);
+    }}, [topSellCourses, topRatedCourses])
 
     const recommendFields = [
         {
@@ -80,7 +85,7 @@ const Home = props => {
         headerTitleStyle: {color: theme.foreground},
         headerRight: () => (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Avatar rounded={true} source={userProfileContext.userProfile.avatar} size={'small'}
+                <Avatar rounded={true} source={{uri: userAvatarContext.userAvatar}} size={'small'}
                         onPress={() => props.navigation.navigate(screenName.ProfileScreen)}/>
                 <Icon containerStyle={{marginLeft: 150, marginRight: 10}} name={'settings'} type={'material-icons'} color={color.LIGHT_GRAY} onPress={() => props.navigation.navigate(screenName.SettingScreen)}/>
             </View>)

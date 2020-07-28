@@ -7,7 +7,7 @@ import {color, screenName} from '../../constant';
 //props: item: course
 const CoursesSectionItem = props => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => props.navigator.push(screenName.CourseDetailScreen, {item: props.item.id})}>
+        <TouchableOpacity style={styles.container} onPress={() => props.navigator.push(screenName.CourseDetailScreen, {item: props.item.id, navigator: props.navigator})}>
             {
                 (props.item.imageUrl) ?
                     <Image style={{flex: 1}} source={{uri: props.item.imageUrl}}/> :

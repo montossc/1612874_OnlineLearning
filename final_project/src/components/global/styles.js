@@ -14,7 +14,8 @@ export default StyleSheet.create({
         borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingLeft: 20
+        paddingLeft: 20,
+        marginVertical: 10
     },
     containerTextButton:{
         borderBottomWidth: 1,

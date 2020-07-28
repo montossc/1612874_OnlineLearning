@@ -14,6 +14,12 @@ import {ThemeContext} from "../../../../../App";
 const CoursesSection = props => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
+    const isEmpty = (props.item.length === 0);
+
+    if (isEmpty === true) {
+        return(<View></View>);
+    }
+    else {
     return (
         <View style={globalStyles.containerSection}>
             <View style={globalStyles.containerHeaderSection}>
@@ -29,6 +35,7 @@ const CoursesSection = props => {
             </ScrollView>
         </View>
     );
+    }
 };
 
 export default CoursesSection;

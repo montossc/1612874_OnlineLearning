@@ -13,54 +13,71 @@ import {Avatar, Icon} from 'react-native-elements';
 import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
 import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
 import {screenName} from '../../global/constant';
-import {ThemeContext, UserProfileContext} from "../../../../App";
+import {AuthenticationContext, ThemeContext, UserAvatarContext, UserProfileContext} from "../../../../App";
+import iteduAPI from "../../../API/iteduAPI";
 
 const Profile = props => {
-    const userProfileContext = useContext(UserProfileContext);
+    const authenContext = useContext(AuthenticationContext);
+    const userAvatarContext = useContext(UserAvatarContext);
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
-    const followingAuthors = [
-        {
-            name: 'Deborah Kurata',
-            avatar: {uri: 'https://avatars2.githubusercontent.com/u/7987365?s=460&v=4'}
-        },
-        {
-            name: 'Scott Allen',
-            avatar: {uri: 'https://pluralsight.imgix.net/author/lg/44cb43b3-83e4-4458-9b39-a7ded3411616.jpg'}
-        }];
-    const [userFullname, setUserFullname] = useState(userProfileContext.userProfile.fullname);
-    const [avatar, setAvatar] = useState(userProfileContext.userProfile.avatar);
+
+    const [userInfo, setUserInfo] = useState();
+    const [userFullname, setUserFullname] = useState('');
+    const [avatar, setAvatar] = useState('');
     const [canEdit, setCanEdit] = useState(false);
     const setEditableFullname = () => {
         setCanEdit(!canEdit);
     };
 
     useEffect(() => {
-        const userProfileTemp = userProfileContext.userProfile;
-        userProfileTemp.avatar = avatar;
-        userProfileTemp.fullname = userFullname;
-        userProfileContext.setUserProfile(userProfileTemp);
+        iteduAPI.get('/user/me', {}, authenContext.authenState.token)
+            .then((response) => {
+                if(response.isSuccess){
+                    setUserInfo(response.data.payload);
+                }
+            })
+    }, [])
+    useEffect(() => {
+        if (userInfo) {
+            setUserFullname(userInfo.name);
+            setAvatar(userInfo.avatar);
+        }
+    }, [userInfo])
+    useEffect(() => {
+        if ((userFullname !== '') && (avatar !== ''))
+        iteduAPI.put('/user/update-profile', {name: userFullname, avatar: avatar, phone: authenContext.authenState.userInfo.phone}, authenContext.authenState.token)
+            .then((response) => {
+                if (response.isSuccess){
+                    console.log('profile, doi thanh cong')
+                    userAvatarContext.setUserAvatar(avatar);
+                }
+            })
     }, [userFullname, avatar])
     return (
         <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]}>
             <View style={[styles.infoArea, {borderColor: theme.foreground}]}>
-                <Avatar source={avatar} size={'large'} rounded={true}/>
+                <Avatar source={{uri: avatar}} size={'large'} rounded={true}/>
                 <TextInput style={[styles.txtFullname, {color: theme.foreground}]}
                            editable={canEdit}
                            maxLenght={25}
                            value={userFullname}
-                           onChageText={text => setUserFullname(text)}
+                           onChageText={ (text) => {setUserFullname(text)}}
                            onEndEditing={setEditableFullname}
 
                 />
-                <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname} color={theme.foreground}/>
+                {
+                    (!canEdit) ?
+                    <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname} color={theme.foreground}/> :
+                        <View></View>
+                }
             </View>
             <AccountChangingSection navigator={props.navigation}/>
-            <SubscriptionInfo item={userProfileContext.userProfile.subscription} navigator={props.navigation}/>
-            <UserTopics item={userProfileContext.userProfile.topics} navigator={props.navigation}/>
-            <View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
+            {/*<SubscriptionInfo item={userProfileContext.userProfile.subscription} navigator={props.navigation}/>*/}
+            {/*<UserTopics navigator={props.navigation}/>*/}
+            {/*<View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
                 <AuthorsSection title={'Following'} item={followingAuthors} navigator={props.navigation}/>
-            </View>
+            </View>*/}
             <View style={styles.containerBtnLogout}>
             <SubmitButtonCenter name={'Logout'} color={theme.foreground} onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>
             </View>

@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
     Text,
     View,
     StyleSheet,
     TouchableOpacity,
-    ScrollView, ActivityIndicator,
+    ScrollView, ActivityIndicator, Dimensions, Image
 } from 'react-native';
 import CourseInfo from './course-info';
 import {Icon} from 'react-native-elements';
@@ -16,6 +16,9 @@ import {screenName} from '../global/constant';
 import {AuthenticationContext, CoursesContext, ThemeContext} from "../../../App";
 import VideoPlayer from "react-native-video-controls";
 import iteduAPI from "../../API/iteduAPI";
+import {Video} from "expo-av";
+import YoutubePlayer from 'react-native-youtube-iframe';
+import getYouTubeID from 'get-youtube-id';
 
 //params: item: course
 const CourseDetail = props => {
@@ -23,13 +26,16 @@ const CourseDetail = props => {
     const authenContext = useContext(AuthenticationContext);
     const theme = themeContext.theme;
     const courseID = props.route.params.item;
-
     const [courseDetail, setCourseDetail] = useState([]);
     const [bookmarkedStatus, setBookmarkedStatus] = useState('');
     const [iconBookmarkName, setIconBookmarkName] = useState('');
     const [bookmarkText, setBookmarkText] = useState('');
     const [isLoading, setLoading] = useState(true);
     const [isOwned, setOwn] = useState();
+    const [video, setVideo] = useState([]);
+    const [showVideo,setShowVideo] = useState(false)
+    const [isYoutube, setYoutube] = useState(false)
+    //const [videoRef] = useRef();
     useEffect(() => {
         iteduAPI.get(`/user/check-own-course/${courseID}`, {}, authenContext.authenState.token)
             .then((response) => {
@@ -96,6 +102,13 @@ const CourseDetail = props => {
         }
     }
 
+    useEffect(()=>{
+        if((video.videoUrl !== '')&&(video.videoUrl !== undefined)&&(video.videoUrl !== null)){
+            setShowVideo(true);
+            setYoutube(video.videoUrl.includes('youtu'))
+        }
+    },[video])
+
     if (isLoading) {
         return <View style={{flex: 1}}>
             <ActivityIndicator size={'large'} style={{flex: 1, alignContent: 'center'}}/>
@@ -103,11 +116,26 @@ const CourseDetail = props => {
     }
     else {
     return (
-        <ScrollView style={{flex: 1, backgroundColor: theme.background}}>
-            {/*<VideoPlayer source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
-                         navigator={props.navigation}
-                         onBack={() => props.navigation.goBack()}/>*/}
-            <View style={{flex: 3}}>
+        <View style={{flex: 1, backgroundColor: theme.background}}>
+            {
+                (showVideo === false) ?
+                    <Image source={{uri: courseDetail.imageUrl}} style={{width: Dimensions.get('window').width, height: 300}} resizeMode={'contain'}/> :
+                    (isYoutube) ?
+                        <YoutubePlayer height={300}
+                                       width={Dimensions.get('window').width}
+                                       videoId={getYouTubeID(video.videoUrl)}
+                                       play={true}
+                                       /> :
+                        <Video source={{uri: video.videoUrl}} rate={1.0}
+                           volume={1.0}
+                           isMuted={false}
+                           resizeMode="cover"
+                           shouldPlay
+                           isLooping
+                           style={{width: Dimensions.get('window').width, height: 300}}
+                           useNativeControls={true}/>
+            }
+            <ScrollView  style={{flex: 3}}>
                 <CourseInfo item={courseDetail} navigator={props.navigation}/>
                 <View style={styles.containerOptionIcon}>
                     <TouchableOpacity style={{alignItems:'center'}} onPress={changeBookmarkStatus}>
@@ -136,9 +164,9 @@ const CourseDetail = props => {
                         <Text style={[globalStyles.txtDefault, {marginLeft: 10}]}>View related paths and courses</Text>
                     </TouchableOpacity>
                 </View>*/}
-                <LessonList item={courseDetail}/>
-            </View>
-        </ScrollView>
+                <LessonList item={courseDetail} setVideo={setVideo} navigator={props.route.params.navigator}/>
+            </ScrollView>
+        </View>
     );}
 };
 const styles = StyleSheet.create({

@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 25,
-        borderWidth: 2
+        borderWidth: 2,
+        marginVertical: 20
     },
     txtBtnSubmit: {
         fontSize: 15,
