@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native'
-import globalStyles from '../../global/styles';
+import globalStyles from '../../../globalVariables/styles';
 import {ThemeContext} from "../../../../App";
 import {Switch, Text, View} from "react-native";
-import {color, themes} from "../../global/constant";
+import {color, themes} from "../../../globalVariables/constant";
 
 const Setting = props => {
     const themeContext = useContext(ThemeContext);

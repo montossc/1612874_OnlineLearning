@@ -1,13 +1,16 @@
 import React, {useContext} from 'react';
 import {FlatList, Text, View, StyleSheet, TouchableOpacity, Linking} from 'react-native';
-import globalStyles from '../global/styles';
-import {ButtonGroup} from 'react-native-elements';
-import {AuthenticationContext, ThemeContext} from "../../../App";
-import SubmitButtonCenter from "../global/commonComponent/submit-button-center";
-import {color, screenName} from "../global/constant";
-import iteduAPI from "../../API/iteduAPI";
 
-const LessonList = props => {
+import {ButtonGroup} from 'react-native-elements';
+
+import globalStyles from '../../globalVariables/styles';
+import {AuthenticationContext, ThemeContext} from "../../../App";
+import SubmitButtonCenter from "../commonComponents/submit-button-center";
+import {color, screenName} from "../../globalVariables/constant";
+import iteduAPI from "../../API/iteduAPI";
+import {getLessonVideo} from "../../core/services/lesson-service";
+
+const LessonList = (props) => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
     const sections = props.item.section;
@@ -15,12 +18,7 @@ const LessonList = props => {
     const authenContext = useContext(AuthenticationContext);
 
     const onPressLesson = (content) => {
-        iteduAPI.get(`/lesson/video/${props.item.id}/${content.id}`, {}, authenContext.authenState.token)
-            .then((response) => {
-                if (response.isSuccess){
-                    props.setVideo(response.data.payload)
-                }
-            })
+        getLessonVideo(props.item.id, content.id, authenContext.authenState.token).then(props.setVideo)
     }
     const coursePayment = () => {
         if (coursePrice === 0) {

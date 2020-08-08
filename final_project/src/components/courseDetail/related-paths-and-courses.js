@@ -1,8 +1,7 @@
 import React from 'react';
-import PathList from '../global/mainComponents/pathList/path-list';
-import CoursesList from '../global/mainComponents/coursesList/courses-list';
+import CoursesList from '../mainComponents/coursesList/courses-list';
 import {ScrollView} from 'react-native';
-import globalStyles from '../global/styles';
+import globalStyles from '../../globalVariables/styles';
 
 const RelatedPathsAndCourses = props => {
     const relaPaths = [
@@ -75,7 +74,6 @@ const RelatedPathsAndCourses = props => {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={globalStyles.container}>
-        <PathList title={'Paths'} outerBtn={''} item={relaPaths} navigation={props.navigation}/>
         <CoursesList title={'Courses'} outerBtn={''} item={relaCourses} navigator={props.navigation}/>
         </ScrollView>
     );

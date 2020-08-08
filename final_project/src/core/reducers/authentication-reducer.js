@@ -1,4 +1,4 @@
-import {LOGIN_ERROR, LOGIN_FAILED, LOGIN_SUCCESS} from "../core/services/authentication-service";
+import {LOGIN_ERROR, LOGIN_FAILED, LOGIN_SUCCESS} from "../services/authentication-service";
 
 
 export const authenReducer = (prevState, action) => {

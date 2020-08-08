@@ -5,14 +5,14 @@ import {
     TouchableOpacity,
     TextInput, Text, ScrollView,
 } from 'react-native';
-import globalStyles from '../../global/styles';
+import globalStyles from '../../../globalVariables/styles';
 import AccountChangingSection from './account-changing-section';
 import UserTopics from './user-topics';
 import SubscriptionInfo from './subscription-info';
 import {Avatar, Icon} from 'react-native-elements';
-import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
-import AuthorsSection from '../../global/mainComponents/authorsSection/authors-section';
-import {screenName} from '../../global/constant';
+import SubmitButtonCenter from '../../commonComponents/submit-button-center';
+import AuthorsSection from '../../mainComponents/authorsSection/authors-section';
+import {screenName} from '../../../globalVariables/constant';
 import {AuthenticationContext, ThemeContext, UserAvatarContext, UserProfileContext} from "../../../../App";
 import iteduAPI from "../../../API/iteduAPI";
 
@@ -73,10 +73,10 @@ const Profile = props => {
                 }
             </View>
             <AccountChangingSection navigator={props.navigation}/>
-            {/*<SubscriptionInfo item={userProfileContext.userProfile.subscription} navigator={props.navigation}/>*/}
-            {/*<UserTopics navigator={props.navigation}/>*/}
+            {/*<SubscriptionInfo item={userProfileContext.userProfile.subscription} navigators={props.navigation}/>*/}
+            {/*<UserTopics navigators={props.navigation}/>*/}
             {/*<View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
-                <AuthorsSection title={'Following'} item={followingAuthors} navigator={props.navigation}/>
+                <AuthorsSection title={'Following'} item={followingAuthors} navigators={props.navigation}/>
             </View>*/}
             <View style={styles.containerBtnLogout}>
             <SubmitButtonCenter name={'Logout'} color={theme.foreground} onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>

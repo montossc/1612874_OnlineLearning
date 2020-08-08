@@ -1,13 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ScrollView, View, StyleSheet, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
-import globalStyles from '../global/styles'
+import {ScrollView, View, StyleSheet, Text, ActivityIndicator} from 'react-native';
+
 import {Avatar, SocialIcon} from 'react-native-elements';
-import {color} from '../global/constant';
 import ViewMoreText from 'react-native-view-more-text';
+
+import globalStyles from '../../globalVariables/styles'
+import {color} from '../../globalVariables/constant';
 import {ThemeContext} from "../../../App";
-import iteduAPI from "../../API/iteduAPI";
-import CoursesSection from "../global/mainComponents/coursesSection/courses-section";
-//params: item: author, navigator
+import CoursesSection from "../mainComponents/coursesSection/courses-section";
+import {getAuthorDetail} from "../../core/services/author-service";
+
+//params: item: author, navigators
 const AuthorDetail = props => {
     const authorProp = props.route.params.item;
     const themeContext = useContext(ThemeContext);
@@ -15,24 +18,20 @@ const AuthorDetail = props => {
     const [author, setAuthor] = useState();
     const [isLoadding, setLoading] = useState(true);
     useEffect(() => {
-        iteduAPI.get(`/instructor/detail/${authorProp.id}`)
-            .then((response) => {
-                if (response.isSuccess) {
-                    setAuthor(response.data.payload)
-                }
-            })
-        iteduAPI.get(`/instructor/detail/${authorProp['user.id']}`)
-            .then((response) => {
-                if (response.isSuccess) {
-                    setAuthor(response.data.payload)
-                }
-            })
+        getAuthorDetail(authorProp.id).then((res) => {
+            if (res.loading === false) {
+                setAuthor(res.data)
+                setLoading(res.loading);
+            }
+        })
+        getAuthorDetail(authorProp['user.id']).then((res) => {
+            if (res.loading === false) {
+                setAuthor(res.data)
+                setLoading(res.loading)
+            }
+        })
     },[])
-    useEffect(() => {
-        if (author) {
-            setLoading(false);
-        }
-    }, [author])
+
     if (isLoadding === true) {
         return <View style={{flex: 1}}>
             <ActivityIndicator size={'large'} style={{flex: 1, alignContent: 'center'}}/>
@@ -59,7 +58,7 @@ const AuthorDetail = props => {
                     }
                     </ViewMoreText>
                 </View>
-                <CoursesSection title={"Author's courses"} item={author.courses} navigator={props.route.params.navigator}/>
+                <CoursesSection title={"Author's courses"} courses={author.courses} navigator={props.route.params.navigator}/>
                 {/*<View style={styles.containerIconList}>
                 <SocialIcon type={'twitter'} light={true} iconSize={24}/>
                 <SocialIcon type={'facebook'} light={true} iconSize={24}/>

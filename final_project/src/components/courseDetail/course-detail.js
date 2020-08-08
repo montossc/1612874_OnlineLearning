@@ -6,19 +6,19 @@ import {
     TouchableOpacity,
     ScrollView, ActivityIndicator, Dimensions, Image
 } from 'react-native';
-import CourseInfo from './course-info';
-import {Icon} from 'react-native-elements';
-import globalStyles from '../global/styles';
-import ViewMoreText from 'react-native-view-more-text';
 
-import LessonList from './lesson-list';
-import {screenName} from '../global/constant';
-import {AuthenticationContext, CoursesContext, ThemeContext} from "../../../App";
-import VideoPlayer from "react-native-video-controls";
-import iteduAPI from "../../API/iteduAPI";
-import {Video} from "expo-av";
+import {Icon} from 'react-native-elements';
+import ViewMoreText from 'react-native-view-more-text';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import getYouTubeID from 'get-youtube-id';
+import {Video} from "expo-av";
+
+import CourseInfo from './course-info';
+import globalStyles from '../../globalVariables/styles';
+import LessonList from './lesson-list';
+import {AuthenticationContext, ThemeContext} from "../../../App";
+import iteduAPI from "../../API/iteduAPI";
+import {checkOwnedCourse, getCourseDetail, getCourseLikedStatus} from "../../core/services/courses-service";
 
 //params: item: course
 const CourseDetail = props => {
@@ -37,53 +37,34 @@ const CourseDetail = props => {
     const [isYoutube, setYoutube] = useState(false)
     //const [videoRef] = useRef();
     useEffect(() => {
-        iteduAPI.get(`/user/check-own-course/${courseID}`, {}, authenContext.authenState.token)
-            .then((response) => {
-                if (response.isSuccess) {
-                    if (response.data.payload.isUserOwnCourse) {
-                        setOwn(true)
-                    }
-                    else {
-                        setOwn(false)
-                    }
-                }
-            })
-
-        iteduAPI.get(`/user/get-course-like-status/${courseID}`,{}, authenContext.authenState.token)
-            .then((response) => {
-                if (response.isSuccess){
-                    setBookmarkedStatus(response.data.likeStatus);
-                    if (bookmarkedStatus){
-                        setIconBookmarkName('book');
-                        setBookmarkText('Remove bookmark');
-                    }
-                    else {
-                        setIconBookmarkName('bookmark');
-                        setBookmarkText('Bookmark');
-                    }
-                }
-            });
+        checkOwnedCourse(courseID, authenContext.authenState.token).then(setOwn)
+        getCourseLikedStatus(courseID, authenContext.authenState.token).then(setBookmarkedStatus)
     }, [])
+
     useEffect(() => {
-        if (isOwned === true) {
-            iteduAPI.get(`/course/detail-with-lesson/${courseID}`, {}, authenContext.authenState.token)
-                .then((response) => {
-                    if (response.isSuccess) {
-                        setCourseDetail(response.data.payload);
-                    }
-                    setLoading(false);
-                });
+        if (bookmarkedStatus){
+            setIconBookmarkName('book');
+            setBookmarkText('Remove bookmark');
         }
-        else if (isOwned === false) {
-            iteduAPI.get(`/course/get-course-info?id=${courseID}`, {}, authenContext.authenState.token)
-                .then((response) => {
-                    if (response.isSuccess) {
-                        setCourseDetail(response.data.payload);
-                    }
-                    setLoading(false);
-                });
+        else {
+            setIconBookmarkName('bookmark');
+            setBookmarkText('Bookmark');
         }
+    }, [bookmarkedStatus])
+
+    useEffect(() => {
+        getCourseDetail(isOwned, courseID, authenContext.authenState.token).then((res) => {
+            setCourseDetail(res.data)
+            setLoading(res.loading)
+        })
     }, [isOwned])
+
+    useEffect(()=>{
+        if((video.videoUrl !== '')&&(video.videoUrl !== undefined)&&(video.videoUrl !== null)){
+            setShowVideo(true);
+            setYoutube(video.videoUrl.includes('youtu'))
+        }
+    },[video])
 
     const changeBookmarkStatus = () => {
         if (bookmarkedStatus){
@@ -101,13 +82,6 @@ const CourseDetail = props => {
             setBookmarkText('Remove bookmark');
         }
     }
-
-    useEffect(()=>{
-        if((video.videoUrl !== '')&&(video.videoUrl !== undefined)&&(video.videoUrl !== null)){
-            setShowVideo(true);
-            setYoutube(video.videoUrl.includes('youtu'))
-        }
-    },[video])
 
     if (isLoading) {
         return <View style={{flex: 1}}>
@@ -136,7 +110,7 @@ const CourseDetail = props => {
                            useNativeControls={true}/>
             }
             <ScrollView  style={{flex: 3}}>
-                <CourseInfo item={courseDetail} navigator={props.navigation}/>
+                <CourseInfo courseDetail={courseDetail} navigator={props.navigation}/>
                 <View style={styles.containerOptionIcon}>
                     <TouchableOpacity style={{alignItems:'center'}} onPress={changeBookmarkStatus}>
                         <Icon name={iconBookmarkName} type={'material-icons'} size={30}

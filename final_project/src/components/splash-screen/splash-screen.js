@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import globalStyles from '../global/styles';
+
+import globalStyles from '../../globalVariables/styles';
 import {Image, Text, View, StyleSheet} from 'react-native';
-import {screenName} from '../global/constant';
+import {screenName} from '../../globalVariables/constant';
 
 class SplashScreen extends Component {
     constructor(props) {

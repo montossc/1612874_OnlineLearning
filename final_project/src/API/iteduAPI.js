@@ -3,7 +3,7 @@ import axios from "axios";
 class IteduAPI{
     baseMethod = async (method, pathName, body, authToken) =>  {
         const headers = authToken ? {Authorization: `Bearer ${authToken}`} : null
-        return axios({
+        return await axios({
             method,
             url: `https://api.itedu.me${pathName}`,
             data: body,

@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
-import globalStyle from '../../global/styles';
-import TopicButton from '../../global/commonComponent/topic-button';
-import {color} from '../../global/constant';
+import globalStyle from '../../../globalVariables/styles';
+import TopicButton from '../../commonComponents/topic-button';
+import {color} from '../../../globalVariables/constant';
 import {ThemeContext} from "../../../../App";
 import iteduAPI from "../../../API/iteduAPI";
+import {getCategories} from "../../../core/services/category-service";
 
 
 const PopularSkills = props => {
@@ -14,16 +15,11 @@ const PopularSkills = props => {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        iteduAPI.get('/category/all', {})
-            .then((response) => {
-                if(response.isSuccess){
-                    setCategoryList(response.data.payload);
-                }
-            })
-        if (categoryList != []){
-            setLoading(false);
-        }
-    })
+       getCategories().then((res) => {
+           setCategoryList(res.data)
+           setLoading(res.loading)
+       })
+    },[])
     if (isLoading) {
         return <View style={{flex: 1}}>
             <ActivityIndicator size={'large'} style={{flex: 1, alignContent: 'center'}}/>

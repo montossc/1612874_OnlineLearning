@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {screenName} from '../constant';
-import iteduAPI from "../../../API/iteduAPI";
+import {screenName} from '../../globalVariables/constant';
+import iteduAPI from "../../API/iteduAPI";
 
 //props: name, color
 const TopicButton = props => {

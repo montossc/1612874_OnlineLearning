@@ -1,18 +1,15 @@
 import React, {useState} from 'react';
 import {
-    Dimensions,
     ImageBackground,
-    KeyboardAvoidingView,
     StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity, View,
+    Text, View,
 } from 'react-native';
-import globalStyles from '../../global/styles';
-import SubmitButtonCenter from '../../global/commonComponent/submit-button-center';
-import {Icon} from "react-native-elements";
-import iteduAPI from "../../../API/iteduAPI";
-import {color} from "../../global/constant";
+
+import globalStyles from '../../../globalVariables/styles';
+import SubmitButtonCenter from '../../commonComponents/submit-button-center';
+import {color} from "../../../globalVariables/constant";
+import InputBox from "../../commonComponents/input-box";
+import {forgotPassCommand} from "../../../core/services/account-service";
 
 const PasswordRecovery = () => {
     const [email, setEmail] = useState('')
@@ -20,16 +17,10 @@ const PasswordRecovery = () => {
     const [errorMess, setErrorMess] = useState('')
 
     const onPressSendEmail = () => {
-        iteduAPI.post('/user/forget-pass/send-email', {email: email})
-            .then((res) => {
-                if (res.isSuccess) {
-                    setResetSuccess(true);
-                    setErrorMess('');
-                }
-                else {
-                    setErrorMess('The e-mail does not exist in our system. Please try again!')
-                }
-            })
+        forgotPassCommand(email).then((res) => {
+            setResetSuccess(res.isSuccess)
+            setErrorMess(res.message)
+        })
     }
     const renderView = () => {
         if (resetSuccess === false) {
@@ -38,14 +29,8 @@ const PasswordRecovery = () => {
                         <Text style={styles.txtRegStatus}>{errorMess}</Text>
                         <Text style={globalStyles.txtDefault}>Enter your email address and we'll send you a link
                             to reset your password</Text>
-                        <View style={globalStyles.containerTxtInput}>
-                            <TextInput
-                                style={styles.txtInput}
-                                placeholder="E-mail"
-                                onChangeText={email => setEmail(email)}
-                                value={email}
-                            />
-                        </View>
+                        <InputBox placeholder={"E-mail"} changeTextEvent={email => setEmail(email)} value={email}
+                                  iconName={'email'} iconType={'material-icons'} />
                     <View style={styles.containerBtn}>
                         <SubmitButtonCenter name={'Send email'} color={'black'} onPress={onPressSendEmail}/>
                     </View>
@@ -60,7 +45,6 @@ const PasswordRecovery = () => {
         }
     }
     return (
-
         <ImageBackground style={styles.container} source={require('../../../../assets/image/background.jpg')}>
             <Text style={[globalStyles.txtTitle, styles.txtResTitle]}>Forgor password</Text>
             {renderView()}
@@ -73,7 +57,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     mainView: {
-        // flex: 3,
         paddingTop: 50,
         justifyContent: 'space-around',
         marginHorizontal: 50

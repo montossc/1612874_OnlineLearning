@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import globalStyles from '../../styles';
+import globalStyles from '../../../globalVariables/styles';
 import {FlatList, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import CoursesListItem from './courses-list-item';
-import {ThemeContext} from "../../../../../App";
+import {ThemeContext} from "../../../../App";
 
 //params or props: title, outerBtn: button near the title, item: list of courses
 const CoursesList = props => {

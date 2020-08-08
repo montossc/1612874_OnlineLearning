@@ -6,10 +6,10 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import globalStyle from '../../styles';
+import globalStyle from '../../../globalVariables/styles';
 import {Avatar} from 'react-native-elements';
-import {screenName} from '../../constant';
-import {ThemeContext} from "../../../../../App";
+import {screenName} from '../../../globalVariables/constant';
+import {ThemeContext} from "../../../../App";
 
 //props: title, item: authors list
 const AuthorsSection = props => {

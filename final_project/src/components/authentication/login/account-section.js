@@ -1,16 +1,16 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, View, Text} from 'react-native';
-import {screenName} from '../../global/constant';
+import {screenName} from '../../../globalVariables/constant';
 
-const AccountSection = props => {
+const AccountSection = ({navigator}) => {
     return (
         <View style={styles.container}>
         <TouchableOpacity style={styles.selectionText}
-                          onPress={() => props.navigator.navigate(screenName.RegisterScreen)}>
+                          onPress={() => navigator.navigate(screenName.RegisterScreen)}>
             <Text style={styles.txtAccSection}>Create new account!</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.selectionText}
-                          onPress={() => props.navigator.navigate(screenName.PasswordRecoveryScreen)}>
+                          onPress={() => navigator.navigate(screenName.PasswordRecoveryScreen)}>
             <Text style={styles.txtAccSection}>Forgot password?</Text>
         </TouchableOpacity>
         </View>
@@ -18,7 +18,6 @@ const AccountSection = props => {
 };
 const styles = StyleSheet.create({
     container:{
-        // flex: 1,
         alignItems: 'center'
     },
     selectionText:{

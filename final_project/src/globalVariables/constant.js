@@ -28,8 +28,6 @@ export const themes = {
      AuthorDetailScreen: 'AuthorDetail',
      RelatedPathsAndCoursesScreen: 'Related Paths & Courses',
      SubjectDetailScreen: 'SubjectDetail',
-     PathListScreen: 'PathList',
-     PathDetailScreen: 'PathDetail',
      SearchScreen: 'Search',
      ProfileScreen: 'Profile',
      ChangeUsernameScreen: 'ChangeUsername',

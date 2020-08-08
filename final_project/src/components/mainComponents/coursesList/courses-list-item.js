@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import {Image, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import globalStyles from '../../styles';
+import globalStyles from '../../../globalVariables/styles';
 import {Rating} from 'react-native-elements';
-import {color, screenName} from '../../constant';
-import {ThemeContext} from "../../../../../App";
+import {color, screenName} from '../../../globalVariables/constant';
+import {ThemeContext} from "../../../../App";
 
 //props: item: course
 const CoursesListItem = props => {

@@ -1,21 +1,10 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import { StyleSheet} from 'react-native';
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
+
 export default StyleSheet.create({
     container:{
         padding: 10,
         flex: 1
-    },
-    containerTxtInput:{
-        width: WINDOW_WIDTH - 100,
-        alignSelf:'center',
-        flexDirection: 'row',
-        borderWidth: 1,
-        borderRadius: 25,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingLeft: 20,
-        marginVertical: 10
     },
     containerTextButton:{
         borderBottomWidth: 1,

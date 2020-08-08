@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import globalStyles from '../../global/styles';
+import globalStyles from '../../../globalVariables/styles';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {screenName} from '../../global/constant';
+import {screenName} from '../../../globalVariables/constant';
 import {ThemeContext} from "../../../../App";
 
 const SubscriptionInfo = props => {

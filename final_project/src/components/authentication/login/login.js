@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, ImageBackground, KeyboardAvoidingView} from 'react-native';
-import LoginForm from './login-form';
-import AccountSection from './account-section';
+import {Image, StyleSheet, ImageBackground, KeyboardAvoidingView} from 'react-native';
 
+import AccountSection from './account-section';
+import LoginForm from './login-form';
+
+//props: navigation
 const Login = props => {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={'height'}>
@@ -19,7 +21,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     logo: {
-        // flex: 1,
         alignSelf: 'center'
     }
 })

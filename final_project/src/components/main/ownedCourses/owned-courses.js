@@ -1,7 +1,7 @@
 /*
 import React, {useContext} from 'react';
-import CoursesList from '../../global/mainComponents/coursesList/courses-list';
-import {color, screenName} from '../../global/constant';
+import CoursesList from '../../globalVariables/mainComponents/coursesList/courses-list';
+import {color, screenName} from '../../globalVariables/constant';
 import {View} from 'react-native';
 import {Avatar, Icon} from 'react-native-elements';
 import {CoursesContext, ThemeContext, UserProfileContext} from "../../../../App";
@@ -21,7 +21,7 @@ const OwnedCourses = props => {
             </View>)
     })
     return (
-        <CoursesList title={''} outerBtn={''} item={downloadedCourses} navigator={props.navigation}/>
+        <CoursesList title={''} outerBtn={''} item={downloadedCourses} navigators={props.navigation}/>
 
     );
 };

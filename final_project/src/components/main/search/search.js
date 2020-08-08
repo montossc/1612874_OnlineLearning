@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {FlatList, Text, TouchableOpacity, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {ThemeContext} from "../../../../App";
-import CoursesList from "../../global/mainComponents/coursesList/courses-list";
-import iteduAPI from "../../../API/iteduAPI";
-import globalStyles from "../../global/styles";
+import CoursesList from "../../mainComponents/coursesList/courses-list";
+import globalStyles from "../../../globalVariables/styles";
+import {searchCourses} from "../../../core/services/search-service";
 
 const Search = props => {
     const themeContext = useContext(ThemeContext);
@@ -14,15 +14,7 @@ const Search = props => {
 
     useEffect(() => {
             if (value !== '') {
-                iteduAPI.post('/course/search',{
-                    keyword: `${value}`,
-                    limit: 20,
-                    offset: 0
-                }).then((response) => {
-                    if (response.isSuccess) {
-                        setResultCourses(response.data.payload);
-                    }
-            })
+                searchCourses(value).then(setResultCourses)
             }
     }, [value])
 

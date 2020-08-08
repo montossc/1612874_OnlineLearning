@@ -6,10 +6,10 @@ import {
     StyleSheet,
     View, TouchableOpacity, Alert, ScrollView,
 } from 'react-native';
-import globalStyles from '../../../global/styles';
-import SubmitButtonCenter from '../../../global/commonComponent/submit-button-center';
+import globalStyles from '../../../../globalVariables/styles';
+import SubmitButtonCenter from '../../../commonComponents/submit-button-center';
 import {AuthenticationContext, ThemeContext, UserProfileContext} from "../../../../../App";
-import {color} from "../../../global/constant";
+import {color} from "../../../../globalVariables/constant";
 import iteduAPI from "../../../../API/iteduAPI";
 
 const PasswordChanging = () => {
