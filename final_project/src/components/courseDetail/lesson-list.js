@@ -37,7 +37,7 @@ const LessonList = (props) => {
     if (sections) {
     return (
         <View style={styles.containerLessonList}>
-            <ButtonGroup  buttons={['CONTENTS']}/>
+
             <FlatList
                       data={sections}
                       renderItem={({item}) =>

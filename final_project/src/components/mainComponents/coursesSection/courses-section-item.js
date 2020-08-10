@@ -23,9 +23,9 @@ const CoursesSectionItem = ({navigator, courseInformation}) => {
                     style={[globalStyles.txtItalicSmall, {flex: 1}]}>{(courseInformation['instructor.user.name']) ? courseInformation['instructor.user.name'] : courseInformation.instructorName}</Text>
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     <Rating readonly={true} tintColor={color.LIGHT_GRAY} imageSize={12}
-                            startingValue={(courseInformation.contentPoint) ? courseInformation.contentPoint : courseInformation.courseAveragePoint}/>
+                            startingValue={courseInformation.courseAveragePoint}/>
                     <Text
-                        style={[globalStyles.txtItalicSmall, {marginLeft: 5}]}>({(courseInformation.soldNumber) ? courseInformation.soldNumber : courseInformation.courseSoldNumber})</Text>
+                        style={[globalStyles.txtItalicSmall, {marginLeft: 5}]}>({(courseInformation.soldNumber) ? courseInformation.soldNumber : courseInformation.courseSoldNumber} users have learned)</Text>
                 </View>
                 {
                     courseInformation.price != null ?

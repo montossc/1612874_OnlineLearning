@@ -13,3 +13,19 @@ export const searchCourses = async (keyword) => {
     })
     return res
 }
+
+export const getSearchHistory = async (token) => {
+    let res = []
+    await iteduAPI.get('/course/search-history',{}, token)
+        .then((response) => {
+            console.log(response)
+        if (response.isSuccess) {
+            res = (response.data.payload.data);
+        }
+    })
+    return res
+}
+
+export const delSearchHistory = async (id,token) => {
+    await iteduAPI.delete(`/course/delete-search-history/${id}`,{}, token).then()
+}

@@ -14,7 +14,7 @@ export const getTopSellCourses = async () => {
     let res = []
     await iteduAPI.post('/course/top-sell', {limit: 10, page: 1})
         .then((response) => {
-            if (response.isSuccess){
+            if (response.isSuccess) {
                 res = response.data.payload;
             }
         });
@@ -25,7 +25,7 @@ export const getTopRatedCourse = async () => {
     await iteduAPI.post('/course/top-rate', {limit: 10, page: 1})
         .then((response) => {
             // console.log('course service:', response)
-            if (response.isSuccess){
+            if (response.isSuccess) {
                 res = response.data.payload;
             }
         })
@@ -36,7 +36,7 @@ export const getProcessingCourses = async (token) => {
     await iteduAPI.get('/user/get-process-courses', {}, token)
         .then((response) => {
             // console.log('course service:', response)
-            if (response.isSuccess){
+            if (response.isSuccess) {
                 res = (response.data.payload);
             }
         })
@@ -45,9 +45,9 @@ export const getProcessingCourses = async (token) => {
 
 export const getRecommendCourses = async (id) => {
     let res = []
-    await iteduAPI.get(`/user/recommend-course/${id}/20/0`,{})
+    await iteduAPI.get(`/user/recommend-course/${id}/20/0`, {})
         .then((response) => {
-            if(response.isSuccess){
+            if (response.isSuccess) {
                 res = (response.data.payload);
             }
         });
@@ -57,7 +57,7 @@ export const getNewCourses = async () => {
     let res = []
     await iteduAPI.post('/course/top-new', {limit: 20, page: 1})
         .then((response) => {
-            if(response.isSuccess) {
+            if (response.isSuccess) {
                 res = (response.data.payload);
             }
         })
@@ -71,8 +71,7 @@ export const checkOwnedCourse = async (id, token) => {
             if (response.isSuccess) {
                 if (response.data.payload.isUserOwnCourse) {
                     res = (true)
-                }
-                else {
+                } else {
                     res = (false)
                 }
             }
@@ -82,9 +81,9 @@ export const checkOwnedCourse = async (id, token) => {
 
 export const getCourseLikedStatus = async (id, token) => {
     let res = []
-    await iteduAPI.get(`/user/get-course-like-status/${id}`,{}, token)
+    await iteduAPI.get(`/user/get-course-like-status/${id}`, {}, token)
         .then((response) => {
-            if (response.isSuccess){
+            if (response.isSuccess) {
                 res = (response.data.likeStatus);
 
             }
@@ -102,8 +101,7 @@ export const getCourseDetail = async (isOwned, id, token) => {
                 }
                 res.loading = (false);
             });
-    }
-    else if (isOwned === false) {
+    } else if (isOwned === false) {
         await iteduAPI.get(`/course/get-course-info?id=${id}`, {}, token)
             .then((response) => {
                 if (response.isSuccess) {
@@ -112,5 +110,43 @@ export const getCourseDetail = async (isOwned, id, token) => {
                 res.loading = (false);
             });
     }
+    return res
+}
+
+export const rateCourse = async (courseID, rating, comment, token) => {
+    await iteduAPI.post('/course/rating-course', {
+        courseId: courseID,
+        formalityPoint: rating, contentPoint: rating, presentationPoint: rating,
+        content: comment
+    }, token).then()
+}
+export const getYourRateCourse = async (courseID, token) => {
+    let res = {rating: 0, comment: ''}
+    await iteduAPI.get(`/course/get-rating/${courseID}`, {}, token)
+        .then((response) => {
+            if (response.isSuccess) {
+                const courseRate = response.data.payload
+                res.rating = (courseRate.formalityPoint + courseRate.contentPoint + courseRate.presentationPoint) / 3
+                res.comment = courseRate.content
+            }
+        });
+    return res
+}
+
+export const getUsersRateCourse = async (courseID) => {
+    let res = []
+    await iteduAPI.get(`/course/get-course-detail/${courseID}/${null}`, {})
+        .then((response) => {
+            const ratingList = response.data.payload.ratings.ratingList;
+            ratingList.forEach(rating => {
+                const ratingRes = {
+                    rate: rating.averagePoint,
+                    comment: rating.content,
+                    userName: rating.user.name,
+                    userAvatar: rating.user.avatar
+                }
+                res.push(ratingRes)
+            })
+        })
     return res
 }

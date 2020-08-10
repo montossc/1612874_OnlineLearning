@@ -2,25 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {screenName} from '../../globalVariables/constant';
 import iteduAPI from "../../API/iteduAPI";
+import {getCategoryCourses} from "../../core/services/category-service";
 
 //props: name, color
 const TopicButton = props => {
     const mainColor = props.color;
     const [cateCourseList, setCateCourses] = useState([]);
     useEffect(() => {
-        iteduAPI.post('/course/search', {
-            keyword: '',
-            opt: {
-                category: [`${props.item.id}`]
-            },
-            limit: 20,
-            offset: 0
-        }). then((response) => {
-            if (response.isSuccess){
-
-                setCateCourses(response.data.payload.rows)
-            }
-        })
+        getCategoryCourses(props.item.id).then(setCateCourses)
     },[])
     return (
         <TouchableOpacity style={[styles.icon, {borderColor: mainColor}]} onPress={() => props.navigator.push(screenName.CourseListScreen, {title: props.item.name, outerBtn: '', item: cateCourseList})}>

@@ -51,7 +51,7 @@ const CourseInfo = ({courseDetail, navigator}) => {
                     <Text style={[globalStyles.txtItalicSmall, {
                         marginLeft: 5,
                         color: theme.foreground
-                    }]}>({courseDetail.soldNumber})</Text>
+                    }]}>({courseDetail.soldNumber} users have learned)</Text>
                 </View>
 
             </View>

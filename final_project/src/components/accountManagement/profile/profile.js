@@ -2,87 +2,105 @@ import React, {useContext, useEffect, useState} from 'react';
 import {
     View,
     StyleSheet,
-    TouchableOpacity,
-    TextInput, Text, ScrollView,
+    TextInput, ScrollView, ActivityIndicator,
 } from 'react-native';
+
+import {Avatar, Icon} from 'react-native-elements';
+import * as ImagePicker from "expo-image-picker";
+
 import globalStyles from '../../../globalVariables/styles';
 import AccountChangingSection from './account-changing-section';
 import UserTopics from './user-topics';
-import SubscriptionInfo from './subscription-info';
-import {Avatar, Icon} from 'react-native-elements';
 import SubmitButtonCenter from '../../commonComponents/submit-button-center';
-import AuthorsSection from '../../mainComponents/authorsSection/authors-section';
 import {screenName} from '../../../globalVariables/constant';
-import {AuthenticationContext, ThemeContext, UserAvatarContext, UserProfileContext} from "../../../../App";
-import iteduAPI from "../../../API/iteduAPI";
+import {AuthenticationContext, ThemeContext, UserAvatarContext} from "../../../../App";
+import {getUserInfo, updateUserInfo} from "../../../core/services/user-service";
+
 
 const Profile = props => {
     const authenContext = useContext(AuthenticationContext);
     const userAvatarContext = useContext(UserAvatarContext);
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
-
     const [userInfo, setUserInfo] = useState();
     const [userFullname, setUserFullname] = useState('');
     const [avatar, setAvatar] = useState('');
     const [canEdit, setCanEdit] = useState(false);
-    const setEditableFullname = () => {
-        setCanEdit(!canEdit);
-    };
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
-        iteduAPI.get('/user/me', {}, authenContext.authenState.token)
-            .then((response) => {
-                if(response.isSuccess){
-                    setUserInfo(response.data.payload);
-                }
-            })
+        getUserInfo(authenContext.authenState.token).then(setUserInfo)
     }, [])
     useEffect(() => {
         if (userInfo) {
             setUserFullname(userInfo.name);
             setAvatar(userInfo.avatar);
+            setLoading(false)
         }
     }, [userInfo])
     useEffect(() => {
         if ((userFullname !== '') && (avatar !== ''))
-        iteduAPI.put('/user/update-profile', {name: userFullname, avatar: avatar, phone: authenContext.authenState.userInfo.phone}, authenContext.authenState.token)
-            .then((response) => {
-                if (response.isSuccess){
-                    console.log('profile, doi thanh cong')
-                    userAvatarContext.setUserAvatar(avatar);
-                }
-            })
+            updateUserInfo(userFullname, avatar, authenContext.authenState.userInfo.phone, authenContext.authenState.token)
+                .then((res) => {userAvatarContext.setUserAvatar(res.avatar)})
     }, [userFullname, avatar])
-    return (
-        <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]}>
-            <View style={[styles.infoArea, {borderColor: theme.foreground}]}>
-                <Avatar source={{uri: avatar}} size={'large'} rounded={true}/>
-                <TextInput style={[styles.txtFullname, {color: theme.foreground}]}
-                           editable={canEdit}
-                           maxLenght={25}
-                           value={userFullname}
-                           onChageText={ (text) => {setUserFullname(text)}}
-                           onEndEditing={setEditableFullname}
 
-                />
-                {
-                    (!canEdit) ?
-                    <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname} color={theme.foreground}/> :
-                        <View></View>
-                }
-            </View>
-            <AccountChangingSection navigator={props.navigation}/>
-            {/*<SubscriptionInfo item={userProfileContext.userProfile.subscription} navigators={props.navigation}/>*/}
-            {/*<UserTopics navigators={props.navigation}/>*/}
-            {/*<View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
-                <AuthorsSection title={'Following'} item={followingAuthors} navigators={props.navigation}/>
-            </View>*/}
-            <View style={styles.containerBtnLogout}>
-            <SubmitButtonCenter name={'Logout'} color={theme.foreground} onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>
-            </View>
-        </ScrollView>
-    );
+    const setEditableFullname = () => {
+        setCanEdit(!canEdit);
+    };
+    const pickImage = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                setAvatar(result.uri)
+            }
+
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+
+    props.navigation.setOptions({
+        headerStyle: {backgroundColor: theme.background},
+        headerTitleStyle: {color: theme.foreground}
+    })
+
+    if (isLoading) {
+        return <View style={{flex: 1}}>
+            <ActivityIndicator size={'large'} style={{flex: 1, alignContent: 'center'}}/>
+        </View>
+    }
+    else {
+        return (
+            <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]}>
+                <View style={[styles.infoArea, {borderColor: theme.foreground}]}>
+                    <Avatar source={{uri: avatar}} size={'large'} rounded={true} onPress={pickImage}/>
+                    <TextInput style={[styles.txtFullname, {color: theme.foreground}]}
+                               editable={canEdit}
+                               maxLenght={25}
+                               value={userFullname}
+                               onEndEditing={setEditableFullname}
+                               onChangeText={(text) => setUserFullname(text)}
+                    />
+                    {
+                        (canEdit === true) && <Icon name={'edit'} type={'material-icons'} onPress={setEditableFullname}
+                                            color={theme.foreground}/>
+                    }
+                </View>
+                <AccountChangingSection navigator={props.navigation}/>
+                {(userInfo.favoriteCategories) && <UserTopics navigator={props.navigation} favTopicsID={userInfo.favoriteCategories}/>}
+                <View style={styles.containerBtnLogout}>
+                    <SubmitButtonCenter name={'Logout'} color={theme.foreground}
+                                        onPress={() => props.navigation.navigate(screenName.LoginScreen)}/>
+                </View>
+            </ScrollView>
+        );
+    }
 };
 const styles = StyleSheet.create({
     infoArea: {

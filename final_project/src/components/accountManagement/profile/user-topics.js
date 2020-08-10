@@ -1,24 +1,43 @@
-/*
-import React, {useContext} from 'react';
-import globalStyles from '../../globalVariables/styles';
-import {color} from '../../globalVariables/constant';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import TopicButton from '../../globalVariables/commonComponents/topic-button';
-import {ThemeContext} from "../../../../App";
+import React, {useContext, useEffect, useState} from "react";
+import {Text, View, StyleSheet} from "react-native";
 
-const UserTopics = props => {
+import {ThemeContext} from "../../../../App";
+import globalStyles from "../../../globalVariables/styles";
+import {color} from "../../../globalVariables/constant";
+import TopicButton from "../../commonComponents/topic-button";
+import {getCategoryByID} from "../../../core/services/category-service";
+
+const UserTopics = ({favTopicsID, navigator}) => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
-    return (
-        <View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
-            <Text style={[globalStyles.txtItalicDefault, styles.containerTxt, {color: theme.foreground}]}>Interest:</Text>
-            <View style={styles.containerInterestIcon}>
-                {
-                    props.item.map(topic => <TopicButton item={topic} color={color.LIGHT_BLUE} navigators={props.navigators}/>)
-                }
+    const [favTopics, setFavTopics] = useState([])
+
+    useEffect(() => {
+        if (favTopicsID.length !== 0) {
+            favTopicsID.forEach(topicID => {
+                getCategoryByID(topicID).then((res) => {
+                    setFavTopics(favTopics.concat(res))
+                })
+            })
+        }
+    },[])
+    if (favTopicsID.length === 0) {
+        return <View></View>
+    }
+    else {
+        return (
+            <View style={[globalStyles.containerTextButton, {borderColor: theme.foreground}]}>
+                <Text
+                    style={[globalStyles.txtItalicDefault, styles.containerTxt, {color: theme.foreground}]}>Interest:</Text>
+                <View style={styles.containerInterestIcon}>
+                    {
+                        favTopics.map(topic => <TopicButton item={topic} color={color.LIGHT_BLUE}
+                                                            navigator={navigator}/>)
+                    }
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 };
 const styles = StyleSheet.create({
     containerInterestIcon:{
@@ -31,4 +50,3 @@ const styles = StyleSheet.create({
 
 });
 export default UserTopics;
-*/

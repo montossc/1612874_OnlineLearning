@@ -7,7 +7,7 @@ import {
     ScrollView, ActivityIndicator, Dimensions, Image
 } from 'react-native';
 
-import {Icon} from 'react-native-elements';
+import {ButtonGroup, colors, Icon} from 'react-native-elements';
 import ViewMoreText from 'react-native-view-more-text';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import getYouTubeID from 'get-youtube-id';
@@ -19,6 +19,8 @@ import LessonList from './lesson-list';
 import {AuthenticationContext, ThemeContext} from "../../../App";
 import iteduAPI from "../../API/iteduAPI";
 import {checkOwnedCourse, getCourseDetail, getCourseLikedStatus} from "../../core/services/courses-service";
+import {color} from "../../globalVariables/constant";
+import CourseRating from "./course-rating";
 
 //params: item: course
 const CourseDetail = props => {
@@ -35,6 +37,7 @@ const CourseDetail = props => {
     const [video, setVideo] = useState([]);
     const [showVideo,setShowVideo] = useState(false)
     const [isYoutube, setYoutube] = useState(false)
+    const [buttonGroupID, setButtonGroupID] = useState(0);
     //const [videoRef] = useRef();
     useEffect(() => {
         checkOwnedCourse(courseID, authenContext.authenState.token).then(setOwn)
@@ -82,6 +85,17 @@ const CourseDetail = props => {
             setBookmarkText('Remove bookmark');
         }
     }
+    const setSelectedID = (id) => {
+        setButtonGroupID(id)
+    }
+    const renderButtonGroupContent = () => {
+        if (buttonGroupID === 0) {
+            return (<LessonList item={courseDetail} setVideo={setVideo} navigator={props.route.params.navigator}/>)
+        }
+        if (buttonGroupID === 1) {
+            return (<CourseRating courseDetail={courseDetail} token={authenContext.authenState.token}/> )
+        }
+    }
 
     if (isLoading) {
         return <View style={{flex: 1}}>
@@ -94,7 +108,7 @@ const CourseDetail = props => {
             {
                 (showVideo === false) ?
                     <Image source={{uri: courseDetail.imageUrl}} style={{width: Dimensions.get('window').width, height: 300}} resizeMode={'contain'}/> :
-                    (isYoutube) ?
+                    (isYoutube === true) ?
                         <YoutubePlayer height={300}
                                        width={Dimensions.get('window').width}
                                        videoId={getYouTubeID(video.videoUrl)}
@@ -132,13 +146,8 @@ const CourseDetail = props => {
                         }
                     </ViewMoreText>
                 </View>
-                {/*<View style={{margin: 10}}>
-                    <TouchableOpacity style={styles.btnStretch} onPress={() => props.navigation.push(screenName.RelatedPathsAndCoursesScreen)}>
-                        <Icon name={'flip-to-front'} type={'material-icons'}/>
-                        <Text style={[globalStyles.txtDefault, {marginLeft: 10}]}>View related paths and courses</Text>
-                    </TouchableOpacity>
-                </View>*/}
-                <LessonList item={courseDetail} setVideo={setVideo} navigator={props.route.params.navigator}/>
+                <ButtonGroup  buttons={['CONTENTS', 'RATING', 'COURSES LIKE THIS']} onPress={setSelectedID} selectedIndex={buttonGroupID} selectedButtonStyle={{backgroundColor: color.LIGHT_BLUE}}/>
+                {renderButtonGroupContent()}
             </ScrollView>
         </View>
     );}

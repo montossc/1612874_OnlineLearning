@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Dimensions, TextInput, View, StyleSheet} from "react-native";
 
 import {Icon} from "react-native-elements";
@@ -8,9 +8,14 @@ import {Icon} from "react-native-elements";
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const InputBox = ({containerStyle, placeholder, changeTextEvent, value,
                       secureText, iconName, iconType, iconOnPress}) => {
+    const [hasIcon, setHasIcon] = useState(true)
+    useEffect(() => {
+        if (iconName === '')
+            setHasIcon(false)
+    }, [])
     return(
         <View style={containerStyle}>
-            <Icon name={iconName} type={iconType} onPress={iconOnPress} containerStyle={styles.symbol}/>
+            {hasIcon && <Icon name={iconName} type={iconType} onPress={iconOnPress} containerStyle={styles.symbol}/>}
             <TextInput
                 style={styles.txtInput}
                 placeholder={placeholder}
