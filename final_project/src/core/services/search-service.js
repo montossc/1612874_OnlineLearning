@@ -1,8 +1,9 @@
 import iteduAPI from "../../API/iteduAPI";
 
-export const searchCourses = async (keyword) => {
+export const searchCourses = async (keyword, token) => {
     let res = []
-    await iteduAPI.post('/course/search',{
+    await iteduAPI.post('/course/searchV2',{
+        token: token,
         keyword: `${keyword}`,
         limit: 20,
         offset: 0
@@ -18,7 +19,6 @@ export const getSearchHistory = async (token) => {
     let res = []
     await iteduAPI.get('/course/search-history',{}, token)
         .then((response) => {
-            console.log(response)
         if (response.isSuccess) {
             res = (response.data.payload.data);
         }

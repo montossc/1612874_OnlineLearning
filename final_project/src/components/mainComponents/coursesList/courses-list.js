@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import globalStyles from '../../../globalVariables/styles';
-import {FlatList, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import CoursesListItem from './courses-list-item';
 import {ThemeContext} from "../../../../App";
 
@@ -10,6 +10,8 @@ const CoursesList = props => {
     const theme = themeContext.theme;
     let data;
     let currentNavigator;
+    let topMargin;
+
     if (props.navigation){
         props.navigation.setOptions({headerShown: false});
         data = props.route.params;
@@ -19,9 +21,12 @@ const CoursesList = props => {
         data = props;
         currentNavigator = props.navigator;
     }
+    if (!props.topMargin){topMargin = 50}
+    else {topMargin = props.topMargin}
+
     return (
-        <View style={[globalStyles.containerSection, {paddingHorizontal: 10, backgroundColor: theme.background, flex: 1}]}>
-            <View style={[globalStyles.containerHeaderSection, {paddingTop: 50}]}>
+        <View style={[globalStyles.containerSection, styles.container, {backgroundColor: theme.background}]}>
+            <View style={[globalStyles.containerHeaderSection, {marginTop: topMargin}]}>
                 <Text style={[globalStyles.txtDefault, {alignSelf: 'center', color: theme.foreground, fontWeight: 'bold'}]}>{data.title}</Text>
                 <TouchableOpacity style={globalStyles.btnOuterSection}>
                     <Text
@@ -35,5 +40,10 @@ const CoursesList = props => {
         </View>
     );
 };
-
+const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: 10,
+        flex: 1
+    }
+})
 export default CoursesList;

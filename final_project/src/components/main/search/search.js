@@ -1,10 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import {Icon, SearchBar} from 'react-native-elements';
+import {Text, View, StyleSheet, ScrollView, Picker} from 'react-native';
+import {SearchBar} from 'react-native-elements';
 import {AuthenticationContext, ThemeContext} from "../../../../App";
 import CoursesList from "../../mainComponents/coursesList/courses-list";
 import globalStyles from "../../../globalVariables/styles";
-import {delSearchHistory, getSearchHistory, searchCourses} from "../../../core/services/search-service";
+import {searchCourses} from "../../../core/services/search-service";
+import AuthorsSection from "../../mainComponents/authorsSection/authors-section";
+import SearchHistory from "./search-history";
 import {color} from "../../../globalVariables/constant";
 
 const Search = props => {
@@ -12,73 +14,78 @@ const Search = props => {
     const theme = themeContext.theme;
     const authenContext = useContext(AuthenticationContext)
     const [value, setValue] = useState('');
-    const [resultCourses, setResultCourses] = useState([]);
-    const [searchHis, setSearchHis] = useState([])
+    const [searchContent, setSearchContent] = useState('')
+    const [searchResults, setsearchResults] = useState([]);
     const [reload, setReload] = useState(0)
+    const [isLoading, setLoading] = useState(true)
+    const [showCourseResult, setShowCourseResult] = useState(true)
+    const [showAuthorResult, setShowAuthorResult] = useState(true)
+    const [pickerSelected, setPickerSelected] = useState('all')
 
     useEffect(() => {
-        getSearchHistory(authenContext.authenState.token).then(setSearchHis)
-    }, [reload])
-    useEffect(() => {
-        if (value !== '') {
-            searchCourses(value).then(setResultCourses)
+        if (value === '') {
+            setLoading(true);
+            setSearchContent('')
+            setReload(reload + 1)
         }
     }, [value])
-
-    const onDeleteHistory = (historyID) => {
-        delSearchHistory(historyID, authenContext.authenState.token).then(() => {
-            setReload(reload + 1);
-        })
+    useEffect(() => {
+        if (searchContent !== '') {
+            searchCourses(value, authenContext.authenState.token).then((res) => {
+                setsearchResults(res)
+                setLoading(false)
+            })
+        }
+    }, [searchContent])
+    const enterSearch = () => {
+        if (value !== '') {
+            setSearchContent(value)
+        }
     }
-    const onSearchAgain = (content) => {
-        setValue(content)
-    }
-    const onClearAll = () => {
-        searchHis.forEach(search => {
-            delSearchHistory(search.history, authenContext.authenState.token).then()
-        })
-        setReload(reload + 1);
-    }
-
-    const renderSearchHistory = () => {
-        return (
-            <ScrollView style={[globalStyles.container, {backgroundColor: theme.background}]}>
-                <View style={styles.containerRecentSearchHeader}>
-                    <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Search history</Text>
-                    <TouchableOpacity onPress={onClearAll}>
-                        <Text style={[globalStyles.txtDefault, {color: color.LIGHT_BLUE}]}>CLEAR ALL</Text>
-                    </TouchableOpacity>
-                </View>
-                {(searchHis !== []) &&
-                searchHis.map(search =>
-                    <View style={styles.containerRecentSearchItem}>
-                        <Icon name={'clear'} type={'material-icons'} color={theme.foreground}
-                              onPress={onDeleteHistory(search.id)}/>
-                        <TouchableOpacity onPress={onSearchAgain(search.content)}>
-                            <Icon name={'history'} type={'material-icons'} color={theme.foreground}/>
-                            <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{search.content}</Text>
-                        </TouchableOpacity>
-                    </View>
-                )
-                }
-            </ScrollView>
-        )
-
+    const onPickerSelect = (item) => {
+        setPickerSelected(item)
+        if (item === 'all') {
+            setShowCourseResult(true)
+            setShowAuthorResult(true)
+        }
+        else if (item === 'courses') {
+            setShowCourseResult(true)
+            setShowAuthorResult(false)
+        }
+        else {
+            setShowCourseResult(false)
+            setShowAuthorResult(true)
+        }
     }
     return (
         <View style={{backgroundColor: theme.background, flex: 1}}>
             <SearchBar placeholder={'Search...'}
                        onChangeText={(text) => setValue(text)}
                        value={value}
+                       onSubmitEditing={enterSearch}
             />
             {
-                (value === '') ?
-                    renderSearchHistory() :
+                (isLoading === true) ?
+                    <SearchHistory reload={reload} setReload={setReload} setValue={setValue}
+                                   setSearchContent={setSearchContent}/> :
                     <ScrollView>
                         <Text
-                            style={[globalStyles.txtItalicSmall, globalStyles.container]}>Found {resultCourses.count} result(s)</Text>
-                        <CoursesList title={'Result courses'} outerBtn={''} item={resultCourses.rows}
-                                     navigator={props.navigation}/>
+                            style={[globalStyles.txtItalicSmall, globalStyles.container, {color: theme.foreground}]}>Found {searchResults.courses.total} course(s)
+                            and {searchResults.instructors.total} author(s)</Text>
+                        <Picker style={[styles.pickerStyle, {borderColor: theme.foreground}]} selectedValue={pickerSelected} itemStyle={{color: theme.foreground}}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    onPickerSelect(itemValue)
+                                }}>
+                            <Picker.Item label={'All'} value={'all'} />
+                            <Picker.Item label={'Courses'} value={'courses'} />
+                            <Picker.Item label={'Authors'} value={'authors'} />
+                        </Picker>
+                        {(searchResults.instructors.total !== 0) && (showAuthorResult) &&
+                        <AuthorsSection title={'Result authors'} item={searchResults.instructors.data}
+                                        navigator={props.navigation}/>}
+                        {(searchResults.courses.total !== 0) && (showCourseResult) &&
+                        <CoursesList title={'Result courses'} outerBtn={''} item={searchResults.courses.data}
+                                     navigator={props.navigation} topMargin={5}/>}
                     </ScrollView>
             }
 
@@ -86,13 +93,10 @@ const Search = props => {
     );
 };
 const styles = StyleSheet.create({
-    containerRecentSearchHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    containerRecentSearchItem: {
-        flexDirection: 'row-reverse',
-        paddingVertical: 10
+    pickerStyle: {
+        marginBottom: 30,
+        height: 50,
+        width: 130
     }
-});
+})
 export default Search;
