@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, Text, View, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 
 import {ButtonGroup} from 'react-native-elements';
@@ -18,6 +18,7 @@ const LessonList = (props) => {
     const authenContext = useContext(AuthenticationContext);
 
     const onPressLesson = (content) => {
+        props.setCurLessonID(content.id);
         getLessonVideo(props.item.id, content.id, authenContext.authenState.token).then(props.setVideo)
     }
     const coursePayment = () => {
@@ -49,10 +50,16 @@ const LessonList = (props) => {
                               <View style={styles.containerContentList}>
                                   {
                                       item.lesson.map((content) =>
-                                          <TouchableOpacity style={styles.containerContent} onPress={() => {onPressLesson(content)}}>
-                                              <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{content.name}</Text>
-                                              <Text style={[globalStyles.txtItalicSmall, {color: theme.foreground}]}>{content.hours}</Text>
+                                      {
+                                          let lessonTextColor = theme.foreground
+                                          if (content.id === props.curLessonID){
+                                              lessonTextColor = color.GREEN
+                                          }
+                                          return(<TouchableOpacity style={styles.containerContent} onPress={() => {onPressLesson(content)}}>
+                                              <Text style={[globalStyles.txtItalicSmall, {color: lessonTextColor}]}>{content.name}</Text>
+                                              <Text style={[globalStyles.txtItalicSmall, {color: lessonTextColor}]}>{content.hours}</Text>
                                           </TouchableOpacity>)
+                                        })
                                   }
                               </View>
                           </View>}

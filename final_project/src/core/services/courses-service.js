@@ -1,4 +1,5 @@
 import iteduAPI from "../../API/iteduAPI";
+import {getCategoryCourses} from "./category-service";
 
 export const getBookmarkedCourses = async (token) => {
     let res = []
@@ -150,3 +151,35 @@ export const getUsersRateCourse = async (courseID) => {
         })
     return res
 }
+
+export const getRalatedCourses = async (courseID, token) => {
+    let res = []
+    let cateID = []
+    await iteduAPI.get(`/course/get-course-info?id=${courseID}`, {}, token)
+        .then((response) => {
+            if (response.isSuccess){
+                cateID = response.data.payload.categoryIds[0]
+            }
+            })
+    await getCategoryCourses(cateID).then((response) => {
+        res = response.filter(item => item.id !== courseID)
+    })
+    return res
+}
+
+export const getLastWatchedLesson = async (courseID, token) => {
+    let res = []
+    await iteduAPI.get(`/course/last-watched-lesson/${courseID}`, {}, token)
+        .then((response) => {
+            console.log(response)
+            if (response.isSuccess){
+                const video = {videoUrl: response.data.payload.videoUrl,
+                    currentTime: response.data.payload.currentTime,
+                isFinish: response.data.payload.isFinish}
+                res = {lessonId: response.data.payload.lessonId, video: video}
+            }
+        })
+    return res
+}
+
+

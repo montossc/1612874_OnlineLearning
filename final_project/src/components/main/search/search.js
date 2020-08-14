@@ -70,16 +70,18 @@ const Search = props => {
                                    setSearchContent={setSearchContent}/> :
                     <ScrollView>
                         <Text
-                            style={[globalStyles.txtItalicSmall, globalStyles.container, {color: theme.foreground}]}>Found {searchResults.courses.total} course(s)
+                            style={[globalStyles.txtItalicDefault, globalStyles.container, {color: theme.foreground}]}>Found {searchResults.courses.total} course(s)
                             and {searchResults.instructors.total} author(s)</Text>
-                        <Picker style={[styles.pickerStyle, {borderColor: theme.foreground}]} selectedValue={pickerSelected} itemStyle={{color: theme.foreground}}
+                        <View style={[{borderColor: theme.foreground}, styles.pickerContainer]}>
+                        <Picker style={[styles.pickerStyle, {color:theme.foreground}]} selectedValue={pickerSelected}
                                 onValueChange={(itemValue, itemIndex) => {
                                     onPickerSelect(itemValue)
                                 }}>
                             <Picker.Item label={'All'} value={'all'} />
                             <Picker.Item label={'Courses'} value={'courses'} />
-                            <Picker.Item label={'Authors'} value={'authors'} />
+                            <Picker.Item label={'Authors'} value={'authors'}/>
                         </Picker>
+                        </View>
                         {(searchResults.instructors.total !== 0) && (showAuthorResult) &&
                         <AuthorsSection title={'Result authors'} item={searchResults.instructors.data}
                                         navigator={props.navigation}/>}
@@ -94,8 +96,14 @@ const Search = props => {
 };
 const styles = StyleSheet.create({
     pickerStyle: {
+        height: 40,
+        width: 130
+    },
+    pickerContainer: {
         marginBottom: 30,
-        height: 50,
+        marginLeft: 10,
+        borderWidth: 2,
+        height:40,
         width: 130
     }
 })

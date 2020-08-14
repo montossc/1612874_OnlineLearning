@@ -10,7 +10,7 @@ const CoursesListItem = props => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext.theme;
     return (
-        <TouchableOpacity style={styles.container} onPress={() => props.navigator.push(screenName.CourseDetailScreen, {item: props.item.id})}>
+        <TouchableOpacity style={styles.container} onPress={() => props.navigator.push(screenName.CourseDetailScreen, {item: props.item.id, navigator: props.navigator})}>
             {
                 (props.item.imageUrl) ?
                     <Image style={{flex: 1}} source={{uri: props.item.imageUrl}}/> :
