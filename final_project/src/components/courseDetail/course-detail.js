@@ -4,7 +4,7 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    ScrollView, ActivityIndicator, Dimensions, Image
+    ScrollView, ActivityIndicator, Dimensions, Image, Share
 } from 'react-native';
 
 import {ButtonGroup, colors, Icon} from 'react-native-elements';
@@ -108,6 +108,16 @@ const CourseDetail = props => {
             setBookmarkText('Remove bookmark');
         }
     }
+    const shareCourse = async () => {
+        try {
+            const result = await Share.share({
+                message: `https://itedu.me/course-detail/${courseID}`,
+                url: `https://itedu.me/course-detail/${courseID}`
+            });
+        } catch (e) {
+            alert(e.message)
+        }
+    }
     const setSelectedID = (id) => {
         setButtonGroupID(id)
     }
@@ -193,6 +203,11 @@ const CourseDetail = props => {
                         <Icon name={iconBookmarkName} type={'material-icons'} size={30}
                               containerStyle={styles.containerIcon}/>
                         <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>{bookmarkText}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{alignItems:'center'}} onPress={() => {shareCourse().then()}}>
+                        <Icon name={'share'} type={'material-icons'} size={30}
+                              containerStyle={styles.containerIcon}/>
+                        <Text style={[globalStyles.txtDefault, {color: theme.foreground}]}>Share</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{margin: 10}}>

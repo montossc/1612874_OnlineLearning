@@ -171,7 +171,6 @@ export const getLastWatchedLesson = async (courseID, token) => {
     let res = []
     await iteduAPI.get(`/course/last-watched-lesson/${courseID}`, {}, token)
         .then((response) => {
-            console.log(response)
             if (response.isSuccess){
                 const video = {videoUrl: response.data.payload.videoUrl,
                     currentTime: response.data.payload.currentTime,
