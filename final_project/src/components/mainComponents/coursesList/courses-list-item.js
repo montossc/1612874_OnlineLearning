@@ -4,6 +4,7 @@ import globalStyles from '../../../globalVariables/styles';
 import {Rating} from 'react-native-elements';
 import {color, screenName} from '../../../globalVariables/constant';
 import {ThemeContext} from "../../../../App";
+import ProgressBar from "../../commonComponents/progress-bar";
 
 //props: item: course
 const CoursesListItem = props => {
@@ -30,7 +31,7 @@ const CoursesListItem = props => {
                         <Text style={[globalStyles.txtItalicSmall, styles.txtPrice]}>{props.item.price} VND</Text> :
                         props.item.coursePrice != null ?
                             <Text style={[globalStyles.txtItalicSmall, styles.txtPrice]}>{props.item.coursePrice} VND</Text> :
-                            <Text style={[globalStyles.txtItalicSmall, {color: color.GREEN}]}> Your progress: {Math.round(props.item.process)} %</Text>
+                            <ProgressBar percentage={Math.round(props.item.process)}/>
                 }
             </View>
         </TouchableOpacity>
@@ -38,6 +39,7 @@ const CoursesListItem = props => {
 };
 const styles = StyleSheet.create({
     container:{
+        marginTop: 10,
         borderBottomWidth: 1,
         marginVertical: 5,
         flexDirection: 'row',

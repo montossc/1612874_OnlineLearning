@@ -3,6 +3,7 @@ import {Image, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Rating} from 'react-native-elements';
 import globalStyles from '../../../globalVariables/styles';
 import {color, screenName} from '../../../globalVariables/constant';
+import ProgressBar from "../../commonComponents/progress-bar";
 
 const CoursesSectionItem = ({navigator, courseInformation}) => {
     return (
@@ -34,8 +35,7 @@ const CoursesSectionItem = ({navigator, courseInformation}) => {
                         courseInformation.coursePrice != null ?
                             <Text
                                 style={[globalStyles.txtItalicSmall, styles.txtPrice]}>{courseInformation.coursePrice} VND</Text> :
-                            <Text style={[globalStyles.txtItalicSmall, {color: color.GREEN}]}> Your
-                                progress: {Math.round(courseInformation.process)} %</Text>
+                            <ProgressBar percentage={Math.round(courseInformation.process)}/>
                 }
             </View>
         </TouchableOpacity>
