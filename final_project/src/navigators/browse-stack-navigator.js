@@ -12,6 +12,7 @@ import Pricing from "../components/accountManagement/profile/pricing/pricing";
 import Profile from "../components/accountManagement/profile/profile";
 import RelatedPathsAndCourses from "../components/courseDetail/related-paths-and-courses";
 import Setting from "../components/accountManagement/setting/setting";
+import Feedback from "../components/accountManagement/setting/feedback";
 
 const screenStack = createStackNavigator();
 export const browseStack = () => {
@@ -28,6 +29,7 @@ export const browseStack = () => {
             <screenStack.Screen name={screenName.ChangePasswordScreen} component={PasswordChanging}/>
             <screenStack.Screen name={screenName.PricingScreen} component={Pricing}/>
             <screenStack.Screen name={screenName.SettingScreen} component={Setting}/>
+            <screenStack.Screen name={screenName.FeedbackScreen} component={Feedback}/>
         </screenStack.Navigator>
     );
 };

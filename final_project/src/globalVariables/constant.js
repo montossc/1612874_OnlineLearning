@@ -34,5 +34,6 @@ export const themes = {
      ChangePasswordScreen: 'ChangePassword',
      PricingScreen: 'Pricing',
      SplashScreen: 'Splash',
-     SettingScreen: 'Setting'
+     SettingScreen: 'Setting',
+     FeedbackScreen: 'Feedback'
  }

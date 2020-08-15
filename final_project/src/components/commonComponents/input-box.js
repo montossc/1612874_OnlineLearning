@@ -7,7 +7,7 @@ import {Icon} from "react-native-elements";
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const InputBox = ({containerStyle, placeholder, changeTextEvent, value,
-                      secureText, iconName, iconType, iconOnPress}) => {
+                      secureText, iconName, iconType, iconOnPress, multiline}) => {
     const [hasIcon, setHasIcon] = useState(true)
     useEffect(() => {
         if (iconName === '')
@@ -22,6 +22,7 @@ const InputBox = ({containerStyle, placeholder, changeTextEvent, value,
                 onChangeText={changeTextEvent}
                 value={value}
                 secureTextEntry={secureText}
+                multiline={multiline}
             />
         </View>
     )
@@ -52,5 +53,6 @@ InputBox.defaultProps = {
     secureText: false,
     iconName: '',
     iconType: '',
+    multiline: false
 };
 export default InputBox

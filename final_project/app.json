@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "final_project",
-    "slug": "final_project",
+    "name": "Karuein",
+    "slug": "karuein",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +22,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ptnam.karuein",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.ptnam.karuein",
+      "versionCode": 1
     }
   }
 }

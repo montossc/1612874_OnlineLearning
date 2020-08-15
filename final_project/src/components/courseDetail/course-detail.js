@@ -43,7 +43,6 @@ const CourseDetail = props => {
     const [isOwned, setOwn] = useState([]);
     const [curLessonID, setCurLessonID] = useState([]);
     const [video, setVideo] = useState([]);
-    const [hadUpdatedTime, setHadUpdatedTime] = useState(false)
     const [showVideo,setShowVideo] = useState(false)
     const [isYoutube, setYoutube] = useState(false)
     const [buttonGroupID, setButtonGroupID] = useState(0);
@@ -74,20 +73,18 @@ const CourseDetail = props => {
     }, [isOwned])
 
     useEffect(() => {
-        if (courseDetail !== []) {
+        if (courseDetail.id !== undefined) {
             getRalatedCourses(courseID, authenContext.authenState.token).then(setRelatedCourses)
             getLastWatchedLesson(courseID, authenContext.authenState.token).then((res) => {
-                if(res.video.currentTime !== 0){
                     setCurLessonID(res.lessonId)
                     setVideo(res.video)
-                }
             })
         }
     }, [courseDetail])
     useEffect(()=>{
         if((video.videoUrl !== '')&&(video.videoUrl !== undefined)&&(video.videoUrl !== null)){
-            setShowVideo(true);
             setYoutube(video.videoUrl.includes('youtu'))
+            setShowVideo(true);
         }
     },[video])
 
@@ -139,18 +136,13 @@ const CourseDetail = props => {
         }
     }
     const onUpdateAVStatus = async (status) => {
-        if (!status.isPlaying) {
+        if (status.isPlaying) {
+            await setVideoTime(curLessonID, status.positionMillis, authenContext.authenState.token).then()
+        }
+        else {
             if (status.didJustFinish){
                 await setVideoIsFinished(curLessonID, authenContext.authenState.token).then()
             }
-            else if ((status.positionMillis !== '0') && (status.positionMillis !== status.durationMillis) && (!hadUpdatedTime)){
-               await setVideoTime(curLessonID, status.positionMillis, authenContext.authenState.token).then(() => {
-                   setHadUpdatedTime(true)
-               })
-            }
-        }
-        else {
-            setHadUpdatedTime(false)
         }
     }
 
@@ -175,7 +167,10 @@ const CourseDetail = props => {
         <View style={{flex: 1, backgroundColor: theme.background}}>
             {
                 (showVideo === false) ?
-                    <Image source={{uri: courseDetail.imageUrl}} style={{width: Dimensions.get('window').width, height: 300}} resizeMode={'contain'}/> :
+                    <View>
+                        <Image source={{uri: courseDetail.imageUrl}} style={{width: Dimensions.get('window').width, height: 300}} resizeMode={'contain'}/>
+                        <ActivityIndicator/>
+                    </View>:
                     (isYoutube === true) ?
                         <YoutubePlayer ref={videoRef}
                                        height={300}
@@ -186,7 +181,7 @@ const CourseDetail = props => {
                                        /> :
                         <Video source={{uri: video.videoUrl}}
                                rate={1.0} volume={1.0} isMuted={false} resizeMode="cover"
-                               shouldPlay isLooping
+                               shouldPlay={true}
                                style={{width: Dimensions.get('window').width, height: 300}}
                                useNativeControls={true}
                                progressUpdateIntervalMillis={5000}
@@ -194,6 +189,7 @@ const CourseDetail = props => {
                                onPlaybackStatusUpdate={(stt) => {
                                     onUpdateAVStatus(stt).then()
                                }}
+
                         />
             }
             <ScrollView  style={{flex: 3}}>
